@@ -28,5 +28,10 @@ create policy "read main"  on public.wedding_state
 create policy "write main" on public.wedding_state
   for update using (id = 'main') with check (id = 'main');
 
+-- Base privileges: the publishable/anon key connects as the `anon` role, which
+-- needs table-level GRANTs before RLS is even evaluated (otherwise: 42501).
+grant usage on schema public to anon, authenticated;
+grant select, update on public.wedding_state to anon, authenticated;
+
 -- Realtime: broadcast row changes so every open device stays in sync.
 alter publication supabase_realtime add table public.wedding_state;
