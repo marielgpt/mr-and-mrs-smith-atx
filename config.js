@@ -10,7 +10,7 @@ window.WEDDING_CONFIG = {
   title: "Wedding Day",
   venue: "Soho House",
   venueAddress: "1011 S Congress Ave, Austin, TX 78704", // set "" to show the "add the venue address" tag
-  accessCode: "2027",
+  accessCode: "1017",
   weddingDate: "2026-10-17",
   collapsePast: true,
   simulatedTime: "" // e.g. "16:20" to pin the clock while testing
