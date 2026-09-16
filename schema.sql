@@ -8,7 +8,6 @@ create table if not exists public.wedding_state (
   checks     jsonb not null default '{}'::jsonb,
   notes      jsonb not null default '{}'::jsonb,
   hidden     jsonb not null default '{}'::jsonb,
-  updated_by text,
   updated_at timestamptz not null default now()
 );
 

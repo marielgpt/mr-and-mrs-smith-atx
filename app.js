@@ -10,7 +10,6 @@ const CFG = window.WEDDING_CONFIG || {};
 const RULE = "var(--color-divider)";
 const STORE = "wedding-day-v1";
 const GATE = "wedding-day-gate";
-const NAME = "wedding-day-name";
 
 /* ─── Data (lifted near-verbatim from the design's logic class) ─── */
 
@@ -317,7 +316,6 @@ function App() {
   const dataRef = useRef(data);
   useEffect(() => { dataRef.current = data; }, [data]);
   const [syncedAt, setSyncedAt] = useState(null);
-  const [syncedBy, setSyncedBy] = useState(null);
   const [online, setOnline] = useState(false);
 
   /* ephemeral UI state */
@@ -333,7 +331,6 @@ function App() {
   const [lightbox, setLightbox] = useState(null);
   const [copied, setCopied] = useState("");
   const [headH, setHeadH] = useState(150);
-  const [myName, setMyName] = useState(() => { try { return localStorage.getItem(NAME) || ""; } catch (e) { return ""; } });
 
   /* gate */
   const gateOk = () => { try { const at = Number(localStorage.getItem(GATE) || 0); return at > 0 && (Date.now() - at) < 86400000; } catch (e) { return false; } };
@@ -388,11 +385,10 @@ function App() {
   }, []);
 
   /* ── load: cache first, then Supabase, then subscribe ── */
-  const applyRemote = useCallback((next, at, by) => {
+  const applyRemote = useCallback((next, at) => {
     dataRef.current = next; setData(next);
     try { localStorage.setItem(STORE, JSON.stringify(next)); } catch (e) {}
     if (at) setSyncedAt(at);
-    if (by !== undefined) setSyncedBy(by);
   });
 
   useEffect(() => {
@@ -401,11 +397,11 @@ function App() {
     let channel;
     sb.from("wedding_state").select("*").eq("id", "main").single().then(({ data: r, error }) => {
       if (error) { console.warn("Supabase read failed", error.message); return; }
-      if (r) { setOnline(true); applyRemote(normalize(r), r.updated_at, r.updated_by || null); }
+      if (r) { setOnline(true); applyRemote(normalize(r), r.updated_at); }
     });
     channel = sb.channel("wedding_state")
       .on("postgres_changes", { event: "*", schema: "public", table: "wedding_state", filter: "id=eq.main" },
-        payload => { const r = payload.new; if (r) applyRemote(normalize(r), r.updated_at, r.updated_by || null); })
+        payload => { const r = payload.new; if (r) applyRemote(normalize(r), r.updated_at); })
       .subscribe(status => { if (status === "SUBSCRIBED") setOnline(true); });
     return () => { if (channel) sb.removeChannel(channel); };
   }, []);
@@ -414,18 +410,18 @@ function App() {
   const pushCol = useCallback((column, value) => {
     if (!sb) return;
     sb.from("wedding_state")
-      .update({ [column]: value, updated_at: new Date().toISOString(), updated_by: myName || null })
+      .update({ [column]: value, updated_at: new Date().toISOString() })
       .eq("id", "main")
       .then(({ error }) => { if (error) console.warn("Supabase write failed", error.message); });
-  }, [myName]);
+  }, []);
 
   const mutate = useCallback((column, value) => {
     const next = Object.assign({}, dataRef.current, { [column]: value });
     dataRef.current = next; setData(next);
     try { localStorage.setItem(STORE, JSON.stringify(next)); } catch (e) {}
-    setSyncedAt(new Date().toISOString()); setSyncedBy(myName || null);
+    setSyncedAt(new Date().toISOString());
     pushCol(column, value);
-  }, [pushCol, myName]);
+  }, [pushCol]);
 
   /* ── mutations ── */
   const toggle = key => mutate("checks", Object.assign({}, dataRef.current.checks, { [key]: !dataRef.current.checks[key] }));
@@ -450,7 +446,6 @@ function App() {
       setUnlocked(true); setCodeErr(false); setCodeDraft("");
     } else setCodeErr(true);
   };
-  const saveName = v => { setMyName(v); try { localStorage.setItem(NAME, v); } catch (e) {} };
 
   const status = (ev, m) => {
     if (m >= ev.end) return { key: "done", label: "Time has passed", tag: "tag-neutral", chip: "tag-neutral" };
@@ -511,8 +506,6 @@ function App() {
             onKeyDown=${e => { if (e.key === "Enter") { e.preventDefault(); submitCode(); } }}
             style=${{ fontFamily: "var(--font-heading)", fontSize: "26px", letterSpacing: "0.3em", textAlign: "center" }} />
           ${codeErr && html`<div style=${{ fontSize: "13px", fontWeight: 700, color: "var(--color-accent-800)" }}>That code doesn’t match · try again.</div>`}
-          <input className="input" placeholder="Your name (optional)" value=${myName} onChange=${e => saveName(e.target.value)}
-            style=${{ fontSize: "14px" }} />
           <button className="btn btn-primary btn-block" onClick=${submitCode} style=${{ fontFamily: "var(--font-body)", fontWeight: 700 }}>Open the run-of-show</button>
         </div>
       </div>`;
@@ -596,7 +589,7 @@ function App() {
   const countdown = toNext == null ? "" : toNext < 1 ? "now" : toNext + " min";
   const delayLabel = liveDrift ? liveDrift + (liveDrift === 1 ? " min late" : " mins late") : "On time";
   const delayTagClass = liveDrift ? "tag-accent" : "tag-neutral";
-  const syncStamp = syncedAt ? (syncedBy ? syncedBy + " · " : "") + clockTime(syncedAt) : (sb ? "" : "this device only");
+  const syncStamp = syncedAt ? clockTime(syncedAt) : (sb ? "" : "this device only");
 
   const seg = (bg, border) => ({ background: bg, borderColor: border, fontSize: "19px" });
   const opt = (color, bg) => ({ color, background: bg, fontWeight: 700, borderRadius: "999px", padding: "11px 24px", fontSize: "18px" });
