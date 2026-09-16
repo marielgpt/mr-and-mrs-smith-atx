@@ -29,7 +29,7 @@ Static site, no build step:
 
 ## Access
 
-- Day-of code: **1017** (change `accessCode` in `config.js`). A device stays unlocked for 24 hours.
+- Day-of code: set via `accessCode` in `config.js`. A device stays unlocked for 24 hours.
 - Vendor solo links: `?vendor=dre|jp|jorge&solo=1` opens straight to one vendor's sheet with all
   navigation hidden. The "Copy … link" button on each vendor card builds these.
 
