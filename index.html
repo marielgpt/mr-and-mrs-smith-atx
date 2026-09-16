@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#fefcf7">
+  <title>Smith Vargas Wedding · Run of show</title>
+
+  <!-- Organic design system (tokens + component classes) -->
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    html { scroll-behavior: smooth; }
+    body { margin: 0; -webkit-text-size-adjust: 100%; }
+    :root { --color-bg: #fefcf7; }
+    @keyframes nowPulse { 0%,100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-accent) 55%, transparent); } 50% { box-shadow: 0 0 0 7px color-mix(in srgb, var(--color-accent) 0%, transparent); } }
+    @keyframes duePulse { 0%,100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-accent-2) 50%, transparent); } 50% { box-shadow: 0 0 0 6px color-mix(in srgb, var(--color-accent-2) 0%, transparent); } }
+    input[type="checkbox"] { accent-color: var(--color-accent); }
+    #root { min-height: 100vh; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <!-- React + htm (JSX-like templates, no build step) -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/htm@3.1.1/dist/htm.umd.js" crossorigin></script>
+  <!-- Supabase (shared live state) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
