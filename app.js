@@ -330,13 +330,30 @@ function App() {
   const [simMins, setSimMins] = useState(null);
   const [lightbox, setLightbox] = useState(null);
   const [copied, setCopied] = useState("");
-  const [atTop, setAtTop] = useState(true);
+  const [headH, setHeadH] = useState(150);
 
   /* gate */
   const gateOk = () => { try { const at = Number(localStorage.getItem(GATE) || 0); return at > 0 && (Date.now() - at) < 86400000; } catch (e) { return false; } };
   const [unlocked, setUnlocked] = useState(gateOk);
   const [codeDraft, setCodeDraft] = useState("");
   const [codeErr, setCodeErr] = useState(false);
+
+  const headRef = useRef(null);
+
+  /* ── measure the sticky header ── */
+  const measure = useCallback(() => {
+    const el = headRef.current;
+    if (!el) return;
+    const h = Math.round(el.getBoundingClientRect().height);
+    if (h) setHeadH(prev => (h !== prev ? h : prev));
+  });
+  useEffect(() => {
+    measure();
+    const ro = new ResizeObserver(measure);
+    if (headRef.current) ro.observe(headRef.current);
+    return () => ro.disconnect();
+  }, [unlocked]);
+  useEffect(() => { measure(); });
 
   /* ── clock ── */
   useEffect(() => {
@@ -353,22 +370,6 @@ function App() {
     tick();
     const timer = setInterval(tick, 20000);
     return () => clearInterval(timer);
-  }, []);
-
-  /* ── hide the top nav on scroll-down; show it only near the top ── */
-  useEffect(() => {
-    let ticking = false;
-    const onScroll = () => {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(() => {
-        setAtTop(window.scrollY <= 8);
-        ticking = false;
-      });
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   /* ── URL params: vendor / solo ── */
@@ -483,8 +484,8 @@ function App() {
 
   const dateLabel = wed ? new Date(wed).toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric" }) : "Saturday, October 17";
   const clock = rehearsing ? fmt(simMins) : (dd === 0 || sim) ? fmt(mins) : "";
-  const stickTop = "0px";
-  const scrollTop = "0px";
+  const stickTop = headH + "px";
+  const scrollTop = (headH + 18) + "px";
 
   const keys = allCheckKeys();
   const done = keys.filter(k => data.checks[k]).length;
@@ -604,7 +605,7 @@ function App() {
   return html`
     <div style=${{ minHeight: "100vh", background: "var(--color-bg)", color: "var(--color-text)", fontFamily: "var(--font-body)", paddingBottom: "64px" }}>
 
-      <header style=${{ position: "sticky", top: 0, zIndex: 30, transform: atTop ? "none" : "translateY(-110%)", transition: "transform 0.28s ease", background: "var(--color-bg)", boxShadow: "var(--shadow-sm)" }}>
+      <header ref=${headRef} style=${{ position: "sticky", top: 0, zIndex: 20, background: "var(--color-bg)", boxShadow: "var(--shadow-sm)" }}>
         <div style=${{ maxWidth: "940px", margin: "0 auto", padding: "14px 18px 10px", display: "flex", flexDirection: "column", gap: "12px" }}>
 
           <div style=${{ display: "flex", alignItems: "flex-end", gap: "16px", flexWrap: "wrap" }}>
