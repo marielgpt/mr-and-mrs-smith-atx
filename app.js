@@ -19,7 +19,8 @@ const EVENTS = [
     start: 810, end: 885,
     moments: [
       { t: 810, time: "1:30", label: "Coordinator arrives" },
-      { t: 870, time: "2:30", label: "Musicians + photographer arrive", subs: ["Dre Mazzenga · ceremony", "JP Listrom · cocktails + dinner", "Amy Dang · photographer"] },
+      { t: 825, time: "1:45", label: "Dre Mazzenga arrives", subs: ["Ceremony vocalist + pianist · sets up"] },
+      { t: 870, time: "2:30", label: "Musicians + photographer arrive", subs: ["JP Listrom · cocktails + dinner", "Amy Dang · photographer"] },
       { t: 885, time: "2:45", label: "Room fully set; guests arrive" },
       { t: 885, time: "2:45", label: "Soft prelude begins", subs: ["Dre Mazzenga · plays as guests are seated"] }
     ],
@@ -187,7 +188,7 @@ const CONTACTS = [
   { a: "Olivia Vickers", b: "Cake", c: "(830) 456-9129", d: "info@olivearies.com", onsite: "delivery by 1:30 PM" },
   { a: "Stem Floral", b: "Pedestal rental", c: "(512) 537-0577", d: "info@stemfloral.com", onsite: "delivery by 2:30 PM" },
   { a: "Kathy · Central Market North", b: "All florals", c: "(512) 206-1000", d: "s0619c@heb.com", onsite: "delivery by 1:30 PM" },
-  { a: "Dre Mazzenga", b: "Ceremony vocalist + pianist", c: "(914) 419-6728", d: "dreacoustic@gmail.com", onsite: "from 2:30 PM" },
+  { a: "Dre Mazzenga", b: "Ceremony vocalist + pianist", c: "(914) 419-6728", d: "dreacoustic@gmail.com", onsite: "from 1:45 PM" },
   { a: "JP Listrom", b: "Cocktail DJ · dinner pianist · MC", c: "(512) 484-5159", d: "jplistrommusic@gmail.com", onsite: "from 2:30 PM" },
   { a: "Jorge Contreras", b: "Party DJ · MC", c: "(737) 406-4123", d: "jorgealecontreras86@gmail.com", onsite: "from 5:00 PM" }
 ];
@@ -227,11 +228,11 @@ const TEARDOWN = [
 
 const VENDORS = [
   { id: "dre", name: "Dre Mazzenga", role: "Ceremony vocalist + pianist",
-    tel: "(914) 419-6728", email: "dreacoustic@gmail.com", call: "2:30 PM",
+    tel: "(914) 419-6728", email: "dreacoustic@gmail.com", call: "1:45 PM",
     out: "After the ceremony · 3:30 PM",
     room: "Music room (ceremony set)",
     cues: [
-      { t: "2:30", a: "Arrive, set up", b: "Check in with John Winn" },
+      { t: "1:45", a: "Arrive, set up", b: "Check in with John Winn" },
       { t: "2:45", a: "Soft prelude begins", b: "Plays as guests are seated" },
       { t: "3:00", a: "Groom processional", b: "What a Wonderful World · Louis Armstrong",
         note: "Alt: Just the Way You Are · Billy Joel",
