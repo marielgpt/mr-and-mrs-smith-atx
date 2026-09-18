@@ -82,7 +82,7 @@ const EVENTS = [
         linkLabel: "Backup playlist ↗", rows: [
         { a: "Groom", b: "What a Wonderful World", c: "Louis Armstrong · alt: Just the Way You Are · Billy Joel" },
         { a: "Bride", b: "La Vie en Rose", c: "Emily Watts" },
-        { a: "Exit", b: "You Are the Best Thing", c: "Ray LaMontagne" }
+        { a: "Exit", b: "Adventures of a Lifetime", c: "Coldplay" }
       ] },
       { label: "Contact", type: "contact", rows: [
         { a: "Dre Mazzenga", b: "Vocalist + pianist", c: "(914) 419-6728", d: "dreacoustic@gmail.com" }
@@ -164,7 +164,6 @@ const EVENTS = [
       { t: 1170, time: "7:30", label: "Cake cutting", mc: true },
       { t: 1185, time: "7:45", label: "Couple dance", mc: true },
       { t: 1200, time: "8:00", label: "Open dancing · DJ’s choice" },
-      { t: 1375, time: "10:55", label: "Last song", subs: ["Adventures of a Lifetime · Coldplay"] },
       { t: 1380, time: "11:00", label: "DJ set ends" },
       { t: 1440, time: "12:00", label: "Teardown complete" }
     ],
@@ -173,8 +172,7 @@ const EVENTS = [
         link: "https://music.apple.com/us/playlist/dominican-smith-reception-party/pl.u-8aAVXEeI757GgZ",
         linkLabel: "Backup playlist ↗", rows: [
         { a: "Entrance · 7:15", b: "Todo de Ti", c: "" },
-        { a: "Couple dance · 7:45", b: "Bachata Rosa", c: "" },
-        { a: "Last song · 11:00", b: "Adventures of a Lifetime", c: "Coldplay" }
+        { a: "Couple dance · 7:45", b: "Bachata Rosa", c: "" }
       ] },
       { label: "MC + contact", type: "contact", rows: [
         { a: "Jorge Contreras", b: "Party DJ + MC", c: "(737) 406-4123", d: "jorgealecontreras86@gmail.com" }
@@ -249,7 +247,7 @@ const VENDORS = [
           "Mariel · enters, hugs Percy & Russell, stands on the left",
           "Percy · sits next to grandma"
         ] },
-      { t: "3:30", a: "Recessional", b: "You Are the Best Thing · Ray LaMontagne" }
+      { t: "3:30", a: "Recessional", b: "Adventures of a Lifetime · Coldplay" }
     ],
     link: "https://music.apple.com/us/playlist/ceremony-sequence/pl.u-oZyl3M9CvLveMX",
     linkLabel: "Ceremony sequence ↗" },
@@ -283,7 +281,6 @@ const VENDORS = [
       { t: "7:30", a: "MC: cake cutting", b: "" },
       { t: "7:45", a: "MC: couple dance", b: "Bachata Rosa" },
       { t: "8:00", a: "Open dancing", b: "DJ’s choice" },
-      { t: "11:00", a: "Last song", b: "Adventures of a Lifetime · Coldplay" },
       { t: "11:00", a: "Set ends", b: "Pack down · out by 12:00" }
     ],
     link: "https://music.apple.com/us/playlist/dominican-smith-reception-party/pl.u-8aAVXEeI757GgZ",
