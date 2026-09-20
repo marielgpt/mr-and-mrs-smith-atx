@@ -70,7 +70,7 @@ const EVENTS = [
         "Guests fully seated",
         "Joaquin + Oneida · Mariel’s parents enter together; Oneida sits in the front row, Joaquin takes his place as officiant",
         "Russell · stands to the right",
-        "Russell’s parents · his two dads and mom, enter after him and sit in the front row",
+        "Russell’s parents · Howard & Michel (dads) and Shirley (mom) enter after him and sit in the front row",
         "Percy · enters alone, joins Russell",
         "Mariel · enters, hugs Percy & Russell, stands on the left",
         "Percy · sits next to grandma"
@@ -242,7 +242,7 @@ const VENDORS = [
         steps: [
           "Joaquin + Oneida · enter together; Oneida sits front row, Joaquin takes his place as officiant",
           "Russell · stands to the right",
-          "Russell’s parents · his two dads and mom, enter after him and sit in the front row",
+          "Russell’s parents · Howard, Michel + Shirley enter after him, sit front row",
           "Percy · enters alone, joins Russell"
         ] },
       { t: "3:00", a: "Bride processional", b: "La Vie en Rose · Emily Watts",
