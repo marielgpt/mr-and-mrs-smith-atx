@@ -80,7 +80,7 @@ const EVENTS = [
       { label: "Ceremony music", type: "music",
         link: "https://music.apple.com/us/playlist/ceremony-sequence/pl.u-oZyl3M9CvLveMX",
         linkLabel: "Backup playlist ↗", rows: [
-        { a: "Groom", b: "What a Wonderful World", c: "Louis Armstrong · alt: Just the Way You Are · Billy Joel" },
+        { a: "Groom", b: "What a Wonderful World", c: "Louis Armstrong" },
         { a: "Bride", b: "La Vie en Rose", c: "Emily Watts" },
         { a: "Exit", b: "Adventures of a Lifetime", c: "Coldplay" }
       ] },
@@ -235,7 +235,6 @@ const VENDORS = [
       { t: "1:45", a: "Arrive, set up", b: "Check in with John Winn" },
       { t: "2:45", a: "Soft prelude begins", b: "Plays as guests are seated" },
       { t: "3:00", a: "Groom processional", b: "What a Wonderful World · Louis Armstrong",
-        note: "Alt: Just the Way You Are · Billy Joel",
         steps: [
           "Joaquin + Oneida · enter together, sit in the front row",
           "Russell · stands to the right",
