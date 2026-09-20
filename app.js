@@ -80,9 +80,9 @@ const EVENTS = [
       { label: "Ceremony music", type: "music",
         link: "https://music.apple.com/us/playlist/ceremony-sequence/pl.u-oZyl3M9CvLveMX",
         linkLabel: "Backup playlist ↗", rows: [
-        { a: "Groom", b: "What a Wonderful World", c: "Louis Armstrong" },
-        { a: "Bride", b: "La Vie en Rose", c: "Emily Watts" },
-        { a: "Exit", b: "Adventures of a Lifetime", c: "Coldplay" }
+        { a: "Groom", b: "The Legend of Zelda: Link’s Awakening – Overworld", c: "Instrumental piano · custom" },
+        { a: "Bride", b: "La Vie en Rose", c: "Piano with singing" },
+        { a: "Exit", b: "I Love You Always Forever", c: "Donna Lewis · piano with singing" }
       ] },
       { label: "Contact", type: "contact", rows: [
         { a: "Dre Mazzenga", b: "Vocalist + pianist", c: "(914) 419-6728", d: "dreacoustic@gmail.com" }
@@ -234,7 +234,8 @@ const VENDORS = [
     cues: [
       { t: "1:45", a: "Arrive, set up", b: "Check in with John Winn" },
       { t: "2:45", a: "Soft prelude begins", b: "Plays as guests are seated" },
-      { t: "3:00", a: "Groom processional", b: "What a Wonderful World · Louis Armstrong",
+      { t: "3:00", a: "Groom processional", b: "The Legend of Zelda: Link’s Awakening – Overworld · instrumental piano",
+        note: "Custom request — reference track: https://youtu.be/muUDN9iEWvU",
         steps: [
           "Joaquin + Oneida · enter together, sit in the front row",
           "Russell · stands to the right",
@@ -246,7 +247,7 @@ const VENDORS = [
           "Mariel · enters, hugs Percy & Russell, stands on the left",
           "Percy · sits next to grandma"
         ] },
-      { t: "3:30", a: "Recessional", b: "Adventures of a Lifetime · Coldplay" }
+      { t: "3:30", a: "Recessional", b: "I Love You Always Forever · Donna Lewis", note: "Piano with singing · right after the “I do”" }
     ],
     link: "https://music.apple.com/us/playlist/ceremony-sequence/pl.u-oZyl3M9CvLveMX",
     linkLabel: "Ceremony sequence ↗" },
