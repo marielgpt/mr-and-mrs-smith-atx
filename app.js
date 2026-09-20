@@ -68,7 +68,7 @@ const EVENTS = [
     panels: [
       { label: "Processional", type: "steps", rows: [
         "Guests fully seated",
-        "Joaquin + Oneida · Mariel’s parents, enter together, sit in the front row",
+        "Joaquin + Oneida · Mariel’s parents enter together; Oneida sits in the front row, Joaquin takes his place as officiant",
         "Russell · stands to the right",
         "Russell’s parents · his two dads and mom, enter after him and sit in the front row",
         "Percy · enters alone, joins Russell",
@@ -240,7 +240,7 @@ const VENDORS = [
       { t: "3:00", a: "Groom processional", b: "The Legend of Zelda: Link’s Awakening – Overworld · instrumental piano",
         note: "Custom request — reference track: https://youtu.be/muUDN9iEWvU",
         steps: [
-          "Joaquin + Oneida · enter together, sit in the front row",
+          "Joaquin + Oneida · enter together; Oneida sits front row, Joaquin takes his place as officiant",
           "Russell · stands to the right",
           "Russell’s parents · his two dads and mom, enter after him and sit in the front row",
           "Percy · enters alone, joins Russell"
