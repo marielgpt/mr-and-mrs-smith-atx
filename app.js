@@ -114,7 +114,8 @@ const EVENTS = [
     panels: [
       { label: "Setup checklist", type: "check", owner: "John Winn", when: "by 4:30", rows: [
         "Set the 7 tables", "Plates and serving plates out", "Place cards / name placements",
-        "Table florals + centerpieces · wipe the silver vases first", "Candles placed and lit", "Seating chart at entrance"
+        "Table florals + centerpieces · wipe the silver vases first", "Candles placed and lit", "Seating chart at entrance",
+        "Hang the “Love You” chair signs on the bride’s and groom’s seats"
       ] },
       { label: "Owner", type: "contact", rows: [
         { a: "John Winn", b: "Coordinator", c: "(574) 210-7069", d: "jswinn527@gmail.com" }
@@ -205,7 +206,8 @@ const REFS = {
   "setup-dinner": [
     { src: "ref/dinner-room.png", cap: "Dinner room" },
     { src: "ref/tablescape.png", cap: "Tablescape" },
-    { src: "ref/centerpiece.png", cap: "Centerpiece" }
+    { src: "ref/centerpiece.png", cap: "Centerpiece" },
+    { src: "ref/chair-signs.png", cap: "Chair signs" }
   ],
   "setup-party": [
     { src: "ref/grazing-table.png", cap: "Grazing table" },
