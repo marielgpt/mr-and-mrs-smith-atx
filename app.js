@@ -254,7 +254,7 @@ const VENDORS = [
       { t: "3:30", a: "Recessional", b: "I Love You Always Forever · Donna Lewis", note: "Piano with singing · right after the “I do”" }
     ],
     link: "https://music.apple.com/us/playlist/ceremony-sequence/pl.u-oZyl3M9CvLveMX",
-    linkLabel: "Ceremony sequence ↗" },
+    linkLabel: "Ceremony playlist reference ↗" },
 
   { id: "jp", name: "JP Listrom", role: "Cocktail DJ · dinner pianist · MC",
     tel: "(512) 484-5159", email: "jplistrommusic@gmail.com", call: "2:30 PM",
@@ -270,9 +270,9 @@ const VENDORS = [
       { t: "7:00", a: "Hand off to Jorge", b: "Party set begins" }
     ],
     link: "https://music.apple.com/us/playlist/ha%C3%BCs/pl.u-WabZ68ZcexXkldP",
-    linkLabel: "Cocktail backup ↗",
+    linkLabel: "Cocktail playlist reference ↗",
     link2: "https://music.apple.com/us/playlist/jazz-piano-essentials/pl.5d571bccbe60493eaadf6bb467720feb",
-    link2Label: "Dinner backup ↗" },
+    link2Label: "Dinner playlist reference ↗" },
 
   { id: "jorge", name: "Jorge Contreras", role: "Party DJ · MC",
     tel: "(737) 406-4123", email: "jorgealecontreras86@gmail.com", call: "5:00 PM",
@@ -288,7 +288,7 @@ const VENDORS = [
       { t: "11:00", a: "Set ends", b: "Pack down · out by 12:00" }
     ],
     link: "https://music.apple.com/us/playlist/dominican-smith-reception-party/pl.u-8aAVXEeI757GgZ",
-    linkLabel: "Party backup ↗" }
+    linkLabel: "Party playlist reference ↗" }
 ];
 
 /* ─── helpers ─── */
