@@ -830,7 +830,6 @@ function App() {
 
         ${!solo && view === "inventory" && html`
           <div style=${{ display: "flex", flexDirection: "column", gap: "20px", paddingTop: "22px" }}>
-            <p style=${{ fontSize: "14px", color: "var(--color-neutral-700)", maxWidth: "52ch", margin: 0, textWrap: "pretty" }}>Everything out of the rooms by <strong>12:00 AM</strong>. Tick each item as it lands where it belongs.</p>
             ${teardownGroups.map((g, gi) => html`
               <div key=${gi}>
                 <div style=${{ display: "flex", alignItems: "baseline", gap: "12px", flexWrap: "wrap", paddingBottom: "6px" }}>
