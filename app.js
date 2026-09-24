@@ -221,9 +221,6 @@ const TEARDOWN = [
   ] },
   { group: "Goes home with us", note: "Straight into the car · don't leave with the venue.", items: [
     "Bouquet + boutonnieres", "Bride and groom bags", "Top tier of the cake", "Gifted flowers and bottles"
-  ] },
-  { group: "Leaves with vendors", note: "Each vendor takes their own kit before 12:00.", items: [
-    "Jorge · DJ rig and speakers", "JP · piano gear", "Dre · mic stand and cables", "Amy · lighting stands"
   ] }
 ];
 
