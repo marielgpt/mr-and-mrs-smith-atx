@@ -226,7 +226,9 @@ const TEARDOWN = [
 ];
 
 const TEARDOWN_REFS = {
-  "Goes home with us": []
+  "Goes home with us": [
+    { src: "ref/loveyouverymuchframe.png", cap: "“I love you so much” frame" }
+  ]
 };
 
 const VENDORS = [
