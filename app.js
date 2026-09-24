@@ -219,7 +219,7 @@ const TEARDOWN = [
   { group: "Goes to the venue office", note: "Soho House holds these overnight.", items: [
     "Pedestals · Stem Floral picks up"
   ] },
-  { group: "Goes home with us", note: "Straight into the car · don't leave with the venue.", items: [
+  { group: "Goes home with us", note: "Can be put in Percy's room.", items: [
     "Plates · 70", "Napkins · 70", "Coupes · 70", "Tablecloths · 7",
     "Silver vases · 14", "Hurricanes · 14", "Table number frames · 7", "“I love you very much” frame · 1"
   ] }
