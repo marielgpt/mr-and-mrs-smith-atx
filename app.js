@@ -217,7 +217,7 @@ const REFS = {
 
 const TEARDOWN = [
   { group: "Goes to the venue office", note: "Soho House holds these overnight · John hands them over and confirms with the duty manager.", items: [
-    "Seating chart", "Pedestals · Stem Floral picks up", "Cake stand and serving knife"
+    "Pedestals · Stem Floral picks up"
   ] },
   { group: "Goes home with us", note: "Straight into the car · don't leave with the venue.", items: [
     "Bouquet + boutonnieres", "Bride and groom bags", "Top tier of the cake", "Gifted flowers and bottles"
