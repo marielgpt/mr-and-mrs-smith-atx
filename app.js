@@ -216,7 +216,7 @@ const REFS = {
 };
 
 const TEARDOWN = [
-  { group: "Goes to the venue office", note: "Soho House holds these overnight · John hands them over and confirms with the duty manager.", items: [
+  { group: "Goes to the venue office", note: "Soho House holds these overnight.", items: [
     "Pedestals · Stem Floral picks up"
   ] },
   { group: "Goes home with us", note: "Straight into the car · don't leave with the venue.", items: [
