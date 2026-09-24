@@ -220,9 +220,14 @@ const TEARDOWN = [
     "Pedestals · Stem Floral picks up"
   ] },
   { group: "Goes home with us", note: "Straight into the car · don't leave with the venue.", items: [
-    "Bouquet + boutonnieres", "Bride and groom bags", "Top tier of the cake", "Gifted flowers and bottles"
+    "Plates · 70", "Napkins · 70", "Coupes · 70", "Tablecloths · 7",
+    "Silver vases · 14", "Hurricanes · 14", "Table number frames · 7", "“I love you very much” frame · 1"
   ] }
 ];
+
+const TEARDOWN_REFS = {
+  "Goes home with us": []
+};
 
 const VENDORS = [
   { id: "dre", name: "Dre Mazzenga", role: "Ceremony vocalist + pianist",
@@ -562,7 +567,8 @@ function App() {
   const teardownGroups = TEARDOWN.map((g, gi) => {
     const rows = g.items.map((label, ri) => { const key = "td-" + gi + "-" + ri; const on = !!data.checks[key];
       return { a: label, checked: on, key, color: on ? "var(--color-neutral-600)" : "var(--color-text)", strike: on ? "line-through" : "none" }; });
-    return { name: g.group, note: g.note, rows, count: rows.filter(r => r.checked).length + " / " + rows.length };
+    const refs = TEARDOWN_REFS[g.group] || [];
+    return { name: g.group, note: g.note, rows, refs, hasRefs: refs.length > 0, count: rows.filter(r => r.checked).length + " / " + rows.length };
   });
 
   const contacts = CONTACTS.map(c => Object.assign({}, c, { tel: telHref(c.c), hasPhone: !!c.c, hasEmail: !!c.d, needsInfo: !c.c, need: c.need || "No phone on file" }));
@@ -842,6 +848,14 @@ function App() {
                     <input type="checkbox" checked=${r.checked} onChange=${() => toggle(r.key)} style=${{ width: "20px", height: "20px", flex: "none", margin: 0 }} />
                     <span style=${{ flex: 1 }}>${r.a}</span></label>`)}
                 </div>
+                ${g.hasRefs && html`
+                  <div className="card elev-sm" style=${{ padding: "var(--space-4)", marginTop: "10px" }}>
+                    <div className="card-kicker" style=${{ fontSize: "14px", fontWeight: 800 }}>What it should look like</div>
+                    <div onClick=${ev => { const b = ev.target.closest("button"); if (!b) return; setLightbox({ src: b.getAttribute("data-src"), cap: (b.getAttribute("data-cap") || "").trim() }); }}
+                      style=${{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(104px, 1fr))", gap: "10px" }}>
+                      ${g.refs.map((r, ri) => html`<${RefCard} key=${ri} src=${r.src} cap=${r.cap} />`)}
+                    </div>
+                  </div>`}
               </div>`)}
           </div>`}
 
