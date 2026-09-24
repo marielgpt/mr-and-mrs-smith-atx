@@ -221,7 +221,8 @@ const TEARDOWN = [
   ] },
   { group: "Goes home with us", note: "Can be put in Percy's room.", items: [
     "Plates · 70", "Napkins · 70", "Coupes · 70", "Tablecloths · 7",
-    "Silver vases · 14", "Hurricanes · 14", "Table number frames · 7", "“I love you very much” frame · 1"
+    "Silver vases · 14", "Hurricanes · 14", "Table number frames · 7", "“I love you very much” frame · 1",
+    "Lace chair signs · 2"
   ] }
 ];
 
