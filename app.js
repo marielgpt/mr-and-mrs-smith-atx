@@ -613,7 +613,8 @@ function App() {
   return html`
     <div style=${{ minHeight: "100vh", background: "var(--color-bg)", color: "var(--color-text)", fontFamily: "var(--font-body)", paddingBottom: "64px" }}>
 
-      <header style=${{ position: "sticky", top: 0, zIndex: 30, transform: atTop ? "none" : "translateY(-110%)", transition: "transform 0.28s ease", background: "var(--color-bg)", boxShadow: "var(--shadow-sm)" }}>
+      <header style=${{ position: "sticky", top: 0, zIndex: 30, display: "grid", gridTemplateRows: atTop ? "1fr" : "0fr", transition: "grid-template-rows 0.28s ease", background: "var(--color-bg)", boxShadow: atTop ? "var(--shadow-sm)" : "none" }}>
+        <div style=${{ overflow: "hidden", minHeight: 0 }}>
         <div style=${{ maxWidth: "940px", margin: "0 auto", padding: "14px 18px 10px", display: "flex", flexDirection: "column", gap: "12px" }}>
 
           <div style=${{ display: "flex", alignItems: "flex-end", gap: "16px", flexWrap: "wrap" }}>
@@ -686,6 +687,7 @@ function App() {
               ${events.map(e => html`<a key=${e.ev.id} href=${"#" + e.ev.id} className=${"tag " + e.st.chip} style=${{ textDecoration: "none", whiteSpace: "nowrap", flex: "none", fontSize: "12px", padding: "5px 12px" }}>${e.ev.major ? "" : "Set-up · "}${e.ev.name}</a>`)}
             </div>`}
 
+        </div>
         </div>
       </header>
 
