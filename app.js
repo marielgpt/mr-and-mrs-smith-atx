@@ -99,7 +99,7 @@ const EVENTS = [
     ],
     panels: [
       { label: "Music", type: "note", heading: "DJ set", rows: ["JP Listrom"],
-        link: "https://music.apple.com/us/playlist/ha%C3%BCs/pl.u-WabZ68ZcexXkldP", linkLabel: "Backup playlist ↗" },
+        link: "https://music.apple.com/us/playlist/vargas-wedding-cocktail-hour-10-17/pl.u-GgA5e1gHojlE1Zm", linkLabel: "Backup playlist ↗" },
       { label: "Contact", type: "contact", rows: [
         { a: "JP Listrom", b: "Cocktail DJ", c: "(512) 484-5159", d: "jplistrommusic@gmail.com" }
       ] }
@@ -272,7 +272,7 @@ const VENDORS = [
       { t: "5:45", a: "MC: speech", b: "Bride + groom" },
       { t: "7:00", a: "Hand off to Jorge", b: "Party set begins" }
     ],
-    link: "https://music.apple.com/us/playlist/ha%C3%BCs/pl.u-WabZ68ZcexXkldP",
+    link: "https://music.apple.com/us/playlist/vargas-wedding-cocktail-hour-10-17/pl.u-GgA5e1gHojlE1Zm",
     linkLabel: "Cocktail playlist reference ↗",
     link2: "https://music.apple.com/us/playlist/jazz-piano-essentials/pl.5d571bccbe60493eaadf6bb467720feb",
     link2Label: "Dinner playlist reference ↗" },
