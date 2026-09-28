@@ -163,11 +163,11 @@ const EVENTS = [
     moments: [
       { t: 1140, time: "7:00", label: "Party starts · music begins" },
       { t: 1155, time: "7:15", label: "Couple entrance", mc: true },
-      { t: 1185, time: "7:45", label: "Mother-son dance", subs: ["Russell + Shirley"], mc: true },
-      { t: 1188, time: "7:48", label: "Father-daughter dance", subs: ["Mariel + Joaquin"], mc: true },
-      { t: 1191, time: "7:51", label: "Couple dance", subs: ["Russell + Mariel"], mc: true },
-      { t: 1194, time: "7:54", label: "Percy, Russell + Mariel dance", mc: true },
-      { t: 1197, time: "7:57", label: "Cake cutting", mc: true },
+      { t: 1160, time: "7:20", label: "Mother-son dance", subs: ["Russell + Shirley"], mc: true },
+      { t: 1163, time: "7:23", label: "Father-daughter dance", subs: ["Mariel + Joaquin"], mc: true },
+      { t: 1166, time: "7:26", label: "Couple dance", subs: ["Russell + Mariel"], mc: true },
+      { t: 1169, time: "7:29", label: "Percy, Russell + Mariel dance", mc: true },
+      { t: 1172, time: "7:32", label: "Cake cutting", mc: true },
       { t: 1200, time: "8:00", label: "Open dancing · DJ’s choice" },
       { t: 1380, time: "11:00", label: "DJ set ends" },
       { t: 1440, time: "12:00", label: "Teardown complete" }
@@ -177,10 +177,10 @@ const EVENTS = [
         link: "https://music.apple.com/us/playlist/dominican-smith-reception-party/pl.u-8aAVXEeI757GgZ",
         linkLabel: "Backup playlist ↗", rows: [
         { a: "Entrance · 7:15", b: "Todo de Ti", c: "" },
-        { a: "Mother-son dance · 7:45", b: "TBD", c: "Russell + Shirley" },
-        { a: "Father-daughter dance · 7:48", b: "TBD", c: "Mariel + Joaquin" },
-        { a: "Couple dance · 7:51", b: "Bachata Rosa", c: "Russell + Mariel" },
-        { a: "Percy, Russell + Mariel dance · 7:54", b: "Sonidito", c: "feat. Josh Cross" }
+        { a: "Mother-son dance · 7:20", b: "TBD", c: "Russell + Shirley" },
+        { a: "Father-daughter dance · 7:23", b: "TBD", c: "Mariel + Joaquin" },
+        { a: "Couple dance · 7:26", b: "Bachata Rosa", c: "Russell + Mariel" },
+        { a: "Percy, Russell + Mariel dance · 7:29", b: "Sonidito", c: "feat. Josh Cross" }
       ] },
       { label: "MC + contact", type: "contact", rows: [
         { a: "Jorge Contreras", b: "Party DJ + MC", c: "(737) 406-4123", d: "jorgealecontreras86@gmail.com" }
@@ -291,12 +291,12 @@ const VENDORS = [
       { t: "5:00", a: "Arrive, set up", b: "Ready by 7:00 · check in with John Winn" },
       { t: "7:00", a: "Party starts", b: "Music begins" },
       { t: "7:15", a: "MC: couple entrance", b: "Todo de Ti" },
-      { t: "7:45", a: "MC: mother-son dance", b: "Russell + Shirley · song TBD" },
-      { t: "7:48", a: "MC: father-daughter dance", b: "Mariel + Joaquin · song TBD" },
-      { t: "7:51", a: "MC: couple dance", b: "Bachata Rosa · Russell + Mariel" },
-      { t: "7:54", a: "MC: Percy, Russell + Mariel dance", b: "Sonidito · feat. Josh Cross",
+      { t: "7:20", a: "MC: mother-son dance", b: "Russell + Shirley · song TBD" },
+      { t: "7:23", a: "MC: father-daughter dance", b: "Mariel + Joaquin · song TBD" },
+      { t: "7:26", a: "MC: couple dance", b: "Bachata Rosa · Russell + Mariel" },
+      { t: "7:29", a: "MC: Percy, Russell + Mariel dance", b: "Sonidito · feat. Josh Cross",
         note: "https://music.apple.com/us/album/sonidito-feat-josh-cross/1815466620?i=1815466622" },
-      { t: "7:57", a: "MC: cake cutting", b: "" },
+      { t: "7:32", a: "MC: cake cutting", b: "" },
       { t: "8:00", a: "Open dancing", b: "DJ’s choice" },
       { t: "11:00", a: "Set ends", b: "Pack down · out by 12:00" }
     ],
