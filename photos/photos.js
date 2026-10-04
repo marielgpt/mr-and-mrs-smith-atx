@@ -9,6 +9,7 @@ const html = htm.bind(React.createElement);
 const CFG = window.WEDDING_CONFIG || {};
 const BUCKET = "guest-photos";
 const MAX_BYTES = 50 * 1024 * 1024; // keep in step with the bucket's file_size_limit
+const GATE = "wedding.photos.gate", GATE_MS = 72 * 60 * 60 * 1000;
 const NAME_KEY = "wedding.photos.name", TOKEN_KEY = "wedding.photos.token", ADMIN_KEY = "wedding.photos.admin";
 const COLS = "id, path, thumb_path, kind, taken_at, uploader, width, height, owner_hash, deleted_at, created_at";
 
@@ -158,6 +159,10 @@ async function uploadOne(file, uploader, ownerHash) {
 }
 
 function Photos() {
+  const gateOk = () => { const at = Number(store.get(GATE) || 0); return !CFG.photosCode || (at > 0 && Date.now() - at < GATE_MS); };
+  const [unlocked, setUnlocked] = useState(gateOk);
+  const [codeDraft, setCodeDraft] = useState("");
+  const [codeErr, setCodeErr] = useState(false);
   const [photos, setPhotos] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const [name, setName] = useState(() => store.get(NAME_KEY));
@@ -240,6 +245,29 @@ function Photos() {
     dropPhoto(p.id);
     setDeleting(false);
   };
+
+  const submitCode = () => {
+    if (codeDraft.trim() === String(CFG.photosCode)) { store.set(GATE, String(Date.now())); setUnlocked(true); setCodeErr(false); setCodeDraft(""); }
+    else setCodeErr(true);
+  };
+
+  if (!unlocked) {
+    return html`
+      <div style=${{ minHeight: "100vh", display: "grid", placeItems: "center", padding: "24px" }}>
+        <div className="card elev-md" style=${{ maxWidth: "380px", width: "100%", padding: "var(--space-6)", gap: "var(--space-3)" }}>
+          <div className="card-kicker" style=${{ fontSize: "14px", fontWeight: 800 }}>October 15–17, 2026</div>
+          <div style=${{ fontFamily: "var(--font-heading)", fontSize: "clamp(28px, 7vw, 38px)", lineHeight: 1.05 }}>Russell + Mariel</div>
+          <p style=${{ fontSize: "14px", color: "var(--color-neutral-700)", margin: 0, textWrap: "pretty" }}>Enter the code to share and see photos from the weekend.</p>
+          <input className="input" type="tel" inputMode="numeric" autoComplete="off" placeholder="4-digit code"
+            value=${codeDraft}
+            onChange=${e => { setCodeDraft(e.target.value); setCodeErr(false); }}
+            onKeyDown=${e => { if (e.key === "Enter") { e.preventDefault(); submitCode(); } }}
+            style=${{ fontFamily: "var(--font-heading)", fontSize: "26px", letterSpacing: "0.3em", textAlign: "center" }} />
+          ${codeErr && html`<div style=${{ fontSize: "13px", fontWeight: 700, color: "var(--color-accent-800)" }}>That code doesn’t match · try again.</div>`}
+          <button className="btn btn-primary btn-block" onClick=${submitCode} style=${{ fontFamily: "var(--font-body)", fontWeight: 700 }}>See the photos</button>
+        </div>
+      </div>`;
+  }
 
   const busy = progress && progress.done + progress.failed < progress.total;
   const cur = open !== null ? photos[open] : null;

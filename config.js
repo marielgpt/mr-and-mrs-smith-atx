@@ -11,6 +11,7 @@ window.WEDDING_CONFIG = {
   venue: "Soho House",
   venueAddress: "1011 S Congress Ave, Austin, TX 78704", // set "" to show the "add the venue address" tag
   accessCode: "1017",
+  photosCode: "1017", // guest photo page (/photos/) · a device stays unlocked 72 hours
   weddingDate: "2026-10-17",
   collapsePast: true,
   simulatedTime: "" // e.g. "16:20" to pin the clock while testing

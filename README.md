@@ -41,6 +41,7 @@ time): Oct 15 BBQ, Oct 16 party, Oct 17 wedding. Photos are resized in the brows
 as-is up to 50 MB. Files go to the public `guest-photos` Supabase bucket, listed via the
 `guest_photos` table — both set up by the second block of `schema.sql`.
 
+- **Code:** `photosCode` in `config.js` (1017); a device stays unlocked for 72 hours.
 - **Sign:** `/photos/sign.html` is a printable letter-size QR sign; `photos/qr.png` (1200px) and
   `photos/qr.svg` are the bare code for Canva or a print shop.
 - **Deleting:** a guest can delete their own uploads from the same phone. `/photos/?admin` unlocks
