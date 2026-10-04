@@ -8,7 +8,8 @@ const { useState, useEffect, useRef } = React;
 const html = htm.bind(React.createElement);
 const CFG = window.WEDDING_CONFIG || {};
 const BUCKET = "guest-photos";
-const MAX_BYTES = 50 * 1024 * 1024; // keep in step with the bucket's file_size_limit
+const MAX_BYTES = 500 * 1024 * 1024; // keep in step with the bucket's file_size_limit (Pro plan)
+const TUS_CHUNK = 6 * 1024 * 1024; // Supabase resumable uploads require exactly 6 MB chunks
 const GATE = "wedding.photos.gate", GATE_MS = 72 * 60 * 60 * 1000;
 const NAME_KEY = "wedding.photos.name", TOKEN_KEY = "wedding.photos.token", ADMIN_KEY = "wedding.photos.admin";
 const COLS = "id, path, thumb_path, kind, taken_at, uploader, width, height, owner_hash, deleted_at, created_at";
@@ -133,7 +134,26 @@ function videoFrame(file) {
   });
 }
 
-async function uploadOne(file, uploader, ownerHash) {
+/* Resumable (TUS) upload for big videos: survives wifi drops and reports progress (0–1). */
+function resumableUpload(path, file, type, onProgress) {
+  return new Promise((resolve, reject) => {
+    const upload = new tus.Upload(file, {
+      endpoint: CFG.SUPABASE_URL + "/storage/v1/upload/resumable",
+      retryDelays: [0, 3000, 5000, 10000, 20000, 30000, 60000],
+      headers: { authorization: "Bearer " + CFG.SUPABASE_KEY, apikey: CFG.SUPABASE_KEY, "x-upsert": "false" },
+      uploadDataDuringCreation: true,
+      removeFingerprintOnSuccess: true,
+      metadata: { bucketName: BUCKET, objectName: path, contentType: type, cacheControl: "31536000" },
+      chunkSize: TUS_CHUNK,
+      onError: reject,
+      onProgress: (sent, total) => onProgress(total ? sent / total : 0),
+      onSuccess: resolve
+    });
+    upload.findPreviousUploads().then(prev => { if (prev.length) upload.resumeFromPreviousUpload(prev[0]); upload.start(); }, reject);
+  });
+}
+
+async function uploadOne(file, uploader, ownerHash, onProgress) {
   const id = Date.now() + "-" + Math.random().toString(36).slice(2, 8);
   const up = (p, b, type) => sb.storage.from(BUCKET).upload(p, b, { contentType: type, cacheControl: "31536000" });
   const taken_at = await takenAt(file);
@@ -142,7 +162,8 @@ async function uploadOne(file, uploader, ownerHash) {
     if (file.size > MAX_BYTES) throw new Error("too-big");
     const path = "video/" + id + "." + extOf(file);
     const thumb = await videoFrame(file);
-    const r1 = await up(path, file, file.type || "video/mp4"); if (r1.error) throw r1.error;
+    if (window.tus && file.size > TUS_CHUNK) await resumableUpload(path, file, file.type || "video/mp4", onProgress);
+    else { const r1 = await up(path, file, file.type || "video/mp4"); if (r1.error) throw r1.error; }
     let thumbPath = "";
     if (thumb) { const r2 = await up("thumb/" + id + ".jpg", thumb.blob, "image/jpeg"); if (!r2.error) thumbPath = "thumb/" + id + ".jpg"; }
     row = { path, thumb_path: thumbPath, kind: "video", width: thumb ? thumb.w : null, height: thumb ? thumb.h : null };
@@ -167,7 +188,7 @@ function Photos() {
   const [photos, setPhotos] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const [name, setName] = useState(() => store.get(NAME_KEY));
-  const [progress, setProgress] = useState(null); // { done, total, failed, tooBig }
+  const [progress, setProgress] = useState(null); // { done, total, failed, tooBig, pct }
   const [open, setOpen] = useState(null); // index into photos
   const [myHash, setMyHash] = useState("");
   const [admin, setAdmin] = useState(() => store.get(ADMIN_KEY));
@@ -221,7 +242,8 @@ function Photos() {
     let done = 0, failed = 0, tooBig = 0;
     setProgress({ done, total: files.length, failed, tooBig });
     for (const f of files) {
-      try { addPhotos([await uploadOne(f, name.trim(), hash)]); done++; }
+      const onPct = pct => setProgress({ done, total: files.length, failed, tooBig, pct });
+      try { addPhotos([await uploadOne(f, name.trim(), hash, onPct)]); done++; }
       catch (err) { console.warn("Upload failed", f.name, err); failed++; if (err && err.message === "too-big") tooBig++; }
       setProgress({ done, total: files.length, failed, tooBig });
     }
@@ -297,13 +319,13 @@ function Photos() {
 
       <div className="card elev-sm" style=${{ padding: "var(--space-4) var(--space-6)", gap: "12px" }}>
         <div className="card-kicker" style=${{ margin: 0, fontSize: "12px", fontWeight: 700 }}>Share your photos + videos</div>
-        <div style=${{ fontSize: "15px", textWrap: "pretty" }}>Add the moments you caught — they show up here for everyone. Videos up to ${mb(MAX_BYTES)} (about 30 seconds from most phones).</div>
+        <div style=${{ fontSize: "15px", textWrap: "pretty" }}>Add the moments you caught — they show up here for everyone. Videos up to ${mb(MAX_BYTES)} (a few minutes from most phones).</div>
         <div style=${{ display: "flex", gap: "10px", flexWrap: "wrap", alignItems: "center" }}>
           <input value=${name} onInput=${e => setName(e.target.value)} placeholder="Your name (optional)" maxLength="60"
             style=${{ flex: 1, minWidth: "180px", font: "inherit", fontSize: "16px", padding: "10px 14px", borderRadius: "var(--radius-md)", border: "1px solid var(--color-divider)", background: "var(--color-bg)", color: "inherit" }} />
           <button className="btn btn-primary" disabled=${!sb || busy} onClick=${() => inputRef.current && inputRef.current.click()}
             style=${{ fontFamily: "var(--font-body)", fontWeight: 700, fontSize: "16px", padding: "11px 22px" }}>
-            ${busy ? "Uploading " + (progress.done + progress.failed + 1) + " of " + progress.total + "…" : "Upload photos + videos"}
+            ${busy ? "Uploading " + (progress.done + progress.failed + 1) + " of " + progress.total + (progress.pct != null ? " · " + Math.round(progress.pct * 100) + "%" : "") + "…" : "Upload photos + videos"}
           </button>
           <input ref=${inputRef} type="file" accept="image/*,video/*" multiple onChange=${onPick} style=${{ display: "none" }} />
         </div>

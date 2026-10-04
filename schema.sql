@@ -48,10 +48,10 @@ exception when duplicate_object then null; end $$;
 -- AFTER running, set the admin code in the SQL editor (never commit it — this
 -- repo is public):   update public.guest_photo_admin set code = 'your-secret';
 
--- 50 MB per file: the Supabase free-plan ceiling. On Pro, raise this (and
--- MAX_BYTES in photos/photos.js) for longer videos.
+-- 500 MB per file (Pro plan). Also raise the project-wide limit to match:
+-- Storage → Settings → Upload file size limit. Keep MAX_BYTES in photos/photos.js in step.
 insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
-  values ('guest-photos', 'guest-photos', true, 52428800,
+  values ('guest-photos', 'guest-photos', true, 524288000,
     array['image/jpeg', 'image/png', 'image/webp',
           'video/mp4', 'video/quicktime', 'video/webm', 'video/x-m4v', 'video/3gpp'])
   on conflict (id) do update set public = true, file_size_limit = excluded.file_size_limit,
