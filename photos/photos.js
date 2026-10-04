@@ -380,7 +380,6 @@ function Photos() {
               <div style=${{ fontFamily: "var(--font-heading)", fontSize: "24px" }}>${ev.name}</div>
               <div className="card-kicker" style=${{ margin: 0 }}>${ev.day}</div>
             </div>
-            <div style=${{ fontSize: "13px", color: "var(--color-neutral-600)" }}>${items.length} upload${items.length === 1 ? "" : "s"}</div>
           </div>
           <div style=${{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))", gap: "6px" }}>
             ${items.map(({ p, i }) => html`
