@@ -655,7 +655,7 @@ function App() {
             <div style=${{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "4px" }}>
               <div style=${{ display: "flex", alignItems: "baseline", gap: "8px" }}>
                 ${clock && html`<div style=${{ fontFamily: "var(--font-heading)", fontSize: "22px", lineHeight: 1 }}>${clock}</div>`}
-                <button className="btn btn-ghost" onClick=${() => setSimMins(s => s == null ? (mins || 900) : null)} title="Preview another time" style=${{ fontFamily: "var(--font-body)", fontWeight: 700, fontSize: "12px", padding: "3px 9px" }}>${rehearsing ? "Preview" : "Preview a time"}</button>
+                ${!solo && html`<button className="btn btn-ghost" onClick=${() => setSimMins(s => s == null ? (mins || 900) : null)} title="Preview another time" style=${{ fontFamily: "var(--font-body)", fontWeight: 700, fontSize: "12px", padding: "3px 9px" }}>${rehearsing ? "Preview" : "Preview a time"}</button>`}
               </div>
               <a href=${nowHref} className="tag tag-accent" style=${{ textDecoration: "none", gap: "6px" }}>
                 <span style=${{ width: "7px", height: "7px", borderRadius: "50%", background: "var(--color-accent)", animation: "nowPulse 2s ease-out infinite" }}></span>
@@ -680,7 +680,7 @@ function App() {
             </div>
           </div>
 
-          ${rehearsing && html`
+          ${!solo && rehearsing && html`
             <div style=${{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap", background: "var(--color-accent-100)", border: "1px solid var(--color-accent-300)", borderRadius: "var(--radius-lg)", padding: "10px 14px" }}>
               <span className="tag tag-accent" style=${{ fontWeight: 700 }}>Preview mode</span>
               <input type="range" min="780" max="1440" step="5" value=${simMins} onChange=${e => setSimMins(Number(e.target.value))} onInput=${e => setSimMins(Number(e.target.value))} style=${{ flex: 1, minWidth: "140px", accentColor: "var(--color-accent)" }} />
