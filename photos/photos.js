@@ -93,6 +93,7 @@ async function videoTakenAt(file) {
 const takenAt = file => (isVideo(file) ? videoTakenAt(file) : exifTakenAt(file)).catch(() => null);
 
 const firstName = s => (s || "").trim().split(/\s+/)[0] || "";
+const plural = (n, w) => n + " " + w + (n === 1 ? "" : "s");
 const fmtBytes = n => n >= 1024 ** 3 ? (n / 1024 ** 3).toFixed(n >= 10 * 1024 ** 3 ? 0 : 1) + " GB" : Math.max(0, Math.round(n / 1024 ** 2)) + " MB";
 
 async function sha256(s) {
@@ -204,7 +205,7 @@ function Photos() {
   const [adminInput, setAdminInput] = useState("");
   const [adminMsg, setAdminMsg] = useState("");
   const [deleting, setDeleting] = useState(false);
-  const [usage, setUsage] = useState(null); // { bytes, files } across the whole bucket (admin only)
+  const [usage, setUsage] = useState(null); // { bytes, files } across the whole bucket
   const [testDay, setTestDay] = useState(""); // admin only: file uploads under this event instead of the photo's own date
   const inputRef = useRef(null);
 
@@ -262,9 +263,9 @@ function Photos() {
 
   // Storage tracker: re-count whenever the gallery changes (uploads, deletes, realtime).
   useEffect(() => {
-    if (!admin || !sb) { setUsage(null); return; }
+    if (!sb || !unlocked) return;
     sb.rpc("guest_photos_storage").then(({ data, error }) => { if (!error && data) setUsage(data); });
-  }, [admin, photos.length]);
+  }, [unlocked, photos.length]);
 
   const unlockAdmin = async () => {
     const code = adminInput.trim();
@@ -317,9 +318,18 @@ function Photos() {
 
   return html`
     <div style=${{ maxWidth: "940px", margin: "0 auto", padding: "22px 18px 64px", display: "flex", flexDirection: "column", gap: "18px" }}>
-      <div>
-        <h1 style=${{ fontSize: "clamp(28px, 7vw, 42px)", margin: "0 0 4px" }}>Russell + Mariel</h1>
-        <div style=${{ fontSize: "12px", letterSpacing: "0.06em", textTransform: "uppercase", color: "var(--color-neutral-700)" }}>October 15–17, 2026  ·  Austin  ·  wedding weekend photos</div>
+      <div style=${{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: "12px", flexWrap: "wrap" }}>
+        <div>
+          <h1 style=${{ fontSize: "clamp(28px, 7vw, 42px)", margin: "0 0 4px" }}>Russell + Mariel</h1>
+          <div style=${{ fontSize: "12px", letterSpacing: "0.06em", textTransform: "uppercase", color: "var(--color-neutral-700)" }}>October 15–17, 2026  ·  Austin  ·  wedding weekend photos</div>
+        </div>
+        ${usage && html`<div title="Storage used" style=${{ marginLeft: "auto", display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "3px", fontSize: "11px", color: "var(--color-neutral-600)" }}>
+          <span>${fmtBytes(usage.bytes)} of ${fmtBytes(INCLUDED_BYTES)}</span>
+          <div style=${{ width: "72px", height: "4px", borderRadius: "999px", background: "var(--color-neutral-200)", overflow: "hidden" }}>
+            <div style=${{ width: Math.min(100, Math.max(2, usage.bytes / INCLUDED_BYTES * 100)) + "%", height: "100%", background: usage.bytes > INCLUDED_BYTES ? "var(--color-accent-700)" : "var(--color-accent-2)" }}></div>
+          </div>
+          <span>${plural(photos.filter(p => p.kind !== "video").length, "photo")} · ${plural(photos.filter(p => p.kind === "video").length, "video")}</span>
+        </div>`}
       </div>
 
       ${askAdmin && sb && html`
@@ -333,17 +343,7 @@ function Photos() {
                        ${[{ id: "", name: "Auto" }].concat(EVENTS).map(ev => html`<label key=${ev.id || "auto"} className="seg-opt" onClick=${() => setTestDay(ev.id)}
                          style=${{ background: testDay === ev.id ? "var(--color-accent)" : "transparent", color: testDay === ev.id ? "var(--color-bg)" : "inherit", fontWeight: 700, fontSize: "13px" }}>${ev.name}</label>`)}
                      </div>
-                   </div>
-                   ${usage && html`<div style=${{ flexBasis: "100%", display: "flex", flexDirection: "column", gap: "6px", paddingTop: "4px" }}>
-                     <div style=${{ display: "flex", justifyContent: "space-between", gap: "10px", flexWrap: "wrap", fontSize: "14px" }}>
-                       <span><b>${fmtBytes(usage.bytes)}</b> used of ${fmtBytes(INCLUDED_BYTES)} included</span>
-                       <span style=${{ color: "var(--color-neutral-700)" }}>${photos.filter(p => p.kind !== "video").length} photos · ${photos.filter(p => p.kind === "video").length} videos</span>
-                     </div>
-                     <div style=${{ height: "8px", borderRadius: "999px", background: "var(--color-neutral-200)", overflow: "hidden" }}>
-                       <div style=${{ width: Math.min(100, Math.max(1, usage.bytes / INCLUDED_BYTES * 100)) + "%", height: "100%", background: usage.bytes > INCLUDED_BYTES ? "var(--color-accent-700)" : "var(--color-accent-2)" }}></div>
-                     </div>
-                     ${usage.bytes > INCLUDED_BYTES && html`<div style=${{ fontSize: "13px", color: "var(--color-accent-800)" }}>Over the included storage — extra is billed per GB on Pro.</div>`}
-                   </div>`}`
+                   </div>`
             : html`<input type="password" value=${adminInput} onInput=${e => setAdminInput(e.target.value)} onKeyDown=${e => e.key === "Enter" && unlockAdmin()} placeholder="Admin code"
                      style=${{ flex: 1, minWidth: "140px", font: "inherit", fontSize: "16px", padding: "8px 12px", borderRadius: "var(--radius-md)", border: "1px solid var(--color-divider)", background: "var(--color-bg)", color: "inherit" }} />
                    <button className="btn btn-secondary" onClick=${unlockAdmin} style=${{ fontWeight: 700, fontSize: "14px" }}>Unlock</button>
