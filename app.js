@@ -179,7 +179,7 @@ const EVENTS = [
         linkLabel: "Backup playlist ↗", rows: [
         { a: "Entrance · 7:15", b: "Todo de Ti", c: "" },
         { a: "Mother-son dance · 7:20", b: "TBD", c: "Russell + Shirley" },
-        { a: "Father-daughter dance · 7:23", b: "TBD", c: "Mariel + Joaquin" },
+        { a: "Father-daughter dance · 7:23", b: "De Niña a Mujer", c: "Julio Iglesias · Mariel + Joaquin" },
         { a: "Couple dance · 7:26", b: "Bachata Rosa", c: "Russell + Mariel" },
         { a: "Percy, Russell + Mariel dance · 7:29", b: "Sonidito", c: "feat. Josh Cross" }
       ] },
@@ -312,7 +312,8 @@ const VENDORS = [
       { t: "7:00", a: "Party starts", b: "Music begins" },
       { t: "7:15", a: "MC: couple entrance", b: "Todo de Ti" },
       { t: "7:20", a: "MC: mother-son dance", b: "Russell + Shirley · song TBD" },
-      { t: "7:23", a: "MC: father-daughter dance", b: "Mariel + Joaquin · song TBD" },
+      { t: "7:23", a: "MC: father-daughter dance", b: "De Niña a Mujer (Julio Iglesias) · Mariel + Joaquin",
+        note: "https://music.apple.com/us/song/de-ni%C3%B1a-a-mujer-from-childhood-to-womanhood/387629283" },
       { t: "7:26", a: "MC: couple dance", b: "Bachata Rosa · Russell + Mariel" },
       { t: "7:29", a: "MC: Percy, Russell + Mariel dance", b: "Sonidito · feat. Josh Cross",
         note: "https://music.apple.com/us/album/sonidito-feat-josh-cross/1815466620?i=1815466622" },
