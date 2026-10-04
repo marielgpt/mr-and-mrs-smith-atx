@@ -35,10 +35,17 @@ Static site, no build step:
 
 ## Guest photos
 
-`/photos/` is a public page for guests to upload photos and browse the live gallery (share it as a
-QR code on the tables). Photos are resized in the browser before upload and stored in the public
-`guest-photos` Supabase bucket, listed via the `guest_photos` table — both set up by the second
-block of `schema.sql`. Guests can only add; remove photos from the Supabase dashboard.
+`/photos/` is a public page for the whole weekend: guests upload photos + videos and browse the
+live gallery, grouped by the day each was taken (EXIF / video metadata, falling back to upload
+time): Oct 15 BBQ, Oct 16 party, Oct 17 wedding. Photos are resized in the browser; videos upload
+as-is up to 50 MB. Files go to the public `guest-photos` Supabase bucket, listed via the
+`guest_photos` table — both set up by the second block of `schema.sql`.
+
+- **Sign:** `/photos/sign.html` is a printable letter-size QR sign; `photos/qr.png` (1200px) and
+  `photos/qr.svg` are the bare code for Canva or a print shop.
+- **Deleting:** a guest can delete their own uploads from the same phone. `/photos/?admin` unlocks
+  deleting anything with the admin code, which is set in the Supabase SQL editor (never in this
+  public repo): `update public.guest_photo_admin set code = '…';`
 
 ## Local preview
 
