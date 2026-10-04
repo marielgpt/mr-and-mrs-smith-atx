@@ -94,8 +94,8 @@ const EVENTS = [
     id: "cocktails", name: "Cocktail hour", major: true, range: "3:30 – 4:30 PM", start: 930, end: 990,
     moments: [
       { t: 930, time: "3:30", label: "Cocktail hour begins" },
-      { t: 930, time: "3:30", label: "Couple photos" },
-      { t: 945, time: "3:45", label: "Couple joins cocktail hour" }
+      { t: 930, time: "3:30", label: "Group portraits", subs: ["Amy Dang · family formals"] },
+      { t: 960, time: "4:00", label: "Couple joins cocktail hour" }
     ],
     panels: [
       { label: "Music", type: "note", heading: "DJ set", rows: ["JP Listrom"],
@@ -129,7 +129,8 @@ const EVENTS = [
       { t: 1000, time: "4:40", label: "Howard Smith welcome", mc: true },
       { t: 1020, time: "5:00", label: "Rodrigo + Candice speech", mc: true },
       { t: 1065, time: "5:45", label: "Bride + groom speech", mc: true },
-      { t: 1120, time: "6:40", label: "Couple pictures" }
+      { t: 1120, time: "6:40", label: "Sunset portraits", subs: ["Amy Dang · couple portraits"] },
+      { t: 1137, time: "6:57", label: "Sunset" }
     ],
     panels: [
       { label: "Music", type: "note", heading: "Piano through dinner", rows: ["JP Listrom"],
@@ -242,7 +243,7 @@ const VENDORS = [
   { id: "amy", name: "Amy Dang", role: "Photographer",
     tel: "(818) 224-8471", email: "and@amydangphotography.com", call: "2:30 PM",
     out: "After cake cutting · 8:00 PM",
-    room: "Moves with the day · ceremony, cocktail hour, dinner, party",
+    room: "Starts in the music room (ceremony). Park in the Music Lane garage and load in through the garage elevator — call Laura or John on arrival, the 2nd floor needs key access.",
     cues: [
       { t: "2:30", a: "Guests start to arrive", b: "Photographer arrives · check in with John Winn" },
       { t: "3:00", a: "Ceremony starts", b: "Processional, vows + ring exchange, recessional" },
@@ -259,7 +260,7 @@ const VENDORS = [
   { id: "dre", name: "Dre Mazzenga", role: "Ceremony vocalist + pianist",
     tel: "(914) 419-6728", email: "dreacoustic@gmail.com", call: "1:45 PM",
     out: "After the ceremony · 3:30 PM",
-    room: "Music room (ceremony set)",
+    room: "Music room (ceremony set) · Park in the Music Lane garage and load in through the garage elevator — call Laura or John on arrival, the 2nd floor needs key access.",
     cues: [
       { t: "1:45", a: "Arrive, set up", b: "Check in with John Winn" },
       { t: "2:45", a: "Soft prelude begins", b: "Plays as guests are seated" },
@@ -285,7 +286,7 @@ const VENDORS = [
   { id: "jp", name: "JP Listrom", role: "Cocktail DJ · dinner pianist · MC",
     tel: "(512) 484-5159", email: "jplistrommusic@gmail.com", call: "2:30 PM",
     out: "End of dinner · 7:00 PM",
-    room: "Pre-screening room for cocktails, then music room for dinner",
+    room: "Pre-screening room for cocktails, then music room for dinner · Park in the Music Lane garage and load in through the garage elevator — call Laura or John on arrival, the 2nd floor needs key access.",
     cues: [
       { t: "2:30", a: "Arrive, set up", b: "Check in with John Winn" },
       { t: "3:30", a: "Cocktail hour · DJ set", b: "Room: pre-screening" },
@@ -303,7 +304,7 @@ const VENDORS = [
   { id: "jorge", name: "Jorge Contreras", role: "Party DJ · MC",
     tel: "(737) 406-4123", email: "jorgealecontreras86@gmail.com", call: "5:00 PM",
     out: "Teardown · 12:00 AM",
-    room: "Pre-screening room (party set)",
+    room: "Pre-screening room (party set) · Park in the Music Lane garage and load in through the garage elevator — call Laura or John on arrival, the 2nd floor needs key access.",
     cues: [
       { t: "5:00", a: "Arrive, set up", b: "Ready by 7:00 · check in with John Winn" },
       { t: "7:00", a: "Party starts", b: "Music begins" },
@@ -939,6 +940,16 @@ function App() {
               <div style=${{ display: "flex", gap: "7px", flexWrap: "wrap" }}>
                 <a className="btn btn-primary" href="tel:+15742107069" style=${{ fontFamily: "var(--font-body)", fontWeight: 700, fontSize: "15px", padding: "9px 18px" }}>(574) 210-7069</a>
                 <a className="btn btn-secondary" href="mailto:jswinn527@gmail.com" style=${{ fontFamily: "var(--font-body)", fontWeight: 600, fontSize: "14px", padding: "9px 18px" }}>Email</a>
+              </div>
+              <div style=${{ flexBasis: "100%", display: "flex", alignItems: "center", gap: "var(--space-4)", flexWrap: "wrap", paddingTop: "var(--space-3)", borderTop: "1px solid var(--color-divider)" }}>
+                <div style=${{ flex: 1, minWidth: "170px" }}>
+                  <div className="card-kicker" style=${{ margin: 0 }}>Backup · Soho House day-of manager</div>
+                  <div style=${{ fontFamily: "var(--font-heading)", fontSize: "19px" }}>Laura Gregory</div>
+                </div>
+                <div style=${{ display: "flex", gap: "7px", flexWrap: "wrap" }}>
+                  <a className="btn btn-secondary" href="tel:+15128651655" style=${{ fontFamily: "var(--font-body)", fontWeight: 700, fontSize: "15px", padding: "9px 18px" }}>(512) 865-1655</a>
+                  <a className="btn btn-secondary" href="mailto:laura.gregory@sohohouse.com" style=${{ fontFamily: "var(--font-body)", fontWeight: 600, fontSize: "14px", padding: "9px 18px" }}>Email</a>
+                </div>
               </div>
             </div>
 
