@@ -34,7 +34,9 @@ grant usage on schema public to anon, authenticated;
 grant select, update on public.wedding_state to anon, authenticated;
 
 -- Realtime: broadcast row changes so every open device stays in sync.
-alter publication supabase_realtime add table public.wedding_state;
+do $$ begin
+  alter publication supabase_realtime add table public.wedding_state;
+exception when duplicate_object then null; end $$;
 
 -- ─────────────────────────────────────────────────────────────────────────────
 -- Guest photos + videos for the weekend (/photos/). The gallery groups uploads by
