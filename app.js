@@ -245,16 +245,18 @@ const VENDORS = [
     out: "After cake cutting · 8:00 PM",
     room: "Starts in the music room (ceremony). Park in the Music Lane garage and load in through the garage elevator — call Laura or John on arrival, the 2nd floor needs key access.",
     cues: [
-      { t: "2:30", a: "Guests start to arrive", b: "Photographer arrives · check in with John Winn" },
-      { t: "3:00", a: "Ceremony starts", b: "Processional, vows + ring exchange, recessional" },
-      { t: "3:30", a: "Cocktail hour starts", b: "Group portraits · family formals" },
-      { t: "4:00", a: "Couple enjoys rest of cocktail hour", b: "Candids with guests" },
-      { t: "4:30", a: "Dinner starts", b: "Speeches follow mid-meal" },
-      { t: "6:40", a: "Sunset portraits", b: "Couple portraits, golden hour" },
-      { t: "6:57", a: "Sunset", b: "Last light" },
-      { t: "7:00", a: "Intro to reception", b: "Couple entrance at 7:15" },
-      { t: "7:30", a: "Cake and photos", b: "Cake cutting moment" },
-      { t: "8:00", a: "Photographer ends", b: "Wrap, hand off remainder of night" }
+      { t: "2:30", a: "Arrive · check in with John Winn", b: "Guests start to arrive" },
+      { t: "3:00", a: "Ceremony coverage", b: "Ceremony starts · processional, vows + ring exchange, recessional" },
+      { t: "3:30", a: "Group portraits · family formals", b: "Cocktail hour starts" },
+      { t: "4:00", a: "Candids with guests", b: "Couple joins cocktail hour" },
+      { t: "4:30", a: "Dinner + speeches coverage", b: "Dinner starts · speeches mid-meal" },
+      { t: "6:40", a: "Sunset portraits · couple, golden hour", b: "Sunset at 6:57" },
+      { t: "7:15", a: "Couple entrance", b: "Party starts at 7:00" },
+      { t: "7:20", a: "Dances start", b: "Back-to-back, ~3 min each",
+        steps: ["7:20 · Mother-son dance · Russell + Shirley", "7:23 · Father-daughter dance · Mariel + Joaquin",
+                "7:26 · Couple dance · Russell + Mariel", "7:29 · Percy, Russell + Mariel dance"] },
+      { t: "7:30", a: "Cake cutting", b: "Right after the dances" },
+      { t: "8:00", a: "Wrap", b: "Open dancing starts · DJ’s choice" }
     ] },
 
   { id: "dre", name: "Dre Mazzenga", role: "Ceremony vocalist + pianist",
