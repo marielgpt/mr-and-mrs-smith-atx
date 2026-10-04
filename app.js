@@ -75,9 +75,9 @@ const EVENTS = [
         "Mariel · enters, hugs Percy & Russell, stands on the left",
         "Percy · sits next to grandma"
       ] },
-      { label: "Reading", type: "note", heading: "The Space Between Us",
-        link: "https://jamesapearson.com/the-space-between-us/", linkLabel: "Read the poem ↗",
-        rows: ["James A. Pearson", "Read by Shirley Trinkwon"] },
+      { label: "Reading", type: "note", heading: "Love’s Philosophy",
+        link: "https://poets.org/poem/loves-philosophy", linkLabel: "Read the poem ↗",
+        rows: ["Percy Bysshe Shelley", "Read by Shirley Trinkwon"] },
       { label: "Ceremony music", type: "music",
         link: "https://music.apple.com/us/playlist/ceremony-sequence/pl.u-oZyl3M9CvLveMX",
         linkLabel: "Backup playlist ↗", rows: [
