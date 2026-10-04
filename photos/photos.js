@@ -90,6 +90,7 @@ async function videoTakenAt(file) {
 }
 const takenAt = file => (isVideo(file) ? videoTakenAt(file) : exifTakenAt(file)).catch(() => null);
 
+const firstName = s => (s || "").trim().split(/\s+/)[0] || "";
 const mb = n => Math.round(n / 1024 / 1024) + " MB";
 
 async function sha256(s) {
@@ -328,13 +329,16 @@ function Photos() {
           </div>
           <div style=${{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))", gap: "6px" }}>
             ${items.map(({ p, i }) => html`
-              <button key=${p.id} onClick=${() => setOpen(i)} style=${{ position: "relative", padding: 0, border: 0, background: "var(--color-neutral-200)", aspectRatio: "1", borderRadius: "var(--radius-md)", overflow: "hidden", cursor: "pointer" }}>
+              <div key=${p.id} style=${{ display: "flex", flexDirection: "column", gap: "4px", minWidth: 0 }}>
+              <button onClick=${() => setOpen(i)} style=${{ position: "relative", padding: 0, border: 0, background: "var(--color-neutral-200)", aspectRatio: "1", borderRadius: "var(--radius-md)", overflow: "hidden", cursor: "pointer" }}>
                 ${p.thumb_path
                   ? html`<img src=${publicUrl(p.thumb_path)} alt=${(p.kind === "video" ? "Video" : "Photo") + (p.uploader ? " from " + p.uploader : "")} loading="lazy"
                       style=${{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />`
                   : html`<span style=${{ fontSize: "13px", fontWeight: 700, color: "var(--color-neutral-700)" }}>Video</span>`}
                 ${p.kind === "video" && playBadge}
-              </button>`)}
+              </button>
+              <div style=${{ fontSize: "12px", fontWeight: 600, color: "var(--color-neutral-700)", minHeight: "16px", paddingLeft: "4px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>${firstName(p.uploader)}</div>
+              </div>`)}
           </div>
         </section>`)}
 
@@ -346,7 +350,7 @@ function Photos() {
             : html`<img src=${publicUrl(cur.path)} alt="" onClick=${e => e.stopPropagation()} style=${{ maxWidth: "100%", maxHeight: "calc(100vh - 120px)", objectFit: "contain", borderRadius: "var(--radius-md)" }} />`}
           <div onClick=${e => e.stopPropagation()} style=${{ display: "flex", gap: "8px", alignItems: "center", flexWrap: "wrap", justifyContent: "center", color: "#fefcf7" }}>
             <button className="btn btn-secondary" disabled=${open === 0} onClick=${() => setOpen(open - 1)} style=${lbBtn}>‹</button>
-            <span style=${{ fontSize: "14px", minWidth: "120px", textAlign: "center" }}>${cur.uploader ? "from " + cur.uploader : " "}</span>
+            <span style=${{ fontSize: "14px", minWidth: "120px", textAlign: "center" }}>${cur.uploader ? "from " + firstName(cur.uploader) : " "}</span>
             <button className="btn btn-secondary" disabled=${open === photos.length - 1} onClick=${() => setOpen(open + 1)} style=${lbBtn}>›</button>
             <a className="btn btn-primary" href=${publicUrl(cur.path, { download: "smith-vargas-" + cur.id + "." + cur.path.split(".").pop() })} style=${{ fontFamily: "var(--font-body)", fontWeight: 700, textDecoration: "none" }}>Download</a>
             ${canDelete(cur) && html`<button className="btn btn-secondary" disabled=${deleting} onClick=${() => remove(cur)} style=${lbBtn}>${deleting ? "Deleting…" : "Delete"}</button>`}
