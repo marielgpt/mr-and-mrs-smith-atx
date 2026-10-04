@@ -28,9 +28,9 @@ const extOf = f => ((f.name.match(/\.([a-z0-9]{2,4})$/i) || [])[1] || (f.type.sp
 /* The weekend: the gallery groups uploads by the day they were taken (Austin time).
    Anything before Oct 16 lands under the BBQ; anything from Oct 17 on, the wedding. */
 const EVENTS = [
-  { id: "bbq", name: "BBQ", day: "Thursday, Oct 15" },
-  { id: "party", name: "Lakeside Fiesta", day: "Friday, Oct 16" },
-  { id: "wedding", name: "Wedding", day: "Saturday, Oct 17" }
+  { id: "bbq", name: "BBQ", day: "Thursday, Oct 15", testAt: "2026-10-15T19:00:00-05:00" },
+  { id: "party", name: "Lakeside Fiesta", day: "Friday, Oct 16", testAt: "2026-10-16T19:00:00-05:00" },
+  { id: "wedding", name: "Wedding", day: "Saturday, Oct 17", testAt: "2026-10-17T19:00:00-05:00" }
 ];
 function eventOf(p) {
   const d = new Date(p.taken_at || p.created_at).toLocaleDateString("en-CA", { timeZone: "America/Chicago" }); // YYYY-MM-DD
@@ -154,10 +154,10 @@ function resumableUpload(path, file, type, onProgress) {
   });
 }
 
-async function uploadOne(file, uploader, ownerHash, onProgress) {
+async function uploadOne(file, uploader, ownerHash, onProgress, takenOverride) {
   const id = Date.now() + "-" + Math.random().toString(36).slice(2, 8);
   const up = (p, b, type) => sb.storage.from(BUCKET).upload(p, b, { contentType: type, cacheControl: "31536000" });
-  const taken_at = await takenAt(file);
+  const taken_at = takenOverride || await takenAt(file);
   let row;
   if (isVideo(file)) {
     const path = "video/" + id + "." + extOf(file);
@@ -205,6 +205,7 @@ function Photos() {
   const [adminMsg, setAdminMsg] = useState("");
   const [deleting, setDeleting] = useState(false);
   const [usage, setUsage] = useState(null); // { bytes, files } across the whole bucket (admin only)
+  const [testDay, setTestDay] = useState(""); // admin only: file uploads under this event instead of the photo's own date
   const inputRef = useRef(null);
 
   const addPhotos = rows => setPhotos(prev => {
@@ -252,7 +253,7 @@ function Photos() {
     setProgress({ done, total: files.length, failed });
     for (const f of files) {
       const onPct = pct => setProgress({ done, total: files.length, failed, pct });
-      try { addPhotos([await uploadOne(f, name.trim(), hash, onPct)]); done++; }
+      try { addPhotos([await uploadOne(f, name.trim(), hash, onPct, admin && testDay ? EVENTS.find(ev => ev.id === testDay).testAt : null)]); done++; }
       catch (err) { console.warn("Upload failed", f.name, err); failed++; }
       setProgress({ done, total: files.length, failed });
     }
@@ -326,6 +327,13 @@ function Photos() {
           ${admin
             ? html`<span className="tag tag-accent" style=${{ fontWeight: 700 }}>Admin · you can delete any upload</span>
                    <button className="btn btn-ghost" onClick=${lockAdmin} style=${{ fontWeight: 700, fontSize: "13px" }}>Lock</button>
+                   <div style=${{ flexBasis: "100%", display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
+                     <span style=${{ fontSize: "13px", fontWeight: 700 }}>File my uploads under</span>
+                     <div className="seg">
+                       ${[{ id: "", name: "Auto" }].concat(EVENTS).map(ev => html`<label key=${ev.id || "auto"} className="seg-opt" onClick=${() => setTestDay(ev.id)}
+                         style=${{ background: testDay === ev.id ? "var(--color-accent)" : "transparent", color: testDay === ev.id ? "var(--color-bg)" : "inherit", fontWeight: 700, fontSize: "13px" }}>${ev.name}</label>`)}
+                     </div>
+                   </div>
                    ${usage && html`<div style=${{ flexBasis: "100%", display: "flex", flexDirection: "column", gap: "6px", paddingTop: "4px" }}>
                      <div style=${{ display: "flex", justifyContent: "space-between", gap: "10px", flexWrap: "wrap", fontSize: "14px" }}>
                        <span><b>${fmtBytes(usage.bytes)}</b> used of ${fmtBytes(INCLUDED_BYTES)} included</span>
@@ -354,6 +362,7 @@ function Photos() {
           </button>
           <input ref=${inputRef} type="file" accept="image/*,video/*" multiple onChange=${onPick} style=${{ display: "none" }} />
         </div>
+        ${admin && testDay && html`<div className="tag tag-accent" style=${{ alignSelf: "flex-start", fontWeight: 700, whiteSpace: "normal" }}>Test mode · uploads will file under ${EVENTS.find(ev => ev.id === testDay).name}</div>`}
         ${busy && html`<div style=${{ fontSize: "13px", color: "var(--color-neutral-700)" }}>Keep this page open until it finishes — videos can take a minute.</div>`}
         ${progress && !busy && html`<div className=${"tag " + (progress.failed ? "tag-accent" : "tag-accent-2")} style=${{ alignSelf: "flex-start", fontWeight: 700, whiteSpace: "normal" }}>
           ${!progress.failed ? "✓ " + progress.done + " uploaded · thank you!"
