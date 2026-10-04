@@ -33,6 +33,13 @@ Static site, no build step:
 - Vendor solo links: `?vendor=dre|jp|jorge&solo=1` opens straight to one vendor's sheet with all
   navigation hidden. The "Copy … link" button on each vendor card builds these.
 
+## Guest photos
+
+`/photos/` is a public page for guests to upload photos and browse the live gallery (share it as a
+QR code on the tables). Photos are resized in the browser before upload and stored in the public
+`guest-photos` Supabase bucket, listed via the `guest_photos` table — both set up by the second
+block of `schema.sql`. Guests can only add; remove photos from the Supabase dashboard.
+
 ## Local preview
 
 ```sh
