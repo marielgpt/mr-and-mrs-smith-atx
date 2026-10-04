@@ -4,43 +4,71 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Smith Vargas Wedding · Photo sign</title>
-  <link rel="stylesheet" href="../styles.css?v=41">
   <!-- Printable QR sign for /photos/. Letter, portrait. Print → "Save as PDF" or straight to the printer.
-       qr.svg / qr.png are the same code on their own (qr.png is 1200px for Canva / a print shop). -->
+       Styled after photos/inspo.png: copper double frame with notched corners, navy didone caps,
+       copper script, letterspaced small caps. qr.svg / qr.png are the bare code (qr.png is 1200px). -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,600&family=Cormorant+SC:wght@600&family=Pinyon+Script&display=swap" rel="stylesheet">
   <style>
     @page { size: letter portrait; margin: 0; }
-    :root { --color-bg: #fefcf7; --color-text: #201e1d; --color-accent: #c67139; --color-accent-700: #8c491a; --color-neutral-700: #645c50;
-            --font-heading: "Caprasimo", system-ui, sans-serif; --font-body: "Figtree", system-ui, sans-serif; }
-    html, body { margin: 0; background: #e9e4da; }
-    body { font-family: var(--font-body); color: var(--color-text); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-    .sheet { width: 8.5in; height: 11in; margin: 24px auto; background: var(--color-bg); box-shadow: 0 12px 32px rgba(46,43,37,.22);
-             box-sizing: border-box; padding: 0.9in 0.8in; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
-    .frame { border: 2px solid var(--color-accent); border-radius: 36px; padding: 0.6in 0.5in; width: 100%; box-sizing: border-box;
-             display: flex; flex-direction: column; align-items: center; gap: 0.22in; }
-    .kicker { font-size: 13pt; letter-spacing: 0.18em; text-transform: uppercase; color: var(--color-accent-700); font-weight: 700; }
-    h1 { font-family: var(--font-heading); font-weight: 400; font-size: 46pt; line-height: 1.05; margin: 0; }
-    .lede { font-size: 17pt; line-height: 1.35; max-width: 5.6in; margin: 0; }
-    .qr { width: 3.6in; height: 3.6in; padding: 0.22in; background: #fff; border-radius: 22px; }
+    :root { --navy: #2f4a6e; --copper: #a8714f; }
+    html, body { margin: 0; background: #ecebe8; }
+    body { color: var(--navy); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .sheet { position: relative; width: 8.5in; height: 11in; margin: 24px auto; background: #fff; box-shadow: 0 12px 32px rgba(30,40,60,.18); overflow: hidden; }
+    .frame { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .content { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 1.3in 1.2in; box-sizing: border-box; }
+    .names { font-family: "Bodoni Moda", Didot, "Bodoni 72", serif; font-weight: 600; font-size: 40pt; letter-spacing: 0.04em; line-height: 1; text-transform: uppercase; }
+    .script { font-family: "Pinyon Script", "Snell Roundhand", cursive; font-size: 50pt; line-height: 1; color: var(--copper); margin: 10pt 0 18pt; }
+    .caps { font-family: "Cormorant SC", "Bodoni Moda", serif; font-weight: 600; letter-spacing: 0.24em; }
+    .lede { font-size: 15pt; margin: 0 0 26pt; line-height: 1.5; }
+    .qr { width: 3.3in; height: 3.3in; }
     .qr img { width: 100%; height: 100%; display: block; }
-    .code { font-size: 18pt; } .code b { font-family: var(--font-heading); font-weight: 400; font-size: 26pt; letter-spacing: 0.12em; color: var(--color-accent-700); margin-left: 6px; }
-    .days { font-size: 13pt; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-neutral-700); }
-    .url { font-size: 11pt; color: var(--color-neutral-700); }
+    .code { font-size: 15pt; margin-top: 24pt; }
+    .code b { font-family: "Bodoni Moda", Didot, serif; font-weight: 600; font-size: 24pt; letter-spacing: 0.14em; margin-left: 8pt; }
+    .rule { width: 0.9in; height: 1px; background: var(--copper); margin: 18pt auto; }
+    .days { font-size: 12pt; }
+    .url { font-family: "Cormorant SC", serif; font-size: 10.5pt; letter-spacing: 0.06em; color: var(--copper); margin-top: 8pt; text-transform: lowercase; }
     .bar { text-align: center; padding: 18px 0 0; }
+    .bar button { font: 600 15px system-ui, sans-serif; color: #fff; background: var(--navy); border: 0; border-radius: 999px; padding: 10px 22px; cursor: pointer; }
     @media print { html, body { background: none; } .sheet { margin: 0; box-shadow: none; } .bar { display: none; } }
   </style>
 </head>
 <body>
-  <div class="bar"><button class="btn btn-primary" onclick="print()" style="font-family: var(--font-body); font-weight: 700; padding: 10px 22px">Print sign</button></div>
+  <div class="bar"><button onclick="print()">Print sign</button></div>
   <div class="sheet">
-    <div class="frame">
-      <div class="kicker">Russell + Mariel</div>
-      <h1>Share your photos</h1>
-      <p class="lede">Scan to add your photos + videos from the weekend and see everyone else’s.</p>
+    <!-- 816 × 1056 = letter at 96 dpi. Two overlapping rectangles (one wider, one taller), each with
+         concave quarter-circle corners — the stepped double frame from the inspo card. -->
+    <svg class="frame" viewBox="0 0 816 1056" aria-hidden="true">
+      <defs>
+        <linearGradient id="copper" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#c99877"/><stop offset="0.35" stop-color="#8f5b3d"/>
+          <stop offset="0.6" stop-color="#d0a585"/><stop offset="1" stop-color="#8a5638"/>
+        </linearGradient>
+      </defs>
+      <g fill="none" stroke="url(#copper)" stroke-width="1.8">
+        <path id="tall" d=""/><path id="wide" d=""/>
+      </g>
+    </svg>
+    <div class="content">
+      <div class="names">Russell &amp; Mariel</div>
+      <div class="script">Share your photos</div>
+      <p class="lede caps">Scan to add photos + videos<br>from the weekend</p>
       <div class="qr"><img src="qr.svg" alt="QR code to the guest photo page"></div>
-      <div class="code">Code <b>1017</b></div>
-      <div class="days">BBQ · Lakeside Fiesta · Wedding</div>
+      <div class="code caps">Code <b>1017</b></div>
+      <div class="rule"></div>
+      <div class="days caps">BBQ &nbsp;·&nbsp; Lakeside Fiesta &nbsp;·&nbsp; Wedding</div>
       <div class="url">marielgpt.github.io/mr-and-mrs-smith-atx/photos</div>
     </div>
   </div>
+  <script>
+    // Concave-cornered rectangle: each corner is a quarter circle centred on the corner point.
+    const notched = (x0, y0, x1, y1, r) =>
+      `M${x0 + r},${y0} H${x1 - r} A${r},${r} 0 0 0 ${x1},${y0 + r} V${y1 - r} A${r},${r} 0 0 0 ${x1 - r},${y1}` +
+      ` H${x0 + r} A${r},${r} 0 0 0 ${x0},${y1 - r} V${y0 + r} A${r},${r} 0 0 0 ${x0 + r},${y0} Z`;
+    const m = 56, g = 22, r = 44; // margin from the page edge, offset between the two lines, corner radius
+    document.getElementById("tall").setAttribute("d", notched(m + g, m, 816 - m - g, 1056 - m, r));
+    document.getElementById("wide").setAttribute("d", notched(m, m + g, 816 - m, 1056 - m - g, r));
+  </script>
 </body>
 </html>
