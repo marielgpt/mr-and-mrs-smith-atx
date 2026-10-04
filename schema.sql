@@ -48,10 +48,10 @@ exception when duplicate_object then null; end $$;
 -- AFTER running, set the admin code in the SQL editor (never commit it — this
 -- repo is public):   update public.guest_photo_admin set code = 'your-secret';
 
--- 500 MB per file (Pro plan). Also raise the project-wide limit to match:
--- Storage → Settings → Upload file size limit. Keep MAX_BYTES in photos/photos.js in step.
+-- No per-file limit on the bucket (null): uploads are capped only by the
+-- project-wide limit in Storage → Settings → Upload file size limit.
 insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
-  values ('guest-photos', 'guest-photos', true, 524288000,
+  values ('guest-photos', 'guest-photos', true, null,
     array['image/jpeg', 'image/png', 'image/webp',
           'video/mp4', 'video/quicktime', 'video/webm', 'video/x-m4v', 'video/3gpp'])
   on conflict (id) do update set public = true, file_size_limit = excluded.file_size_limit,
@@ -142,3 +142,12 @@ create policy "guest photo remove" on storage.objects
 do $$ begin
   alter publication supabase_realtime add table public.guest_photos;
 exception when duplicate_object then null; end $$;
+
+-- Storage tracker for the gallery's admin view: total bytes + file count in the bucket.
+create or replace function public.guest_photos_storage()
+returns json language sql security definer set search_path = public, storage as $$
+  select json_build_object('bytes', coalesce(sum((metadata->>'size')::bigint), 0), 'files', count(*))
+    from storage.objects where bucket_id = 'guest-photos';
+$$;
+revoke all on function public.guest_photos_storage() from public;
+grant execute on function public.guest_photos_storage() to anon, authenticated;

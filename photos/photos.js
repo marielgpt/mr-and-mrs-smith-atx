@@ -1,6 +1,6 @@
 /* Guest photos + videos — upload, live gallery, delete. Public page: /photos/
    Photos are resized in the browser (full ≤ 2048px, thumb ≤ 600px, JPEG) before upload, so
-   phones on venue wifi aren't pushing 8 MB originals. Videos upload as-is (≤ MAX_BYTES) with a
+   phones on venue wifi aren't pushing 8 MB originals. Videos upload as-is (any size; resumable over 6 MB) with a
    frame grabbed for the thumbnail. Deleting: each device can remove its own uploads (a random
    device token, stored hashed on the row); /photos/?admin unlocks deleting anything with the
    admin code. Storage + table + delete function setup: schema.sql. */
@@ -8,7 +8,7 @@ const { useState, useEffect, useRef } = React;
 const html = htm.bind(React.createElement);
 const CFG = window.WEDDING_CONFIG || {};
 const BUCKET = "guest-photos";
-const MAX_BYTES = 500 * 1024 * 1024; // keep in step with the bucket's file_size_limit (Pro plan)
+const INCLUDED_BYTES = 100 * 1024 ** 3; // storage included in the Supabase Pro plan; beyond it is billed per GB
 const TUS_CHUNK = 6 * 1024 * 1024; // Supabase resumable uploads require exactly 6 MB chunks
 const GATE = "wedding.photos.gate", GATE_MS = 72 * 60 * 60 * 1000;
 const NAME_KEY = "wedding.photos.name", TOKEN_KEY = "wedding.photos.token", ADMIN_KEY = "wedding.photos.admin";
@@ -92,7 +92,7 @@ async function videoTakenAt(file) {
 const takenAt = file => (isVideo(file) ? videoTakenAt(file) : exifTakenAt(file)).catch(() => null);
 
 const firstName = s => (s || "").trim().split(/\s+/)[0] || "";
-const mb = n => Math.round(n / 1024 / 1024) + " MB";
+const fmtBytes = n => n >= 1024 ** 3 ? (n / 1024 ** 3).toFixed(n >= 10 * 1024 ** 3 ? 0 : 1) + " GB" : Math.max(0, Math.round(n / 1024 ** 2)) + " MB";
 
 async function sha256(s) {
   const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s));
@@ -159,7 +159,6 @@ async function uploadOne(file, uploader, ownerHash, onProgress) {
   const taken_at = await takenAt(file);
   let row;
   if (isVideo(file)) {
-    if (file.size > MAX_BYTES) throw new Error("too-big");
     const path = "video/" + id + "." + extOf(file);
     const thumb = await videoFrame(file);
     if (window.tus && file.size > TUS_CHUNK) await resumableUpload(path, file, file.type || "video/mp4", onProgress);
@@ -188,7 +187,7 @@ function Photos() {
   const [photos, setPhotos] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const [name, setName] = useState(() => store.get(NAME_KEY));
-  const [progress, setProgress] = useState(null); // { done, total, failed, tooBig, pct }
+  const [progress, setProgress] = useState(null); // { done, total, failed, pct }
   const [open, setOpen] = useState(null); // index into photos
   const [myHash, setMyHash] = useState("");
   const [admin, setAdmin] = useState(() => store.get(ADMIN_KEY));
@@ -196,6 +195,7 @@ function Photos() {
   const [adminInput, setAdminInput] = useState("");
   const [adminMsg, setAdminMsg] = useState("");
   const [deleting, setDeleting] = useState(false);
+  const [usage, setUsage] = useState(null); // { bytes, files } across the whole bucket (admin only)
   const inputRef = useRef(null);
 
   const addPhotos = rows => setPhotos(prev => {
@@ -239,16 +239,22 @@ function Photos() {
     if (!files.length || !sb) return;
     store.set(NAME_KEY, name);
     const hash = myHash || await sha256(deviceToken());
-    let done = 0, failed = 0, tooBig = 0;
-    setProgress({ done, total: files.length, failed, tooBig });
+    let done = 0, failed = 0;
+    setProgress({ done, total: files.length, failed });
     for (const f of files) {
-      const onPct = pct => setProgress({ done, total: files.length, failed, tooBig, pct });
+      const onPct = pct => setProgress({ done, total: files.length, failed, pct });
       try { addPhotos([await uploadOne(f, name.trim(), hash, onPct)]); done++; }
-      catch (err) { console.warn("Upload failed", f.name, err); failed++; if (err && err.message === "too-big") tooBig++; }
-      setProgress({ done, total: files.length, failed, tooBig });
+      catch (err) { console.warn("Upload failed", f.name, err); failed++; }
+      setProgress({ done, total: files.length, failed });
     }
     setTimeout(() => setProgress(p => (p && p.done + p.failed === p.total && !p.failed ? null : p)), 2500);
   };
+
+  // Storage tracker: re-count whenever the gallery changes (uploads, deletes, realtime).
+  useEffect(() => {
+    if (!admin || !sb) { setUsage(null); return; }
+    sb.rpc("guest_photos_storage").then(({ data, error }) => { if (!error && data) setUsage(data); });
+  }, [admin, photos.length]);
 
   const unlockAdmin = async () => {
     const code = adminInput.trim();
@@ -310,7 +316,17 @@ function Photos() {
         <div className="card elev-sm" style=${{ padding: "var(--space-3) var(--space-6)", flexDirection: "row", gap: "10px", alignItems: "center", flexWrap: "wrap", background: "var(--color-accent-100)" }}>
           ${admin
             ? html`<span className="tag tag-accent" style=${{ fontWeight: 700 }}>Admin · you can delete any upload</span>
-                   <button className="btn btn-ghost" onClick=${lockAdmin} style=${{ fontWeight: 700, fontSize: "13px" }}>Lock</button>`
+                   <button className="btn btn-ghost" onClick=${lockAdmin} style=${{ fontWeight: 700, fontSize: "13px" }}>Lock</button>
+                   ${usage && html`<div style=${{ flexBasis: "100%", display: "flex", flexDirection: "column", gap: "6px", paddingTop: "4px" }}>
+                     <div style=${{ display: "flex", justifyContent: "space-between", gap: "10px", flexWrap: "wrap", fontSize: "14px" }}>
+                       <span><b>${fmtBytes(usage.bytes)}</b> used of ${fmtBytes(INCLUDED_BYTES)} included</span>
+                       <span style=${{ color: "var(--color-neutral-700)" }}>${photos.filter(p => p.kind !== "video").length} photos · ${photos.filter(p => p.kind === "video").length} videos</span>
+                     </div>
+                     <div style=${{ height: "8px", borderRadius: "999px", background: "var(--color-neutral-200)", overflow: "hidden" }}>
+                       <div style=${{ width: Math.min(100, Math.max(1, usage.bytes / INCLUDED_BYTES * 100)) + "%", height: "100%", background: usage.bytes > INCLUDED_BYTES ? "var(--color-accent-700)" : "var(--color-accent-2)" }}></div>
+                     </div>
+                     ${usage.bytes > INCLUDED_BYTES && html`<div style=${{ fontSize: "13px", color: "var(--color-accent-800)" }}>Over the included storage — extra is billed per GB on Pro.</div>`}
+                   </div>`}`
             : html`<input type="password" value=${adminInput} onInput=${e => setAdminInput(e.target.value)} onKeyDown=${e => e.key === "Enter" && unlockAdmin()} placeholder="Admin code"
                      style=${{ flex: 1, minWidth: "140px", font: "inherit", fontSize: "16px", padding: "8px 12px", borderRadius: "var(--radius-md)", border: "1px solid var(--color-divider)", background: "var(--color-bg)", color: "inherit" }} />
                    <button className="btn btn-secondary" onClick=${unlockAdmin} style=${{ fontWeight: 700, fontSize: "14px" }}>Unlock</button>
@@ -319,7 +335,7 @@ function Photos() {
 
       <div className="card elev-sm" style=${{ padding: "var(--space-4) var(--space-6)", gap: "12px" }}>
         <div className="card-kicker" style=${{ margin: 0, fontSize: "12px", fontWeight: 700 }}>Share your photos + videos</div>
-        <div style=${{ fontSize: "15px", textWrap: "pretty" }}>Add the moments you caught — they show up here for everyone. Videos up to ${mb(MAX_BYTES)} (a few minutes from most phones).</div>
+        <div style=${{ fontSize: "15px", textWrap: "pretty" }}>Add the moments you caught — they show up here for everyone.</div>
         <div style=${{ display: "flex", gap: "10px", flexWrap: "wrap", alignItems: "center" }}>
           <input value=${name} onInput=${e => setName(e.target.value)} placeholder="Your name (optional)" maxLength="60"
             style=${{ flex: 1, minWidth: "180px", font: "inherit", fontSize: "16px", padding: "10px 14px", borderRadius: "var(--radius-md)", border: "1px solid var(--color-divider)", background: "var(--color-bg)", color: "inherit" }} />
@@ -332,8 +348,7 @@ function Photos() {
         ${busy && html`<div style=${{ fontSize: "13px", color: "var(--color-neutral-700)" }}>Keep this page open until it finishes — videos can take a minute.</div>`}
         ${progress && !busy && html`<div className=${"tag " + (progress.failed ? "tag-accent" : "tag-accent-2")} style=${{ alignSelf: "flex-start", fontWeight: 700, whiteSpace: "normal" }}>
           ${!progress.failed ? "✓ " + progress.done + " uploaded · thank you!"
-            : progress.done + " uploaded · " + progress.failed + " didn’t go through"
-              + (progress.tooBig ? " (" + progress.tooBig + " video" + (progress.tooBig === 1 ? " was" : "s were") + " over " + mb(MAX_BYTES) + " — trim and try again)" : " — try those again")}</div>`}
+            : progress.done + " uploaded · " + progress.failed + " didn’t go through" + " — try those again"}</div>`}
         ${!sb && html`<div className="tag tag-outline" style=${{ alignSelf: "flex-start" }}>Uploads are offline right now</div>`}
       </div>
 

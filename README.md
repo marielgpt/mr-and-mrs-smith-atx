@@ -38,7 +38,7 @@ Static site, no build step:
 `/photos/` is a public page for the whole weekend: guests upload photos + videos and browse the
 live gallery, grouped by the day each was taken (EXIF / video metadata, falling back to upload
 time): Oct 15 BBQ, Oct 16 Lakeside Fiesta, Oct 17 wedding. Photos are resized in the browser; videos upload
-as-is up to 500 MB (resumable uploads for anything over 6 MB). Files go to the public `guest-photos` Supabase bucket, listed via the
+as-is at any size (resumable uploads for anything over 6 MB); admin view shows storage used. Files go to the public `guest-photos` Supabase bucket, listed via the
 `guest_photos` table — both set up by the second block of `schema.sql`.
 
 - **Code:** `photosCode` in `config.js` (1017); a device stays unlocked for 72 hours.
