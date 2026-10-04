@@ -40,7 +40,7 @@ exception when duplicate_object then null; end $$;
 
 -- ─────────────────────────────────────────────────────────────────────────────
 -- Guest photos + videos for the weekend (/photos/). The gallery groups uploads by
--- the day they were taken (taken_at): Oct 15 BBQ, Oct 16 party, Oct 17 wedding. Run this block once as well (safe to re-run).
+-- the day they were taken (taken_at): Oct 15 BBQ, Oct 16 Lakeside Fiesta, Oct 17 wedding. Run this block once as well (safe to re-run).
 -- Files live in the public `guest-photos` bucket; one row per upload in
 -- guest_photos drives the gallery. Guests can only add. Deleting goes through
 -- delete_guest_photo(): the uploader's own device token, or the admin code.

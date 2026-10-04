@@ -27,7 +27,7 @@ const extOf = f => ((f.name.match(/\.([a-z0-9]{2,4})$/i) || [])[1] || (f.type.sp
    Anything before Oct 16 lands under the BBQ; anything from Oct 17 on, the wedding. */
 const EVENTS = [
   { id: "bbq", name: "BBQ", day: "Thursday, Oct 15" },
-  { id: "party", name: "Party", day: "Friday, Oct 16" },
+  { id: "party", name: "Lakeside Fiesta", day: "Friday, Oct 16" },
   { id: "wedding", name: "Wedding", day: "Saturday, Oct 17" }
 ];
 function eventOf(p) {
