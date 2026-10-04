@@ -1,6 +1,6 @@
 /* Guest photos + videos — upload, live gallery, delete. Public page: /photos/
-   Photos are resized in the browser (full ≤ 2048px, thumb ≤ 600px, JPEG) before upload, so
-   phones on venue wifi aren't pushing 8 MB originals. Videos upload as-is (any size; resumable over 6 MB) with a
+   Photos keep their untouched original (for downloads/prints) plus a 2048px copy and a 600px
+   thumb made in the browser, so the gallery stays fast. Videos upload as-is (any size; resumable over 6 MB) with a
    frame grabbed for the thumbnail. Deleting: each device can remove its own uploads (a random
    device token, stored hashed on the row); /photos/?admin unlocks deleting anything with the
    admin code. Storage + table + delete function setup: schema.sql. */
@@ -12,7 +12,7 @@ const INCLUDED_BYTES = 100 * 1024 ** 3; // storage included in the Supabase Pro 
 const TUS_CHUNK = 6 * 1024 * 1024; // Supabase resumable uploads require exactly 6 MB chunks
 const GATE = "wedding.photos.gate", GATE_MS = 72 * 60 * 60 * 1000;
 const NAME_KEY = "wedding.photos.name", TOKEN_KEY = "wedding.photos.token", ADMIN_KEY = "wedding.photos.admin";
-const COLS = "id, path, thumb_path, kind, taken_at, uploader, width, height, owner_hash, deleted_at, created_at";
+const COLS = "id, path, original_path, thumb_path, kind, taken_at, uploader, width, height, owner_hash, deleted_at, created_at";
 
 let sb = null;
 if (CFG.SUPABASE_URL && CFG.SUPABASE_KEY && window.supabase) {
@@ -23,6 +23,7 @@ const publicUrl = (path, opts) => sb.storage.from(BUCKET).getPublicUrl(path, opt
 const store = { get: k => { try { return localStorage.getItem(k) || ""; } catch (e) { return ""; } },
                 set: (k, v) => { try { v ? localStorage.setItem(k, v) : localStorage.removeItem(k); } catch (e) {} } };
 const isVideo = f => /^video\//.test(f.type) || /\.(mov|mp4|m4v|webm|3gp)$/i.test(f.name);
+const imageExt = f => ((f.name.match(/\.([a-z0-9]{2,4})$/i) || [])[1] || (f.type.split("/")[1] || "jpg").replace("jpeg", "jpg")).toLowerCase();
 const extOf = f => ((f.name.match(/\.([a-z0-9]{2,4})$/i) || [])[1] || (f.type.split("/")[1] === "quicktime" ? "mov" : "mp4")).toLowerCase();
 /* The weekend: the gallery groups uploads by the day they were taken (Austin time).
    Anything before Oct 16 lands under the BBQ; anything from Oct 17 on, the wedding. */
@@ -167,11 +168,19 @@ async function uploadOne(file, uploader, ownerHash, onProgress) {
     if (thumb) { const r2 = await up("thumb/" + id + ".jpg", thumb.blob, "image/jpeg"); if (!r2.error) thumbPath = "thumb/" + id + ".jpg"; }
     row = { path, thumb_path: thumbPath, kind: "video", width: thumb ? thumb.w : null, height: thumb ? thumb.h : null };
   } else {
-    const full = await imageJpeg(file, 2048), thumb = await imageJpeg(file, 600);
-    const path = "full/" + id + ".jpg", thumbPath = "thumb/" + id + ".jpg";
-    const r1 = await up(path, full.blob, "image/jpeg"); if (r1.error) throw r1.error;
-    const r2 = await up(thumbPath, thumb.blob, "image/jpeg"); if (r2.error) throw r2.error;
-    row = { path, thumb_path: thumbPath, kind: "photo", width: full.w, height: full.h };
+    // Keep the untouched original (full resolution + EXIF) for downloads and prints; the gallery
+    // shows a 2048px copy and a 600px thumb so it stays fast on phones.
+    const originalPath = "original/" + id + "." + imageExt(file), type = file.type || "image/jpeg";
+    if (window.tus && file.size > TUS_CHUNK) await resumableUpload(originalPath, file, type, onProgress);
+    else { const r0 = await up(originalPath, file, type); if (r0.error) throw r0.error; }
+    let full = null, thumb = null;
+    try { full = await imageJpeg(file, 2048); thumb = await imageJpeg(file, 600); } catch (e) { console.warn("Couldn't make a preview (format not supported here)", e); }
+    if (full && thumb) {
+      const path = "full/" + id + ".jpg", thumbPath = "thumb/" + id + ".jpg";
+      const r1 = await up(path, full.blob, "image/jpeg"); if (r1.error) throw r1.error;
+      const r2 = await up(thumbPath, thumb.blob, "image/jpeg"); if (r2.error) throw r2.error;
+      row = { path, original_path: originalPath, thumb_path: thumbPath, kind: "photo", width: full.w, height: full.h };
+    } else row = { path: originalPath, original_path: originalPath, thumb_path: "", kind: "photo" };
   }
   const { data, error } = await sb.from("guest_photos")
     .insert(Object.assign(row, { taken_at, uploader: uploader.slice(0, 60), owner_hash: ownerHash })).select(COLS).single();
@@ -270,7 +279,7 @@ function Photos() {
     const secret = p.owner_hash && p.owner_hash === myHash ? deviceToken() : admin;
     const { data, error } = await sb.rpc("delete_guest_photo", { photo_id: p.id, secret });
     if (error || !data) { setDeleting(false); alert("Couldn’t delete that one — try again."); return; }
-    await sb.storage.from(BUCKET).remove([p.path, p.thumb_path].filter(Boolean));
+    await sb.storage.from(BUCKET).remove([...new Set([p.path, p.original_path, p.thumb_path].filter(Boolean))]);
     dropPhoto(p.id);
     setDeleting(false);
   };
@@ -389,7 +398,7 @@ function Photos() {
             <button className="btn btn-secondary" disabled=${open === 0} onClick=${() => setOpen(open - 1)} style=${lbBtn}>‹</button>
             <span style=${{ fontSize: "14px", minWidth: "120px", textAlign: "center" }}>${cur.uploader ? "from " + firstName(cur.uploader) : " "}</span>
             <button className="btn btn-secondary" disabled=${open === photos.length - 1} onClick=${() => setOpen(open + 1)} style=${lbBtn}>›</button>
-            <a className="btn btn-primary" href=${publicUrl(cur.path, { download: "smith-vargas-" + cur.id + "." + cur.path.split(".").pop() })} style=${{ fontFamily: "var(--font-body)", fontWeight: 700, textDecoration: "none" }}>Download</a>
+            <a className="btn btn-primary" href=${publicUrl(cur.original_path || cur.path, { download: "smith-vargas-" + cur.id + "." + (cur.original_path || cur.path).split(".").pop() })} style=${{ fontFamily: "var(--font-body)", fontWeight: 700, textDecoration: "none" }}>Download</a>
             ${canDelete(cur) && html`<button className="btn btn-secondary" disabled=${deleting} onClick=${() => remove(cur)} style=${lbBtn}>${deleting ? "Deleting…" : "Delete"}</button>`}
             <button className="btn btn-secondary" onClick=${() => setOpen(null)} style=${lbBtn}>Close</button>
           </div>

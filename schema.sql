@@ -52,7 +52,7 @@ exception when duplicate_object then null; end $$;
 -- project-wide limit in Storage → Settings → Upload file size limit.
 insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
   values ('guest-photos', 'guest-photos', true, null,
-    array['image/jpeg', 'image/png', 'image/webp',
+    array['image/jpeg', 'image/png', 'image/webp', 'image/heic', 'image/heif', 'image/gif',
           'video/mp4', 'video/quicktime', 'video/webm', 'video/x-m4v', 'video/3gpp'])
   on conflict (id) do update set public = true, file_size_limit = excluded.file_size_limit,
     allowed_mime_types = excluded.allowed_mime_types;
@@ -60,6 +60,7 @@ insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_typ
 create table if not exists public.guest_photos (
   id          bigint generated always as identity primary key,
   path        text not null,
+  original_path text not null default '',
   thumb_path  text not null default '',
   kind        text not null default 'photo',
   taken_at    timestamptz,
@@ -72,6 +73,7 @@ create table if not exists public.guest_photos (
 );
 alter table public.guest_photos add column if not exists kind        text not null default 'photo';
 alter table public.guest_photos add column if not exists taken_at    timestamptz;
+alter table public.guest_photos add column if not exists original_path text not null default '';
 alter table public.guest_photos add column if not exists owner_hash  text not null default '';
 alter table public.guest_photos add column if not exists deleted_at  timestamptz;
 alter table public.guest_photos alter column thumb_path set default '';
@@ -85,7 +87,7 @@ drop policy if exists "add photos"  on public.guest_photos;
 create policy "read photos" on public.guest_photos for select using (true);
 create policy "add photos"  on public.guest_photos for insert
   with check (deleted_at is null and kind in ('photo', 'video')
-    and length(path) < 200 and length(thumb_path) < 200 and length(uploader) <= 60 and length(owner_hash) <= 64);
+    and length(path) < 200 and length(original_path) < 200 and length(thumb_path) < 200 and length(uploader) <= 60 and length(owner_hash) <= 64);
 
 -- owner_hash is sha256(device token): safe to be readable, useless without the token.
 revoke update, delete on public.guest_photos from anon, authenticated;
@@ -134,10 +136,10 @@ create policy "guest photo read" on storage.objects
 create policy "guest photo remove" on storage.objects
   for delete to anon, authenticated using (bucket_id = 'guest-photos' and exists (
     select 1 from public.guest_photos g
-     where g.deleted_at is not null and (g.path = storage.objects.name or g.thumb_path = storage.objects.name))
+     where g.deleted_at is not null and storage.objects.name in (g.path, g.original_path, g.thumb_path))
     and not exists (
     select 1 from public.guest_photos g
-     where g.deleted_at is null and (g.path = storage.objects.name or g.thumb_path = storage.objects.name)));
+     where g.deleted_at is null and storage.objects.name in (g.path, g.original_path, g.thumb_path)));
 
 do $$ begin
   alter publication supabase_realtime add table public.guest_photos;
