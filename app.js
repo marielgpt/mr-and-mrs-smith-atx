@@ -129,7 +129,7 @@ const EVENTS = [
       { t: 1000, time: "4:40", label: "Howard Smith welcome", mc: true },
       { t: 1020, time: "5:00", label: "Rodrigo + Candice speech", mc: true },
       { t: 1065, time: "5:45", label: "Bride + groom speech", mc: true },
-      { t: 1110, time: "6:30", label: "Couple pictures" }
+      { t: 1120, time: "6:40", label: "Couple pictures" }
     ],
     panels: [
       { label: "Music", type: "note", heading: "Piano through dinner", rows: ["JP Listrom"],
@@ -167,7 +167,7 @@ const EVENTS = [
       { t: 1163, time: "7:23", label: "Father-daughter dance", subs: ["Mariel + Joaquin"], mc: true },
       { t: 1166, time: "7:26", label: "Couple dance", subs: ["Russell + Mariel"], mc: true },
       { t: 1169, time: "7:29", label: "Percy, Russell + Mariel dance", mc: true },
-      { t: 1172, time: "7:32", label: "Cake cutting", mc: true },
+      { t: 1170, time: "7:30", label: "Cake cutting", mc: true },
       { t: 1200, time: "8:00", label: "Open dancing · DJ’s choice" },
       { t: 1380, time: "11:00", label: "DJ set ends" },
       { t: 1440, time: "12:00", label: "Teardown complete" }
@@ -194,7 +194,7 @@ const CONTACTS = [
   { a: "Laura Gregory", b: "Soho House · day-of manager", c: "(512) 865-1655", d: "laura.gregory@sohohouse.com", onsite: "all day" },
   { a: "Amy Dang", b: "Photographer", c: "(818) 224-8471", d: "and@amydangphotography.com", onsite: "from 2:30 PM" },
   { a: "Olivia Vickers", b: "Cake", c: "(830) 456-9129", d: "info@olivearies.com", onsite: "delivery by 1:30 PM" },
-  { a: "Stem Floral", b: "Pedestal rental", c: "(512) 537-0577", d: "info@stemfloral.com", onsite: "delivery by 2:30 PM" },
+  { a: "Stem Floral", b: "Pedestal rental", c: "(512) 537-0577", d: "info@stemfloral.com", onsite: "delivery by 1:00 PM" },
   { a: "Kathy · Central Market North", b: "All florals", c: "(512) 206-1000", d: "s0619c@heb.com", onsite: "delivery by 1:30 PM" },
   { a: "Dre Mazzenga", b: "Ceremony vocalist + pianist", c: "(914) 419-6728", d: "dreacoustic@gmail.com", onsite: "from 1:45 PM" },
   { a: "JP Listrom", b: "Cocktail DJ · dinner pianist · MC", c: "(512) 484-5159", d: "jplistrommusic@gmail.com", onsite: "from 2:30 PM" },
@@ -239,6 +239,23 @@ const TEARDOWN_REFS = {
 };
 
 const VENDORS = [
+  { id: "amy", name: "Amy Dang", role: "Photographer",
+    tel: "(818) 224-8471", email: "and@amydangphotography.com", call: "2:30 PM",
+    out: "After cake cutting · 8:00 PM",
+    room: "Moves with the day · ceremony, cocktail hour, dinner, party",
+    cues: [
+      { t: "2:30", a: "Guests start to arrive", b: "Photographer arrives · check in with John Winn" },
+      { t: "3:00", a: "Ceremony starts", b: "Processional, vows + ring exchange, recessional" },
+      { t: "3:30", a: "Cocktail hour starts", b: "Group portraits · family formals" },
+      { t: "4:00", a: "Couple enjoys rest of cocktail hour", b: "Candids with guests" },
+      { t: "4:30", a: "Dinner starts", b: "Speeches follow mid-meal" },
+      { t: "6:40", a: "Sunset portraits", b: "Couple portraits, golden hour" },
+      { t: "6:57", a: "Sunset", b: "Last light" },
+      { t: "7:00", a: "Intro to reception", b: "Couple entrance at 7:15" },
+      { t: "7:30", a: "Cake and photos", b: "Cake cutting moment" },
+      { t: "8:00", a: "Photographer ends", b: "Wrap, hand off remainder of night" }
+    ] },
+
   { id: "dre", name: "Dre Mazzenga", role: "Ceremony vocalist + pianist",
     tel: "(914) 419-6728", email: "dreacoustic@gmail.com", call: "1:45 PM",
     out: "After the ceremony · 3:30 PM",
