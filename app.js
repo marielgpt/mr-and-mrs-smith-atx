@@ -101,7 +101,10 @@ const EVENTS = [
     panels: [
       { label: "Music", type: "note", heading: "DJ set", rows: ["JP Listrom"],
         link: "https://music.apple.com/us/playlist/vargas-wedding-cocktail-hour-10-17/pl.u-GgA5e1gHojlE1Zm", linkLabel: "Backup playlist ↗" },
-      { label: "Menu", type: "note", heading: "Grazing table · buffet", rows: ["Meat & cheese board", "Macarons", "Pre-screening room · out for all of cocktail hour"] },
+      { label: "Menu", type: "menu", rows: [
+        { a: "Grazing table · buffet", b: "Meat & cheese board", c: "Pre-screening room · out for all of cocktail hour" },
+        { a: "Sweets", b: "Macarons", c: "" }
+      ] },
       { label: "Contact", type: "contact", rows: [
         { a: "JP Listrom", b: "Cocktail DJ", c: "(512) 484-5159", d: "jplistrommusic@gmail.com" }
       ] }
@@ -138,6 +141,18 @@ const EVENTS = [
       { label: "Music", type: "note", heading: "Piano through dinner", rows: ["JP Listrom"],
         link: "https://music.apple.com/us/playlist/jazz-piano-essentials/pl.5d571bccbe60493eaadf6bb467720feb",
         linkLabel: "Backup playlist ↗" },
+      { label: "Menu", type: "menu", rows: [
+        { a: "Service", b: "Family style", c: "Wine only during dinner" },
+        { a: "Small plates", b: "Tuna tostadas", c: "Avocado, spicy aioli, cilantro" },
+        { a: "Small plates", b: "Caprese skewers", c: "" },
+        { a: "Salad", b: "Insalata Cesare", c: "Baby gems, bread crumbs · can be made gluten-free" },
+        { a: "Main", b: "King Ora salmon", c: "Sautéed spinach, chimichurri · GF / DF" },
+        { a: "Main", b: "Chicken parmigiana", c: "Marinara, Che Fico mozzarella, basil, 24-month Parmigiano Reggiano" },
+        { a: "Main", b: "Spaghetti arrabbiata", c: "Fresno chili, pomodoro, pecorino sardo · V · gluten-free pasta" },
+        { a: "Main", b: "Club steak", c: "Fries, béarnaise · GF" },
+        { a: "Kids", b: "Chicken, mac and cheese, fruit, fries", c: "" },
+        { a: "Dessert · after dinner", b: "Lemon tart + cheese", c: "" }
+      ] },
       { label: "MC + contact", type: "contact", rows: [
         { a: "JP Listrom", b: "Dinner pianist + MC", c: "(512) 484-5159", d: "jplistrommusic@gmail.com" }
       ] }
@@ -172,7 +187,7 @@ const EVENTS = [
       { t: 1169, time: "7:29", label: "Percy, Russell + Mariel dance", mc: true },
       { t: 1170, time: "7:30", label: "Cake cutting", mc: true },
       { t: 1200, time: "8:00", label: "Open dancing · DJ’s choice" },
-      { t: 1260, time: "9:00", label: "Sliders served", subs: ["Late-night bites"] },
+      { t: 1260, time: "9:00", label: "Burgers served", subs: ["Late-night bites"] },
       { t: 1380, time: "11:00", label: "DJ set ends" },
       { t: 1440, time: "12:00", label: "Teardown complete" }
     ],
@@ -186,7 +201,11 @@ const EVENTS = [
         { a: "Couple dance · 7:26", b: "Bachata Rosa", c: "Russell + Mariel" },
         { a: "Percy, Russell + Mariel dance · 7:29", b: "Sonidito", c: "feat. Josh Cross" }
       ] },
-      { label: "Menu", type: "note", heading: "Late-night bites", rows: ["Sliders · 9:00 PM"] },
+      { label: "Menu", type: "menu", rows: [
+        { a: "Dessert · 7:30", b: "Wedding cake", c: "After the cake cutting" },
+        { a: "Sweets", b: "“I love you very much” cookies", c: "" },
+        { a: "Late night · 9:00", b: "Burgers", c: "" }
+      ] },
       { label: "MC + contact", type: "contact", rows: [
         { a: "Jorge Contreras", b: "Party DJ + MC", c: "(737) 406-4123", d: "jorgealecontreras86@gmail.com" }
       ] }
@@ -797,7 +816,7 @@ function App() {
                               ${r.a}</label>`)}
                           </div>`}
 
-                        ${pw.p.type === "music" && html`
+                        ${(pw.p.type === "music" || pw.p.type === "menu") && html`
                           <div style=${{ display: "flex", flexDirection: "column", gap: "10px" }}>
                             ${pw.rows.map((r, ri) => html`<div key=${ri}>
                               <div style=${{ fontSize: "10px", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--color-neutral-600)" }}>${r.a}</div>
@@ -1071,12 +1090,12 @@ function PrintDoc({ events, teardown, contacts, dateLabel, props }) {
                 ${m.subs.length > 0 && html`<span style=${{ color: "#444" }}> · ${m.subs.join(" · ")}</span>`}</td>
             </tr>`)}
           </tbody></table>
-          ${e.panels.filter(x => x.p.type === "steps" || x.p.type === "music" || x.p.type === "note").map(x => html`
+          ${e.panels.filter(x => x.p.type === "steps" || x.p.type === "music" || x.p.type === "menu" || x.p.type === "note").map(x => html`
             <div key=${x.pi} style=${{ fontSize: "11px", padding: "3px 0 0 48px", lineHeight: 1.4 }}>
               <b>${x.p.label}${x.p.heading ? ": " + x.p.heading : ""}</b>
               ${x.p.type === "steps"
                 ? html`<ol style=${{ margin: "1px 0 0", paddingLeft: "16px" }}>${x.rows.map(r => html`<li key=${r.n}>${r.a}</li>`)}</ol>`
-                : x.p.type === "music"
+                : x.p.type === "music" || x.p.type === "menu"
                   ? html`<div>${x.rows.map((r, ri) => html`<div key=${ri}>${r.a} — ${r.b}${r.c ? " · " + r.c : ""}</div>`)}</div>`
                   : html`<span> · ${x.rows.map(r => r.a).join(" · ")}</span>`}
             </div>`)}
