@@ -227,7 +227,7 @@ const CONTACTS = [
 
 const REFS = {
   "setup-ceremony": [
-    { src: "ref/ceremony-room.png", cap: "Ceremony room" },
+    { src: "ref/ceremony-room-updated.png", cap: "Ceremony room" },
     { src: "ref/grazing-table.png", cap: "Grazing table · cocktail hour" },
     { src: "ref/pedestals.png", cap: "Pedestals" },
     { src: "ref/bouquet.png", cap: "Bridal bouquet" },
