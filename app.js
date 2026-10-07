@@ -142,7 +142,7 @@ const EVENTS = [
         link: "https://music.apple.com/us/playlist/jazz-piano-essentials/pl.5d571bccbe60493eaadf6bb467720feb",
         linkLabel: "Backup playlist ↗" },
       { label: "Menu", type: "menu", rows: [
-        { a: "Service", b: "Family style", c: "Wine only during dinner" },
+        { a: "Service", b: "Family style", c: "" },
         { a: "Small plates", b: "Tuna tostadas", c: "Avocado, spicy aioli, cilantro" },
         { a: "Small plates", b: "Caprese skewers", c: "" },
         { a: "Salad", b: "Insalata Cesare", c: "Baby gems, bread crumbs · can be made gluten-free" },
