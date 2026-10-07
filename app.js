@@ -31,8 +31,8 @@ const EVENTS = [
         "Boutonnieres to the fathers, Russell and Percy",
         "Bouquet to Mariel",
         "Florals staged in the pre-screening room for cocktail hour",
-        "Bows and amaranthus on the aisles", "Decorative columns positioned",
-        "Pedestal flowers positioned",
+        "Bows and amaranthus on the aisles",
+        "Decorative columns positioned with the pedestal flowers",
         "Rings with Percy",
         "Marriage license with Joaquin Vargas (officiant)",
         "Grazing table set in the pre-screening room for cocktail hour",
@@ -614,13 +614,15 @@ function App() {
   });
   const events = allEvents.filter(e => !data.hidden[e.ev.id]);
 
-  const checkGroups = [];
-  EVENTS.filter(ev => !data.hidden[ev.id]).forEach(ev => ev.panels.forEach((p, pi) => {
+  const allCheckGroups = [];
+  EVENTS.forEach(ev => ev.panels.forEach((p, pi) => {
     if (p.type !== "check") return;
     const rows = p.rows.map((r, ri) => { const key = ev.id + "-" + pi + "-" + ri; const on = !!data.checks[key];
       return { a: r, when: p.when, checked: on, key, color: on ? "var(--color-neutral-600)" : "var(--color-text)", strike: on ? "line-through" : "none" }; });
-    checkGroups.push({ name: ev.name, sub: p.label, range: ev.range, owner: p.owner, rows, count: rows.filter(r => r.checked).length + " / " + rows.length });
+    allCheckGroups.push({ id: ev.id, major: !!ev.major, when: p.when, name: ev.name, sub: p.label, range: ev.range, owner: p.owner, rows, count: rows.filter(r => r.checked).length + " / " + rows.length });
   }));
+
+  const checkGroups = allCheckGroups.filter(g => !data.hidden[g.id]);
 
   const teardownGroups = TEARDOWN.map((g, gi) => {
     const rows = g.items.map((label, ri) => { const key = "td-" + gi + "-" + ri; const on = !!data.checks[key];
@@ -1051,14 +1053,15 @@ function App() {
           </div>
         </div>`}
     </div>
-    ${!solo && html`<${PrintDoc} events=${allEvents} teardown=${teardownGroups} contacts=${contacts} dateLabel=${dateLabel} props=${props} />`}
+    ${!solo && html`<${PrintDoc} events=${allEvents} checklists=${allCheckGroups} teardown=${teardownGroups} contacts=${contacts} dateLabel=${dateLabel} props=${props} />`}
     </div>`;
 }
 
 /* ─── Print / PDF: run of show + teardown on plain paper. Hidden on screen; the
    "Print" button calls window.print() and the @media print rules in index.html
    swap the app for this. Times include any slips pushed so far. ─── */
-function PrintDoc({ events, teardown, contacts, dateLabel, props }) {
+function PrintDoc({ events, checklists, teardown, contacts, dateLabel, props }) {
+  const box = on => html`<span style=${{ flex: "none", width: "11px", height: "11px", border: "1.3px solid #000", marginTop: "2px", textAlign: "center", fontSize: "10px", lineHeight: "10px" }}>${on ? "✓" : ""}</span>`;
   const printedAt = new Date().toLocaleString(undefined, { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
   const h2 = { fontFamily: "var(--font-heading)", fontSize: "20px", margin: "18px 0 6px", borderBottom: "2px solid var(--color-accent)", paddingBottom: "3px" };
   const cell = { padding: "3px 8px 3px 0", verticalAlign: "top", fontSize: "11.5px", lineHeight: 1.35 };
@@ -1101,14 +1104,26 @@ function PrintDoc({ events, teardown, contacts, dateLabel, props }) {
             </div>`)}
         </div>`)}
 
-      <div style=${{ ...h2, breakBefore: "page" }}>Teardown</div>
+      <div style=${{ ...h2, breakBefore: "page" }}>Checklists</div>
+      ${checklists.map((g, gi) => html`
+        <div key=${gi} style=${{ breakInside: "avoid", padding: "6px 0", borderBottom: "1px solid #ccc" }}>
+          <div style=${{ display: "flex", justifyContent: "space-between", gap: "10px", alignItems: "baseline" }}>
+            <div style=${{ fontSize: "13px", fontWeight: 800 }}>${g.major ? "" : "Set-up · "}${g.name} · ${g.sub}</div>
+            <div style=${{ fontSize: "11px", color: "#444" }}>${[g.owner, g.when].filter(Boolean).join(" · ")}</div>
+          </div>
+          <div style=${{ columns: 2, columnGap: "24px", paddingTop: "2px" }}>
+            ${g.rows.map(r => html`<div key=${r.key} style=${{ display: "flex", gap: "7px", alignItems: "flex-start", fontSize: "12px", padding: "3px 0", breakInside: "avoid" }}>${box(r.checked)}${r.a}</div>`)}
+          </div>
+        </div>`)}
+
+      <div style=${h2}>Teardown</div>
       ${teardown.map(g => html`
         <div key=${g.name} style=${{ breakInside: "avoid", padding: "6px 0" }}>
           <div style=${{ fontSize: "14px", fontWeight: 800 }}>${g.name}</div>
           ${g.note && html`<div style=${{ fontSize: "11px", color: "#444", paddingBottom: "3px" }}>${g.note}</div>`}
           <div style=${{ columns: 2, columnGap: "24px" }}>
             ${g.rows.map(r => html`<div key=${r.key} style=${{ display: "flex", gap: "7px", alignItems: "flex-start", fontSize: "12px", padding: "3px 0", breakInside: "avoid" }}>
-              <span style=${{ flex: "none", width: "11px", height: "11px", border: "1.3px solid #000", marginTop: "2px", textAlign: "center", fontSize: "10px", lineHeight: "10px" }}>${r.checked ? "✓" : ""}</span>${r.a}</div>`)}
+              ${box(r.checked)}${r.a}</div>`)}
           </div>
         </div>`)}
 
