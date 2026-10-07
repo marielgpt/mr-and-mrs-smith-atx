@@ -101,7 +101,7 @@ const EVENTS = [
     panels: [
       { label: "Music", type: "note", heading: "DJ set", rows: ["JP Listrom"],
         link: "https://music.apple.com/us/playlist/vargas-wedding-cocktail-hour-10-17/pl.u-GgA5e1gHojlE1Zm", linkLabel: "Backup playlist ↗" },
-      { label: "Menu", type: "note", heading: "Grazing table", rows: ["Pre-screening room · out for all of cocktail hour"] },
+      { label: "Menu", type: "note", heading: "Grazing table · buffet", rows: ["Meat & cheese board", "Macarons", "Pre-screening room · out for all of cocktail hour"] },
       { label: "Contact", type: "contact", rows: [
         { a: "JP Listrom", b: "Cocktail DJ", c: "(512) 484-5159", d: "jplistrommusic@gmail.com" }
       ] }
