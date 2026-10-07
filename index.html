@@ -8,12 +8,12 @@
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
   <title>Smith Vargas Wedding · Run of show</title>
-  <link rel="icon" type="image/svg+xml" href="favicon.svg?v=44">
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png?v=44">
-  <link rel="apple-touch-icon" href="apple-touch-icon.png?v=44">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg?v=45">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png?v=45">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png?v=45">
 
   <!-- Organic design system (tokens + component classes) -->
-  <link rel="stylesheet" href="styles.css?v=44">
+  <link rel="stylesheet" href="styles.css?v=45">
   <style>
     html { scroll-behavior: smooth; }
     body { margin: 0; -webkit-text-size-adjust: 100%; }
@@ -48,6 +48,14 @@
     @keyframes duePulse { 0%,100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-accent-2) 50%, transparent); } 50% { box-shadow: 0 0 0 6px color-mix(in srgb, var(--color-accent-2) 0%, transparent); } }
     input[type="checkbox"] { accent-color: var(--color-accent); }
     #root { min-height: 100vh; }
+    /* Print / PDF: swap the app for the plain run-of-show + teardown document. */
+    @media screen { .print-doc { display: none; } }
+    @media print {
+      @page { size: letter portrait; margin: 0.5in; }
+      .app-screen { display: none !important; }
+      html, body { background: #fff !important; }
+      body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
   </style>
 </head>
 <body>
@@ -60,7 +68,7 @@
   <!-- Supabase (shared live state) -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <script src="config.js?v=44"></script>
-  <script src="app.js?v=44"></script>
+  <script src="config.js?v=45"></script>
+  <script src="app.js?v=45"></script>
 </body>
 </html>

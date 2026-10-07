@@ -550,7 +550,7 @@ function App() {
   }
 
   /* ── events (timeline rows) ── */
-  const events = EVENTS.filter(ev => !data.hidden[ev.id]).map(ev => {
+  const allEvents = EVENTS.map(ev => {
     const off = cum[ev.id] || 0;
     const st = status({ start: ev.start + off, end: ev.end + off }, nowMins);
     const evRange = off === 0 ? ev.range : shortFmt(ev.start + off) + " – " + fmt(ev.end + off);
@@ -589,6 +589,7 @@ function App() {
       }))
     };
   });
+  const events = allEvents.filter(e => !data.hidden[e.ev.id]);
 
   const checkGroups = [];
   EVENTS.filter(ev => !data.hidden[ev.id]).forEach(ev => ev.panels.forEach((p, pi) => {
@@ -642,7 +643,8 @@ function App() {
     </button>`;
 
   return html`
-    <div style=${{ minHeight: "100vh", background: "var(--color-bg)", color: "var(--color-text)", fontFamily: "var(--font-body)", paddingBottom: "64px" }}>
+    <div>
+    <div className="app-screen" style=${{ minHeight: "100vh", background: "var(--color-bg)", color: "var(--color-text)", fontFamily: "var(--font-body)", paddingBottom: "64px" }}>
 
       <header style=${{ position: "sticky", top: 0, zIndex: 30, display: "grid", gridTemplateRows: atTop ? "1fr" : "0fr", transition: "grid-template-rows 0.28s ease", background: "var(--color-bg)", boxShadow: atTop ? "var(--shadow-sm)" : "none" }}>
         <div style=${{ overflow: "hidden", minHeight: 0 }}>
@@ -656,6 +658,7 @@ function App() {
             <div style=${{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "4px" }}>
               <div style=${{ display: "flex", alignItems: "baseline", gap: "8px" }}>
                 ${clock && html`<div style=${{ fontFamily: "var(--font-heading)", fontSize: "22px", lineHeight: 1 }}>${clock}</div>`}
+                ${!solo && html`<button className="btn btn-ghost" onClick=${() => window.print()} title="Print or save the run of show + teardown as a PDF" style=${{ fontFamily: "var(--font-body)", fontWeight: 700, fontSize: "12px", padding: "3px 9px" }}>Print / PDF</button>`}
                 ${!solo && html`<button className="btn btn-ghost" onClick=${() => setSimMins(s => s == null ? (mins || 900) : null)} title="Preview another time" style=${{ fontFamily: "var(--font-body)", fontWeight: 700, fontSize: "12px", padding: "3px 9px" }}>${rehearsing ? "Preview" : "Preview a time"}</button>`}
               </div>
               <a href=${nowHref} className="tag tag-accent" style=${{ textDecoration: "none", gap: "6px" }}>
@@ -1024,6 +1027,75 @@ function App() {
             </div>
           </div>
         </div>`}
+    </div>
+    ${!solo && html`<${PrintDoc} events=${allEvents} teardown=${teardownGroups} contacts=${contacts} dateLabel=${dateLabel} props=${props} />`}
+    </div>`;
+}
+
+/* ─── Print / PDF: run of show + teardown on plain paper. Hidden on screen; the
+   "Print" button calls window.print() and the @media print rules in index.html
+   swap the app for this. Times include any slips pushed so far. ─── */
+function PrintDoc({ events, teardown, contacts, dateLabel, props }) {
+  const printedAt = new Date().toLocaleString(undefined, { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
+  const h2 = { fontFamily: "var(--font-heading)", fontSize: "20px", margin: "18px 0 6px", borderBottom: "2px solid var(--color-accent)", paddingBottom: "3px" };
+  const cell = { padding: "3px 8px 3px 0", verticalAlign: "top", fontSize: "11.5px", lineHeight: 1.35 };
+  return html`
+    <div className="print-doc" style=${{ color: "#000", fontFamily: "var(--font-body)" }}>
+      <div style=${{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", gap: "16px", borderBottom: "1px solid #000", paddingBottom: "6px" }}>
+        <div>
+          <div style=${{ fontFamily: "var(--font-heading)", fontSize: "26px", lineHeight: 1.1 }}>Smith Vargas Wedding · Run of show</div>
+          <div style=${{ fontSize: "12px", paddingTop: "2px" }}>${dateLabel} · ${props.venue}${props.venueAddress ? " · " + props.venueAddress : ""}</div>
+        </div>
+        <div style=${{ flex: "none", fontSize: "11px", textAlign: "right", lineHeight: 1.4, whiteSpace: "nowrap" }}>
+          <div><b>John Winn</b> · coordinator · (574) 210-7069</div>
+          <div><b>Laura Gregory</b> · Soho House · (512) 865-1655</div>
+          <div style=${{ color: "#555" }}>Printed ${printedAt}</div>
+        </div>
+      </div>
+
+      <div style=${h2}>Run of show</div>
+      ${events.map(e => html`
+        <div key=${e.ev.id} style=${{ breakInside: "avoid", padding: "6px 0 4px", borderBottom: "1px solid #ccc" }}>
+          <div style=${{ display: "flex", justifyContent: "space-between", gap: "10px", alignItems: "baseline" }}>
+            <div style=${{ fontSize: e.ev.major ? "15px" : "13px", fontWeight: 800 }}>${e.ev.major ? "" : "Set-up · "}${e.ev.name}</div>
+            <div style=${{ fontSize: "12px", fontWeight: 700 }}>${e.evRange}${e.noSlip ? "" : " (" + e.slipLabel + ")"}</div>
+          </div>
+          <table style=${{ borderCollapse: "collapse", width: "100%", marginTop: "2px" }}><tbody>
+            ${e.moments.map((m, mi) => html`<tr key=${mi}>
+              <td style=${{ ...cell, width: "48px", fontWeight: 700 }}>${m.time}</td>
+              <td style=${cell}>${m.label}${m.mc ? html` <span style=${{ fontSize: "9.5px", fontWeight: 700, border: "1px solid #000", borderRadius: "3px", padding: "0 3px" }}>MC</span>` : ""}
+                ${m.subs.length > 0 && html`<span style=${{ color: "#444" }}> · ${m.subs.join(" · ")}</span>`}</td>
+            </tr>`)}
+          </tbody></table>
+          ${e.panels.filter(x => x.p.type === "steps" || x.p.type === "music" || x.p.type === "note").map(x => html`
+            <div key=${x.pi} style=${{ fontSize: "11px", padding: "3px 0 0 48px", lineHeight: 1.4 }}>
+              <b>${x.p.label}${x.p.heading ? ": " + x.p.heading : ""}</b>
+              ${x.p.type === "steps"
+                ? html`<ol style=${{ margin: "1px 0 0", paddingLeft: "16px" }}>${x.rows.map(r => html`<li key=${r.n}>${r.a}</li>`)}</ol>`
+                : x.p.type === "music"
+                  ? html`<div>${x.rows.map((r, ri) => html`<div key=${ri}>${r.a} — ${r.b}${r.c ? " · " + r.c : ""}</div>`)}</div>`
+                  : html`<span> · ${x.rows.map(r => r.a).join(" · ")}</span>`}
+            </div>`)}
+        </div>`)}
+
+      <div style=${{ ...h2, breakBefore: "page" }}>Teardown</div>
+      ${teardown.map(g => html`
+        <div key=${g.name} style=${{ breakInside: "avoid", padding: "6px 0" }}>
+          <div style=${{ fontSize: "14px", fontWeight: 800 }}>${g.name}</div>
+          ${g.note && html`<div style=${{ fontSize: "11px", color: "#444", paddingBottom: "3px" }}>${g.note}</div>`}
+          <div style=${{ columns: 2, columnGap: "24px" }}>
+            ${g.rows.map(r => html`<div key=${r.key} style=${{ display: "flex", gap: "7px", alignItems: "flex-start", fontSize: "12px", padding: "3px 0", breakInside: "avoid" }}>
+              <span style=${{ flex: "none", width: "11px", height: "11px", border: "1.3px solid #000", marginTop: "2px", textAlign: "center", fontSize: "10px", lineHeight: "10px" }}>${r.checked ? "✓" : ""}</span>${r.a}</div>`)}
+          </div>
+        </div>`)}
+
+      <div style=${h2}>Contacts</div>
+      <table style=${{ borderCollapse: "collapse", width: "100%" }}><tbody>
+        ${contacts.map(c => html`<tr key=${c.a} style=${{ borderBottom: "1px solid #ddd" }}>
+          <td style=${{ ...cell, fontWeight: 700 }}>${c.a}</td><td style=${cell}>${c.b}</td>
+          <td style=${{ ...cell, whiteSpace: "nowrap" }}>${c.c}</td><td style=${{ ...cell, color: "#444" }}>${c.onsite || ""}</td>
+        </tr>`)}
+      </tbody></table>
     </div>`;
 }
 
