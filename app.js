@@ -35,6 +35,7 @@ const EVENTS = [
         "Pedestal flowers positioned",
         "Rings with Percy",
         "Marriage license with Joaquin Vargas (officiant)",
+        "Grazing table set in the pre-screening room for cocktail hour",
         "Confirm food + bar timing with Laura Gregory"
       ] },
       { label: "Arrivals · confirm", type: "check", owner: "John Winn", when: "by 2:45", rows: [
@@ -93,13 +94,14 @@ const EVENTS = [
   {
     id: "cocktails", name: "Cocktail hour", major: true, range: "3:30 – 4:30 PM", start: 930, end: 990,
     moments: [
-      { t: 930, time: "3:30", label: "Cocktail hour begins" },
+      { t: 930, time: "3:30", label: "Cocktail hour begins", subs: ["Grazing table opens"] },
       { t: 930, time: "3:30", label: "Group portraits", subs: ["Amy Dang · family formals"] },
       { t: 960, time: "4:00", label: "Couple joins cocktail hour" }
     ],
     panels: [
       { label: "Music", type: "note", heading: "DJ set", rows: ["JP Listrom"],
         link: "https://music.apple.com/us/playlist/vargas-wedding-cocktail-hour-10-17/pl.u-GgA5e1gHojlE1Zm", linkLabel: "Backup playlist ↗" },
+      { label: "Menu", type: "note", heading: "Grazing table", rows: ["Pre-screening room · out for all of cocktail hour"] },
       { label: "Contact", type: "contact", rows: [
         { a: "JP Listrom", b: "Cocktail DJ", c: "(512) 484-5159", d: "jplistrommusic@gmail.com" }
       ] }
@@ -149,7 +151,7 @@ const EVENTS = [
     ],
     panels: [
       { label: "Setup checklist", type: "check", owner: "John Winn", when: "by 7:00", rows: [
-        "Grazing table set", "Set the “I love you very much” napkins", "Set out the cookies"
+        "Set the “I love you very much” napkins", "Set out the cookies"
       ] },
       { label: "Arrivals · confirm", type: "check", owner: "John Winn", when: "by 7:00", rows: [
         "Jorge Contreras · party DJ, setup complete"
@@ -170,6 +172,7 @@ const EVENTS = [
       { t: 1169, time: "7:29", label: "Percy, Russell + Mariel dance", mc: true },
       { t: 1170, time: "7:30", label: "Cake cutting", mc: true },
       { t: 1200, time: "8:00", label: "Open dancing · DJ’s choice" },
+      { t: 1260, time: "9:00", label: "Sliders served", subs: ["Late-night bites"] },
       { t: 1380, time: "11:00", label: "DJ set ends" },
       { t: 1440, time: "12:00", label: "Teardown complete" }
     ],
@@ -183,6 +186,7 @@ const EVENTS = [
         { a: "Couple dance · 7:26", b: "Bachata Rosa", c: "Russell + Mariel" },
         { a: "Percy, Russell + Mariel dance · 7:29", b: "Sonidito", c: "feat. Josh Cross" }
       ] },
+      { label: "Menu", type: "note", heading: "Late-night bites", rows: ["Sliders · 9:00 PM"] },
       { label: "MC + contact", type: "contact", rows: [
         { a: "Jorge Contreras", b: "Party DJ + MC", c: "(737) 406-4123", d: "jorgealecontreras86@gmail.com" }
       ] }
@@ -205,6 +209,7 @@ const CONTACTS = [
 const REFS = {
   "setup-ceremony": [
     { src: "ref/ceremony-room.png", cap: "Ceremony room" },
+    { src: "ref/grazing-table.png", cap: "Grazing table · cocktail hour" },
     { src: "ref/pedestals.png", cap: "Pedestals" },
     { src: "ref/bouquet.png", cap: "Bridal bouquet" },
     { src: "ref/boutonniere.png", cap: "Boutonniere" },
@@ -217,7 +222,6 @@ const REFS = {
     { src: "ref/chair-signs.png", cap: "Chair signs" }
   ],
   "setup-party": [
-    { src: "ref/grazing-table.png", cap: "Grazing table" },
     { src: "ref/napkins.png", cap: "Napkins" }
   ]
 };
