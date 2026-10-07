@@ -187,7 +187,7 @@ const EVENTS = [
       { t: 1169, time: "7:29", label: "Percy, Russell + Mariel dance", mc: true },
       { t: 1170, time: "7:30", label: "Cake cutting", mc: true },
       { t: 1200, time: "8:00", label: "Open dancing · DJ’s choice" },
-      { t: 1260, time: "9:00", label: "Burgers served", subs: ["Late-night bites"] },
+      { t: 1260, time: "9:00", label: "Sliders served", subs: ["Late-night bites"] },
       { t: 1380, time: "11:00", label: "DJ set ends" },
       { t: 1440, time: "12:00", label: "Teardown complete" }
     ],
@@ -204,7 +204,7 @@ const EVENTS = [
       { label: "Menu", type: "menu", rows: [
         { a: "Dessert · 7:30", b: "Wedding cake", c: "After the cake cutting" },
         { a: "Sweets", b: "“I love you very much” cookies", c: "" },
-        { a: "Late night · 9:00", b: "Burgers", c: "" }
+        { a: "Late night · 9:00", b: "Sliders", c: "Mini burgers" }
       ] },
       { label: "MC + contact", type: "contact", rows: [
         { a: "Jorge Contreras", b: "Party DJ + MC", c: "(737) 406-4123", d: "jorgealecontreras86@gmail.com" }
