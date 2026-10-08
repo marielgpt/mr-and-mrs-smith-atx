@@ -389,7 +389,6 @@ function App() {
   const [mins, setMins] = useState(0);
   const [dayDelta, setDayDelta] = useState(0);
   const [wed, setWed] = useState(null);
-  const [simMins, setSimMins] = useState(null);
   const [lightbox, setLightbox] = useState(null);
   const [copied, setCopied] = useState("");
   const [atTop, setAtTop] = useState(true);
@@ -523,10 +522,8 @@ function App() {
 
   /* ── derived clock values ── */
   const dd = dayDelta || 0;
-  const rehearsing = simMins !== null && simMins !== undefined;
-  const simProp = /^\d{1,2}:\d{2}$/.test(props.simulatedTime);
-  const sim = rehearsing || simProp;
-  const nowMins = rehearsing ? simMins : (dd < 0 && !sim) ? -1 : (dd > 0 && !sim) ? 9999 : mins;
+  const sim = /^\d{1,2}:\d{2}$/.test(props.simulatedTime);
+  const nowMins = (dd < 0 && !sim) ? -1 : (dd > 0 && !sim) ? 9999 : mins;
 
   const cum = useMemo(() => { const out = {}; let run = 0; EVENTS.forEach(ev => { run += (data.offsets[ev.id] || 0); out[ev.id] = run; }); return out; }, [data.offsets]);
   const shFor = (evId, t) => t + (cum[evId] || 0);
@@ -544,7 +541,7 @@ function App() {
   const collapse = props.collapsePast;
 
   const dateLabel = wed ? new Date(wed).toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric" }) : "Saturday, October 17";
-  const clock = rehearsing ? fmt(simMins) : (dd === 0 || sim) ? fmt(mins) : "";
+  const clock = (dd === 0 || sim) ? fmt(mins) : "";
   const stickTop = "0px";
   const scrollTop = "0px";
 
@@ -684,7 +681,6 @@ function App() {
               <div style=${{ display: "flex", alignItems: "baseline", gap: "8px" }}>
                 ${clock && html`<div style=${{ fontFamily: "var(--font-heading)", fontSize: "22px", lineHeight: 1 }}>${clock}</div>`}
                 ${!solo && html`<button className="btn btn-ghost" onClick=${() => window.print()} title="Print or save the run of show + teardown as a PDF" style=${{ fontFamily: "var(--font-body)", fontWeight: 700, fontSize: "12px", padding: "3px 9px" }}>Print / PDF</button>`}
-                ${!solo && html`<button className="btn btn-ghost" onClick=${() => setSimMins(s => s == null ? (mins || 900) : null)} title="Preview another time" style=${{ fontFamily: "var(--font-body)", fontWeight: 700, fontSize: "12px", padding: "3px 9px" }}>${rehearsing ? "Preview" : "Preview a time"}</button>`}
               </div>
               <a href=${nowHref} className="tag tag-accent" style=${{ textDecoration: "none", gap: "6px" }}>
                 <span style=${{ width: "7px", height: "7px", borderRadius: "50%", background: "var(--color-accent)", animation: "nowPulse 2s ease-out infinite" }}></span>
@@ -708,14 +704,6 @@ function App() {
                 <span style=${{ width: "6px", height: "6px", borderRadius: "50%", background: online ? "var(--color-accent-2-600)" : "var(--color-neutral-400)" }}></span>${syncStamp}</span>`}
             </div>
           </div>
-
-          ${!solo && rehearsing && html`
-            <div style=${{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap", background: "var(--color-accent-100)", border: "1px solid var(--color-accent-300)", borderRadius: "var(--radius-lg)", padding: "10px 14px" }}>
-              <span className="tag tag-accent" style=${{ fontWeight: 700 }}>Preview mode</span>
-              <input type="range" min="780" max="1440" step="5" value=${simMins} onChange=${e => setSimMins(Number(e.target.value))} onInput=${e => setSimMins(Number(e.target.value))} style=${{ flex: 1, minWidth: "140px", accentColor: "var(--color-accent)" }} />
-              <span style=${{ fontFamily: "var(--font-heading)", fontSize: "19px", minWidth: "82px", textAlign: "right" }}>${fmt(simMins)}</span>
-              <button className="btn btn-secondary" onClick=${() => setSimMins(null)} style=${{ fontFamily: "var(--font-body)", fontWeight: 700, fontSize: "13px" }}>Back to live</button>
-            </div>`}
 
           ${!solo && html`
           <div style=${{ display: "flex", alignItems: "center", gap: "12px", flexWrap: "wrap" }}>

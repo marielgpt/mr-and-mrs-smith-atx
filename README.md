@@ -59,4 +59,4 @@ python3 -m http.server 8000
 ## Deploy (GitHub Pages)
 
 Pushed to `main`; served from GitHub Pages. To test a slipped clock without waiting for the day,
-set `simulatedTime` (e.g. `"16:20"`) in `config.js`, or use the in-app **Preview a time** slider.
+set `simulatedTime` (e.g. `"16:20"`) in `config.js`.
