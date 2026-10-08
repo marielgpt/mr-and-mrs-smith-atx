@@ -4,18 +4,29 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Smith Vargas Wedding · Photo sign</title>
-  <!-- Printable QR sign for /photos/. Letter, portrait. Print → "Save as PDF" or straight to the printer.
+  <!-- Printable QR sign for /photos/. 8.5 × 11 in, double-sided (same design front + back, so it
+       reads from both sides on a stand). "Crop marks" mode prints each side on a 9.5 × 12 in sheet with
+       the 8.5 × 11 trim centred, 0.125 in bleed and corner crop marks for a print shop; turn it off for a
+       plain letter page on a home printer. Print → "Save as PDF" or straight to the printer.
        Styled after photos/inspo.png: copper double frame with notched corners, navy didone caps,
        copper script, letterspaced small caps. qr.svg / qr.png are the bare code (qr.png is 1200px). -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,600&family=Cormorant+SC:wght@600&family=Pinyon+Script&display=swap" rel="stylesheet">
   <style>
-    @page { size: letter portrait; margin: 0; }
     :root { --navy: #2f4a6e; --copper: #a8714f; }
     html, body { margin: 0; background: #ecebe8; }
     body { color: var(--navy); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-    .sheet { position: relative; width: 8.5in; height: 11in; margin: 24px auto; background: #fff; box-shadow: 0 12px 32px rgba(30,40,60,.18); overflow: hidden; }
+    /* .page = the printed sheet; .sheet = the 8.5 × 11 trim. With crop marks the page grows by
+       0.5 in on every side to hold the bleed + marks. */
+    .page { position: relative; width: 8.5in; height: 11in; margin: 24px auto; box-shadow: 0 12px 32px rgba(30,40,60,.18); background: #fff; break-after: page; overflow: hidden; }
+    .page:last-child { break-after: auto; }
+    .sheet { position: absolute; left: 0; top: 0; width: 8.5in; height: 11in; background: #fff; overflow: hidden; }
+    .marks, .side { display: none; }
+    body.cropmarks .page { width: 9.5in; height: 12in; }
+    body.cropmarks .sheet { left: 0.5in; top: 0.5in; overflow: visible; }
+    body.cropmarks .marks { display: block; position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+    body.cropmarks .side { display: block; position: absolute; left: 0; right: 0; bottom: 0.14in; text-align: center; font: 7pt system-ui, sans-serif; color: #000; letter-spacing: 0.05em; }
     .frame { position: absolute; inset: 0; width: 100%; height: 100%; }
     .content { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 1.3in 1.2in; box-sizing: border-box; }
     .names { font-family: "Bodoni Moda", Didot, "Bodoni 72", serif; font-weight: 600; font-size: 40pt; letter-spacing: 0.04em; line-height: 1; text-transform: uppercase; }
@@ -29,13 +40,18 @@
     .rule { width: 0.9in; height: 1px; background: var(--copper); margin: 18pt auto; }
     .days { font-size: 12pt; }
     .url { font-family: "Cormorant SC", serif; font-size: 10.5pt; letter-spacing: 0.06em; color: var(--copper); margin-top: 8pt; text-transform: lowercase; }
-    .bar { text-align: center; padding: 18px 0 0; }
+    .bar { display: flex; gap: 16px; justify-content: center; align-items: center; padding: 18px 0 0; font: 14px system-ui, sans-serif; color: #333; }
     .bar button { font: 600 15px system-ui, sans-serif; color: #fff; background: var(--navy); border: 0; border-radius: 999px; padding: 10px 22px; cursor: pointer; }
-    @media print { html, body { background: none; } .sheet { margin: 0; box-shadow: none; } .bar { display: none; } }
+    @media print { html, body { background: none; } .page { margin: 0; box-shadow: none; } .bar { display: none; } }
   </style>
 </head>
 <body>
-  <div class="bar"><button onclick="print()">Print sign</button></div>
+  <style id="pagesize">@page { size: 9.5in 12in; margin: 0; }</style>
+  <div class="bar">
+    <label><input type="checkbox" id="marksToggle" checked> Crop marks + bleed (print shop, 9.5 × 12 in sheet)</label>
+    <button onclick="print()">Print sign · 2 sides</button>
+  </div>
+  <div class="page" id="front">
   <div class="sheet">
     <!-- 816 × 1056 = letter at 96 dpi. Two overlapping rectangles (one wider, one taller), each with
          concave quarter-circle corners — the stepped double frame from the inspo card. -->
@@ -47,7 +63,7 @@
         </linearGradient>
       </defs>
       <g fill="none" stroke="url(#copper)" stroke-width="1.8">
-        <path id="tall" d=""/><path id="wide" d=""/>
+        <path class="tall" d=""/><path class="wide" d=""/>
       </g>
     </svg>
     <div class="content">
@@ -61,14 +77,41 @@
       <div class="url">marielgpt.github.io/mr-and-mrs-smith-atx/photos</div>
     </div>
   </div>
+  <!-- Crop marks: 912 × 1152 = 9.5 × 12 in at 96 dpi; trim box is 48 → 864 × 48 → 1104. Marks sit
+       outside the 0.125 in (12 px) bleed so none of them land on the finished sign. -->
+  <svg class="marks" viewBox="0 0 912 1152" aria-hidden="true">
+    <g stroke="#000" stroke-width="0.75">
+      <line x1="0" y1="48" x2="34" y2="48"/><line x1="48" y1="0" x2="48" y2="34"/>
+      <line x1="878" y1="48" x2="912" y2="48"/><line x1="864" y1="0" x2="864" y2="34"/>
+      <line x1="0" y1="1104" x2="34" y2="1104"/><line x1="48" y1="1118" x2="48" y2="1152"/>
+      <line x1="878" y1="1104" x2="912" y2="1104"/><line x1="864" y1="1118" x2="864" y2="1152"/>
+    </g>
+  </svg>
+  <div class="side">FRONT · trim 8.5 × 11 in · 0.125 in bleed</div>
+  </div>
   <script>
     // Concave-cornered rectangle: each corner is a quarter circle centred on the corner point.
     const notched = (x0, y0, x1, y1, r) =>
       `M${x0 + r},${y0} H${x1 - r} A${r},${r} 0 0 0 ${x1},${y0 + r} V${y1 - r} A${r},${r} 0 0 0 ${x1 - r},${y1}` +
       ` H${x0 + r} A${r},${r} 0 0 0 ${x0},${y1 - r} V${y0 + r} A${r},${r} 0 0 0 ${x0 + r},${y0} Z`;
     const m = 56, g = 22, r = 44; // margin from the page edge, offset between the two lines, corner radius
-    document.getElementById("tall").setAttribute("d", notched(m + g, m, 816 - m - g, 1056 - m, r));
-    document.getElementById("wide").setAttribute("d", notched(m, m + g, 816 - m, 1056 - m - g, r));
+    document.querySelector(".tall").setAttribute("d", notched(m + g, m, 816 - m - g, 1056 - m, r));
+    document.querySelector(".wide").setAttribute("d", notched(m, m + g, 816 - m, 1056 - m - g, r));
+
+    // Back side: same design, so the sign reads from both directions. Centred layout means the
+    // crop marks line up when the printer flips the sheet (duplex, flip on long edge).
+    const back = document.getElementById("front").cloneNode(true);
+    back.id = "back";
+    back.querySelector(".side").textContent = "BACK · trim 8.5 × 11 in · 0.125 in bleed";
+    document.body.insertBefore(back, document.querySelector("script"));
+
+    const toggle = document.getElementById("marksToggle"), pageSize = document.getElementById("pagesize");
+    const applyMarks = () => {
+      document.body.classList.toggle("cropmarks", toggle.checked);
+      pageSize.textContent = toggle.checked ? "@page { size: 9.5in 12in; margin: 0; }" : "@page { size: letter portrait; margin: 0; }";
+    };
+    toggle.addEventListener("change", applyMarks);
+    applyMarks();
   </script>
 </body>
 </html>
