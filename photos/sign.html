@@ -15,7 +15,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,600&family=Cormorant+SC:wght@600&family=Pinyon+Script&display=swap" rel="stylesheet">
   <style>
     @page { size: letter landscape; margin: 0; }
-    :root { --navy: #2f4a6e; --copper: #a8714f; }
+    :root { --navy: #2f4a6e; --copper: #a8714f;
+            /* Copper foil: dark shadow bands + bright highlights so print reads as metallic, not brown. */
+            --foil: linear-gradient(115deg, #6e3f22 0%, #b8743f 14%, #ecbd92 24%, #c4824d 34%, #7a4527 48%, #d79b6b 62%, #f2cba3 70%, #b06c3a 82%, #74411f 100%); }
+    .foil { background: var(--foil); -webkit-background-clip: text; background-clip: text; color: transparent !important; }
     html, body { margin: 0; background: #ecebe8; }
     body { color: var(--navy); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 
@@ -34,7 +37,7 @@
     .qr img { width: 100%; height: 100%; display: block; }
     .code { font-size: 9pt; margin-top: 12pt; }
     .code b { font-family: "Bodoni Moda", Didot, serif; font-weight: 600; font-size: 15pt; letter-spacing: 0.14em; margin-left: 5pt; }
-    .rule { width: 0.6in; height: 1px; background: var(--copper); margin: 10pt auto; }
+    .rule { width: 0.7in; height: 1.5px; background: var(--foil); margin: 10pt auto; }
     .days { font-size: 7.5pt; letter-spacing: 0.16em; white-space: nowrap; }
     .url { font-family: "Cormorant SC", serif; font-size: 6.5pt; letter-spacing: 0.04em; color: var(--copper); margin-top: 5pt; text-transform: lowercase; }
 
@@ -57,24 +60,28 @@
            — the stepped double frame from the inspo card. -->
       <svg class="frame" viewBox="0 0 480 672" aria-hidden="true">
         <defs>
-          <linearGradient id="copper" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="#c99877"/><stop offset="0.35" stop-color="#8f5b3d"/>
-            <stop offset="0.6" stop-color="#d0a585"/><stop offset="1" stop-color="#8a5638"/>
+          <!-- Copper foil: alternating shadow / highlight bands across the whole sign. -->
+          <linearGradient id="copper" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="480" y2="672">
+            <stop offset="0" stop-color="#6e3f22"/><stop offset="0.12" stop-color="#b8743f"/>
+            <stop offset="0.22" stop-color="#ecbd92"/><stop offset="0.32" stop-color="#c4824d"/>
+            <stop offset="0.46" stop-color="#7a4527"/><stop offset="0.6" stop-color="#d79b6b"/>
+            <stop offset="0.68" stop-color="#f2cba3"/><stop offset="0.8" stop-color="#b06c3a"/>
+            <stop offset="1" stop-color="#74411f"/>
           </linearGradient>
         </defs>
-        <g fill="none" stroke="url(#copper)" stroke-width="1.4">
+        <g fill="none" stroke="url(#copper)" stroke-width="1.9">
           <path class="tall" d=""/><path class="wide" d=""/>
         </g>
       </svg>
       <div class="content">
         <div class="names">Russell &amp; Mariel</div>
-        <div class="script">Share your photos</div>
+        <div class="script foil">Share your photos</div>
         <p class="lede caps">Scan to add photos + videos<br>from the weekend</p>
         <div class="qr"><img src="qr.svg" alt="QR code to the guest photo page"></div>
         <div class="code caps">Code <b>1017</b></div>
         <div class="rule"></div>
         <div class="days caps">BBQ &nbsp;·&nbsp; Lakeside Fiesta &nbsp;·&nbsp; Wedding</div>
-        <div class="url">marielgpt.github.io/mr-and-mrs-smith-atx/photos</div>
+        <div class="url foil">marielgpt.github.io/mr-and-mrs-smith-atx/photos</div>
       </div>
     </div>
   </template>
