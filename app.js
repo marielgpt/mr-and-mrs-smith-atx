@@ -229,6 +229,7 @@ const REFS = {
   "setup-ceremony": [
     { src: "ref/ceremony-room-updated.png", cap: "Ceremony room" },
     { src: "ref/cocktail-hour-grazing.png", cap: "Grazing table · cocktail hour" },
+    { src: "ref/cocktail-hour-grazing-buffer.png", cap: "Grazing buffet · cocktail hour" },
     { src: "ref/pedestals.png", cap: "Pedestals" },
     { src: "ref/bouquet.png", cap: "Bridal bouquet" },
     { src: "ref/boutonniere.png", cap: "Boutonniere" },
