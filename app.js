@@ -239,7 +239,8 @@ const REFS = {
     { src: "ref/dinner-room.png", cap: "Dinner room" },
     { src: "ref/tablescape.png", cap: "Tablescape" },
     { src: "ref/centerpiece.png", cap: "Centerpiece" },
-    { src: "ref/chair-signs.png", cap: "Chair signs" }
+    { src: "ref/chair-signs.png", cap: "Chair signs" },
+    { href: "https://www.instagram.com/reel/DeKWDnXxWYu/", cap: "Dinner setup inspo · @zanacocreative" }
   ],
   "setup-party": [
     { src: "ref/napkins.png", cap: "Napkins" }
@@ -657,7 +658,15 @@ function App() {
   const seg = (bg, border) => ({ background: bg, borderColor: border, fontSize: "19px" });
   const opt = (color, bg) => ({ color, background: bg, fontWeight: 700, borderRadius: "999px", padding: "11px 24px", fontSize: "18px" });
 
-  const RefCard = ({ src, cap }) => html`
+  // Image refs open the lightbox; `href` refs (e.g. an Instagram reel) open in a new tab instead.
+  const RefCard = ({ src, cap, href }) => href ? html`
+    <a href=${href} target="_blank" rel="noreferrer" style=${{ textDecoration: "none", color: "inherit", display: "flex", flexDirection: "column", gap: "5px" }}>
+      <span style=${{ display: "grid", placeItems: "center", borderRadius: "var(--radius-md)", aspectRatio: "1", background: "var(--color-accent-100)", border: "1px solid var(--color-accent-300)", color: "var(--color-accent-800)", textAlign: "center", padding: "8px" }}>
+        <span><span style=${{ display: "grid", placeItems: "center", width: "34px", height: "34px", margin: "0 auto 6px", borderRadius: "50%", background: "var(--color-accent)", color: "var(--color-bg)", fontSize: "13px", paddingLeft: "2px" }}>▶</span>
+          <span style=${{ fontSize: "12px", fontWeight: 700 }}>Watch reel ↗</span></span>
+      </span>
+      <span style=${{ fontSize: "11px", fontWeight: 600, color: "var(--color-neutral-700)" }}>${cap}</span>
+    </a>` : html`
     <button data-src=${src} data-cap=${cap} style=${{ border: "none", padding: 0, background: "none", cursor: "pointer", textAlign: "left", display: "flex", flexDirection: "column", gap: "5px" }}>
       <span className="washed" style=${{ display: "block", borderRadius: "var(--radius-md)", overflow: "hidden", aspectRatio: "1", background: "var(--color-neutral-200)" }}>
         <img src=${src} alt=${cap} style=${{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
@@ -840,7 +849,7 @@ function App() {
                         <div className="card-kicker" style=${{ fontSize: "14px", fontWeight: 800 }}>What it should look like</div>
                         <div onClick=${ev => { const b = ev.target.closest("button"); if (!b) return; setLightbox({ src: b.getAttribute("data-src"), cap: (b.getAttribute("data-cap") || "").trim() }); }}
                           style=${{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(104px, 1fr))", gap: "10px" }}>
-                          ${REFS[e.ev.id].map((r, ri) => html`<${RefCard} key=${ri} src=${r.src} cap=${r.cap} />`)}
+                          ${REFS[e.ev.id].map((r, ri) => html`<${RefCard} key=${ri} src=${r.src} cap=${r.cap} href=${r.href} />`)}
                         </div>
                       </div>`}
 
