@@ -3,115 +3,119 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Smith Vargas Wedding · Photo sign</title>
-  <!-- Printable QR sign for /photos/. 8.5 × 11 in, double-sided (same design front + back, so it
-       reads from both sides on a stand). "Crop marks" mode prints each side on a 9.5 × 12 in sheet with
-       the 8.5 × 11 trim centred, 0.125 in bleed and corner crop marks for a print shop; turn it off for a
-       plain letter page on a home printer. Print → "Save as PDF" or straight to the printer.
+  <title>Smith Vargas Wedding · Photo signs</title>
+  <!-- Printable QR table signs for /photos/: 5 × 7 in, two per 8.5 × 11 sheet (landscape), with crop
+       marks. Double-sided — page 2 is the same two signs, so each sign reads from both sides.
+       The signs share one cut line down the middle; the layout is centred, so the marks line up
+       whichever way the printer flips the sheet. Print → "Save as PDF" or straight to the printer.
        Styled after photos/inspo.png: copper double frame with notched corners, navy didone caps,
        copper script, letterspaced small caps. qr.svg / qr.png are the bare code (qr.png is 1200px). -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,600&family=Cormorant+SC:wght@600&family=Pinyon+Script&display=swap" rel="stylesheet">
   <style>
+    @page { size: letter landscape; margin: 0; }
     :root { --navy: #2f4a6e; --copper: #a8714f; }
     html, body { margin: 0; background: #ecebe8; }
     body { color: var(--navy); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-    /* .page = the printed sheet; .sheet = the 8.5 × 11 trim. With crop marks the page grows by
-       0.5 in on every side to hold the bleed + marks. */
-    .page { position: relative; width: 8.5in; height: 11in; margin: 24px auto; box-shadow: 0 12px 32px rgba(30,40,60,.18); background: #fff; break-after: page; overflow: hidden; }
-    .page:last-child { break-after: auto; }
-    .sheet { position: absolute; left: 0; top: 0; width: 8.5in; height: 11in; background: #fff; overflow: hidden; }
-    .marks, .side { display: none; }
-    body.cropmarks .page { width: 9.5in; height: 12in; }
-    body.cropmarks .sheet { left: 0.5in; top: 0.5in; overflow: visible; }
-    body.cropmarks .marks { display: block; position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
-    body.cropmarks .side { display: block; position: absolute; left: 0; right: 0; bottom: 0.14in; text-align: center; font: 7pt system-ui, sans-serif; color: #000; letter-spacing: 0.05em; }
+
+    /* 11 × 8.5 in sheet; two 5 × 7 trims side by side at x 0.5 → 5.5 → 10.5 in, y 0.75 → 7.75 in. */
+    .page { position: relative; width: 11in; height: 8.5in; margin: 24px auto; background: #fff; box-shadow: 0 12px 32px rgba(30,40,60,.18); overflow: hidden; break-after: page; }
+    .page:last-of-type { break-after: auto; }
+    .sign { position: absolute; top: 0.75in; width: 5in; height: 7in; }
+    .sign.left { left: 0.5in; } .sign.right { left: 5.5in; }
     .frame { position: absolute; inset: 0; width: 100%; height: 100%; }
-    .content { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 1.3in 1.2in; box-sizing: border-box; }
-    .names { font-family: "Bodoni Moda", Didot, "Bodoni 72", serif; font-weight: 600; font-size: 40pt; letter-spacing: 0.04em; line-height: 1; text-transform: uppercase; }
-    .script { font-family: "Pinyon Script", "Snell Roundhand", cursive; font-size: 50pt; line-height: 1; color: var(--copper); margin: 10pt 0 18pt; }
-    .caps { font-family: "Cormorant SC", "Bodoni Moda", serif; font-weight: 600; letter-spacing: 0.24em; }
-    .lede { font-size: 15pt; margin: 0 0 26pt; line-height: 1.5; }
-    .qr { width: 3.3in; height: 3.3in; }
+    .content { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 0.7in 0.6in; box-sizing: border-box; }
+    .names { font-family: "Bodoni Moda", Didot, "Bodoni 72", serif; font-weight: 600; font-size: 22pt; letter-spacing: 0.04em; line-height: 1; text-transform: uppercase; white-space: nowrap; }
+    .script { font-family: "Pinyon Script", "Snell Roundhand", cursive; font-size: 30pt; line-height: 1; color: var(--copper); margin: 6pt 0 10pt; white-space: nowrap; }
+    .caps { font-family: "Cormorant SC", "Bodoni Moda", serif; font-weight: 600; letter-spacing: 0.2em; }
+    .lede { font-size: 9pt; margin: 0 0 12pt; line-height: 1.5; }
+    .qr { width: 2in; height: 2in; }
     .qr img { width: 100%; height: 100%; display: block; }
-    .code { font-size: 15pt; margin-top: 24pt; }
-    .code b { font-family: "Bodoni Moda", Didot, serif; font-weight: 600; font-size: 24pt; letter-spacing: 0.14em; margin-left: 8pt; }
-    .rule { width: 0.9in; height: 1px; background: var(--copper); margin: 18pt auto; }
-    .days { font-size: 12pt; }
-    .url { font-family: "Cormorant SC", serif; font-size: 10.5pt; letter-spacing: 0.06em; color: var(--copper); margin-top: 8pt; text-transform: lowercase; }
+    .code { font-size: 9pt; margin-top: 12pt; }
+    .code b { font-family: "Bodoni Moda", Didot, serif; font-weight: 600; font-size: 15pt; letter-spacing: 0.14em; margin-left: 5pt; }
+    .rule { width: 0.6in; height: 1px; background: var(--copper); margin: 10pt auto; }
+    .days { font-size: 7.5pt; letter-spacing: 0.16em; white-space: nowrap; }
+    .url { font-family: "Cormorant SC", serif; font-size: 6.5pt; letter-spacing: 0.04em; color: var(--copper); margin-top: 5pt; text-transform: lowercase; }
+
+    .marks { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+    .side { position: absolute; left: 0; right: 0; bottom: 0.12in; text-align: center; font: 7pt system-ui, sans-serif; color: #000; letter-spacing: 0.05em; }
     .bar { display: flex; gap: 16px; justify-content: center; align-items: center; padding: 18px 0 0; font: 14px system-ui, sans-serif; color: #333; }
     .bar button { font: 600 15px system-ui, sans-serif; color: #fff; background: var(--navy); border: 0; border-radius: 999px; padding: 10px 22px; cursor: pointer; }
     @media print { html, body { background: none; } .page { margin: 0; box-shadow: none; } .bar { display: none; } }
   </style>
 </head>
 <body>
-  <style id="pagesize">@page { size: 9.5in 12in; margin: 0; }</style>
   <div class="bar">
-    <label><input type="checkbox" id="marksToggle" checked> Crop marks + bleed (print shop, 9.5 × 12 in sheet)</label>
-    <button onclick="print()">Print sign · 2 sides</button>
+    <span>Two 5 × 7 signs per 8.5 × 11 sheet · print double-sided · cut on the marks</span>
+    <button onclick="print()">Print signs</button>
   </div>
-  <div class="page" id="front">
-  <div class="sheet">
-    <!-- 816 × 1056 = letter at 96 dpi. Two overlapping rectangles (one wider, one taller), each with
-         concave quarter-circle corners — the stepped double frame from the inspo card. -->
-    <svg class="frame" viewBox="0 0 816 1056" aria-hidden="true">
-      <defs>
-        <linearGradient id="copper" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stop-color="#c99877"/><stop offset="0.35" stop-color="#8f5b3d"/>
-          <stop offset="0.6" stop-color="#d0a585"/><stop offset="1" stop-color="#8a5638"/>
-        </linearGradient>
-      </defs>
-      <g fill="none" stroke="url(#copper)" stroke-width="1.8">
-        <path class="tall" d=""/><path class="wide" d=""/>
+
+  <template id="sign">
+    <div class="sign">
+      <!-- 480 × 672 = 5 × 7 in at 96 dpi. Two overlapping notched rectangles (one wider, one taller)
+           — the stepped double frame from the inspo card. -->
+      <svg class="frame" viewBox="0 0 480 672" aria-hidden="true">
+        <defs>
+          <linearGradient id="copper" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#c99877"/><stop offset="0.35" stop-color="#8f5b3d"/>
+            <stop offset="0.6" stop-color="#d0a585"/><stop offset="1" stop-color="#8a5638"/>
+          </linearGradient>
+        </defs>
+        <g fill="none" stroke="url(#copper)" stroke-width="1.4">
+          <path class="tall" d=""/><path class="wide" d=""/>
+        </g>
+      </svg>
+      <div class="content">
+        <div class="names">Russell &amp; Mariel</div>
+        <div class="script">Share your photos</div>
+        <p class="lede caps">Scan to add photos + videos<br>from the weekend</p>
+        <div class="qr"><img src="qr.svg" alt="QR code to the guest photo page"></div>
+        <div class="code caps">Code <b>1017</b></div>
+        <div class="rule"></div>
+        <div class="days caps">BBQ &nbsp;·&nbsp; Lakeside Fiesta &nbsp;·&nbsp; Wedding</div>
+        <div class="url">marielgpt.github.io/mr-and-mrs-smith-atx/photos</div>
+      </div>
+    </div>
+  </template>
+
+  <!-- Crop marks on the 1056 × 816 sheet (11 × 8.5 in at 96 dpi). Cut lines: x = 48, 528, 1008;
+       y = 72, 744. Marks stop short of the trim so none of them land on a finished sign. -->
+  <template id="marks">
+    <svg class="marks" viewBox="0 0 1056 816" aria-hidden="true">
+      <g stroke="#000" stroke-width="0.75">
+        <line x1="48" y1="0" x2="48" y2="60"/><line x1="528" y1="0" x2="528" y2="60"/><line x1="1008" y1="0" x2="1008" y2="60"/>
+        <line x1="48" y1="756" x2="48" y2="816"/><line x1="528" y1="756" x2="528" y2="816"/><line x1="1008" y1="756" x2="1008" y2="816"/>
+        <line x1="0" y1="72" x2="36" y2="72"/><line x1="0" y1="744" x2="36" y2="744"/>
+        <line x1="1020" y1="72" x2="1056" y2="72"/><line x1="1020" y1="744" x2="1056" y2="744"/>
       </g>
     </svg>
-    <div class="content">
-      <div class="names">Russell &amp; Mariel</div>
-      <div class="script">Share your photos</div>
-      <p class="lede caps">Scan to add photos + videos<br>from the weekend</p>
-      <div class="qr"><img src="qr.svg" alt="QR code to the guest photo page"></div>
-      <div class="code caps">Code <b>1017</b></div>
-      <div class="rule"></div>
-      <div class="days caps">BBQ &nbsp;·&nbsp; Lakeside Fiesta &nbsp;·&nbsp; Wedding</div>
-      <div class="url">marielgpt.github.io/mr-and-mrs-smith-atx/photos</div>
-    </div>
-  </div>
-  <!-- Crop marks: 912 × 1152 = 9.5 × 12 in at 96 dpi; trim box is 48 → 864 × 48 → 1104. Marks sit
-       outside the 0.125 in (12 px) bleed so none of them land on the finished sign. -->
-  <svg class="marks" viewBox="0 0 912 1152" aria-hidden="true">
-    <g stroke="#000" stroke-width="0.75">
-      <line x1="0" y1="48" x2="34" y2="48"/><line x1="48" y1="0" x2="48" y2="34"/>
-      <line x1="878" y1="48" x2="912" y2="48"/><line x1="864" y1="0" x2="864" y2="34"/>
-      <line x1="0" y1="1104" x2="34" y2="1104"/><line x1="48" y1="1118" x2="48" y2="1152"/>
-      <line x1="878" y1="1104" x2="912" y2="1104"/><line x1="864" y1="1118" x2="864" y2="1152"/>
-    </g>
-  </svg>
-  <div class="side">FRONT · trim 8.5 × 11 in · 0.125 in bleed</div>
-  </div>
+  </template>
+
   <script>
     // Concave-cornered rectangle: each corner is a quarter circle centred on the corner point.
     const notched = (x0, y0, x1, y1, r) =>
       `M${x0 + r},${y0} H${x1 - r} A${r},${r} 0 0 0 ${x1},${y0 + r} V${y1 - r} A${r},${r} 0 0 0 ${x1 - r},${y1}` +
       ` H${x0 + r} A${r},${r} 0 0 0 ${x0},${y1 - r} V${y0 + r} A${r},${r} 0 0 0 ${x0 + r},${y0} Z`;
-    const m = 56, g = 22, r = 44; // margin from the page edge, offset between the two lines, corner radius
-    document.querySelector(".tall").setAttribute("d", notched(m + g, m, 816 - m - g, 1056 - m, r));
-    document.querySelector(".wide").setAttribute("d", notched(m, m + g, 816 - m, 1056 - m - g, r));
+    const W = 480, H = 672, m = 30, g = 12, r = 26; // sign size, margin from the trim, line offset, corner radius
 
-    // Back side: same design, so the sign reads from both directions. Centred layout means the
-    // crop marks line up when the printer flips the sheet (duplex, flip on long edge).
-    const back = document.getElementById("front").cloneNode(true);
-    back.id = "back";
-    back.querySelector(".side").textContent = "BACK · trim 8.5 × 11 in · 0.125 in bleed";
-    document.body.insertBefore(back, document.querySelector("script"));
-
-    const toggle = document.getElementById("marksToggle"), pageSize = document.getElementById("pagesize");
-    const applyMarks = () => {
-      document.body.classList.toggle("cropmarks", toggle.checked);
-      pageSize.textContent = toggle.checked ? "@page { size: 9.5in 12in; margin: 0; }" : "@page { size: letter portrait; margin: 0; }";
+    const makeSign = cls => {
+      const s = document.getElementById("sign").content.firstElementChild.cloneNode(true);
+      s.classList.add(cls);
+      s.querySelector(".tall").setAttribute("d", notched(m + g, m, W - m - g, H - m, r));
+      s.querySelector(".wide").setAttribute("d", notched(m, m + g, W - m, H - m - g, r));
+      return s;
     };
-    toggle.addEventListener("change", applyMarks);
-    applyMarks();
+    ["FRONT", "BACK"].forEach(label => {
+      const page = document.createElement("div");
+      page.className = "page";
+      page.append(makeSign("left"), makeSign("right"), document.getElementById("marks").content.firstElementChild.cloneNode(true));
+      const side = document.createElement("div");
+      side.className = "side";
+      side.textContent = label + " · two 5 × 7 in signs · cut on the marks";
+      page.append(side);
+      document.body.insertBefore(page, document.querySelector("script"));
+    });
   </script>
 </body>
 </html>
