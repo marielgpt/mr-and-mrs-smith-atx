@@ -240,6 +240,7 @@ const REFS = {
     { src: "ref/tablescape.png", cap: "Tablescape" },
     { src: "ref/centerpiece.png", cap: "Centerpiece" },
     { src: "ref/chair-signs.png", cap: "Chair signs" },
+    { src: "ref/tableinspo.png", cap: "Table inspo · candlelight + satin linens" },
     { href: "https://www.instagram.com/reel/DeKWDnXxWYu/", cap: "Dinner setup inspo · @zanacocreative" }
   ],
   "setup-party": [
