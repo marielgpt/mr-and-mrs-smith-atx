@@ -265,6 +265,22 @@ const TEARDOWN_REFS = {
   ]
 };
 
+/* Seating, from the seating plan (Downloads/table names.png) — laid out as on the sheet: one guest at
+   each end, the rest down the two sides. Shown in the run of show between dinner set-up and dinner. */
+const SEATING = [
+  { n: 3, top: "Adam Sterling", bottom: "Roman Khomenko Jr.",
+    left: ["Kelly Sterling", "Candice Vicuña", "Alpa Shah", "Leela Hayes", "Harry Hayes", "Bobby Hayes", "Bogdan Pyzh", "Marta Pyzh"],
+    right: ["Rodrigo Vicuña", "Sierra Vicuña", "Alisha Terry", "Maika Terry", "Kestrel Terry", "Nate Terry", "Roman Khomenko", "Liliia Khomenko"] },
+  { n: 2, top: "Stevie Graham", bottom: "James Walford",
+    left: ["Fred Stevens-Smith", "Patrick Coleman", "Reed Allman", "Emily Coombes", "Louise McKenna", "Lucia Finneran", "Daniel Finneran",
+      "Peter Scott", "Amy Scott", "Stephanie Noriega", "Rachel Walford", "Stevie Braysher"],
+    right: ["Madhvi Reddi", "Laks Srini", "Jason Luce", "Cathryn McNab", "Francis Hinchey", "Jamie Hinchey", "Geraldo Wingate",
+      "Roxy Wingate", "Eunice Bravo", "Manora Ginige", "Sonali Ginige", "Stuart Garcia"] },
+  { n: 1, top: "Joaquin Vargas", bottom: "Howard Smith",
+    left: ["Vinny Furio", "Lisa Furio", "Laura Bell", "Oneida Vargas", "Rosa Bakody", "Phil Bakody", "Michel Focard de Fontefiguieres", "Shirley Focard de Fontefiguieres"],
+    right: ["Abraham Vargas", "Taree Vargas", "Jameson Bell", "Jackson Bell", "Lincoln Bell", "Percy Smith", "Mariel Smith", "Russell Smith"] }
+];
+
 const VENDORS = [
   { id: "amy", name: "Amy Dang", role: "Photographer",
     tel: "(818) 224-8471", email: "and@amydangphotography.com", call: "2:30 PM",
@@ -694,10 +710,10 @@ function App() {
                 ${!solo && html`<button className="btn btn-ghost" onClick=${() => window.print()} title="Print or save the run of show + teardown as a PDF" style=${{ fontFamily: "var(--font-body)", fontWeight: 700, fontSize: "12px", padding: "3px 9px", display: "inline-flex", alignItems: "center", gap: "5px" }}>
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>Print / PDF</button>`}
               </div>
-              <a href=${nowHref} className="tag tag-accent" style=${{ textDecoration: "none", gap: "6px" }}>
+              ${(dd === 0 || sim) && html`<a href=${nowHref} className="tag tag-accent" style=${{ textDecoration: "none", gap: "6px" }}>
                 <span style=${{ width: "7px", height: "7px", borderRadius: "50%", background: "var(--color-accent)", animation: "nowPulse 2s ease-out infinite" }}></span>
                 ${nowLabel}
-              </a>
+              </a>`}
             </div>
           </div>
 
@@ -744,7 +760,7 @@ function App() {
 
           ${!solo && view === "timeline" && html`
             <div style=${{ display: "flex", gap: "6px", overflowX: "auto", paddingBottom: "4px", margin: "0 -18px", paddingInline: "18px", scrollbarWidth: "none" }}>
-              ${events.map(e => html`<a key=${e.ev.id} href=${"#" + e.ev.id} className=${"tag " + e.st.chip} style=${{ textDecoration: "none", whiteSpace: "nowrap", flex: "none", fontSize: "12px", padding: "5px 12px" }}>${e.ev.major ? "" : "Set-up · "}${e.ev.name}</a>`)}
+              ${events.map(e => html`<a key=${e.ev.id} href=${"#" + e.ev.id} className=${"tag " + e.st.chip} style=${{ textDecoration: "none", whiteSpace: "nowrap", flex: "none", fontSize: "12px", padding: "5px 12px" }}>${e.ev.major ? "" : "Set-up · "}${e.ev.name}</a>${e.ev.id === "setup-dinner" ? html`<a key="seating-chip" href="#seating" className="tag tag-outline" style=${{ textDecoration: "none", whiteSpace: "nowrap", flex: "none", fontSize: "12px", padding: "5px 12px" }}>Seating chart</a>` : ""}`)}
             </div>`}
 
         </div>
@@ -873,7 +889,7 @@ function App() {
                     </div>
 
                   </div>`}
-              </section>`)}
+              </section>${e.ev.id === "setup-dinner" ? html`<${SeatingChart} key="seating" />` : ""}`)}
           </div>`}
 
         ${!solo && view === "checklist" && html`
@@ -1056,6 +1072,40 @@ function App() {
     </div>
     ${!solo && html`<${PrintDoc} events=${allEvents} checklists=${allCheckGroups} teardown=${teardownGroups} contacts=${contacts} dateLabel=${dateLabel} props=${props} />`}
     </div>`;
+}
+
+/* ─── Seating chart (run of show, between dinner set-up and dinner) ─── */
+function SeatingChart() {
+  const total = SEATING.reduce((n, t) => n + t.left.length + t.right.length + (t.top ? 1 : 0) + (t.bottom ? 1 : 0), 0);
+  const seat = (name, align) => html`<div style=${{ fontSize: "13px", lineHeight: 1.25, padding: "5px 8px", background: "var(--color-surface)", borderRadius: "var(--radius-sm)", textAlign: align, minHeight: "18px" }}>${name}</div>`;
+  return html`
+    <section id="seating" style=${{ scrollMarginTop: "0px" }}>
+      <div style=${{ display: "flex", alignItems: "baseline", gap: "12px", flexWrap: "wrap", padding: "6px 0 10px" }}>
+        <span style=${{ flex: "none", width: "9px", height: "9px", borderRadius: "50%", border: "2px solid var(--color-accent-2-600)" }}></span>
+        <div style=${{ flex: 1 }}>
+          <div style=${{ fontSize: "10px", letterSpacing: "0.14em", textTransform: "uppercase", fontWeight: 700, color: "var(--color-accent-2-700)" }}>Dinner</div>
+          <h2 style=${{ fontSize: "clamp(17px, 3.6vw, 21px)", margin: 0, color: "var(--color-accent-2-900)" }}>Seating chart</h2>
+          <div style=${{ fontSize: "13px", color: "var(--color-neutral-700)" }}>${SEATING.length} tables · ${total} guests · laid out as on the seating plan</div>
+        </div>
+        <a className="btn btn-ghost" href="print/table-numbers.html" target="_blank" rel="noreferrer" style=${{ fontWeight: 700, fontSize: "13px" }}>Table signs ↗</a>
+      </div>
+      <div style=${{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(270px, 1fr))", gap: "14px" }}>
+        ${SEATING.map(t => html`
+          <div key=${t.n} className="card elev-sm" style=${{ padding: "var(--space-4)", gap: "8px", background: "var(--color-bg)", border: "1px solid var(--color-divider)" }}>
+            <div style=${{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+              <div style=${{ fontFamily: "var(--font-heading)", fontSize: "20px" }}>Table ${t.n}</div>
+              <div style=${{ fontSize: "12px", color: "var(--color-neutral-700)" }}>${t.left.length + t.right.length + (t.top ? 1 : 0) + (t.bottom ? 1 : 0)} seats</div>
+            </div>
+            ${t.top && html`<div style=${{ display: "flex", justifyContent: "center" }}>${seat(t.top, "center")}</div>`}
+            <div style=${{ display: "grid", gridTemplateColumns: "1fr 18px 1fr", gap: "6px" }}>
+              <div style=${{ display: "flex", flexDirection: "column", gap: "4px" }}>${t.left.map(n => html`<div key=${n}>${seat(n, "right")}</div>`)}</div>
+              <div style=${{ background: "var(--color-accent-800)", borderRadius: "4px" }} title=${"Table " + t.n}></div>
+              <div style=${{ display: "flex", flexDirection: "column", gap: "4px" }}>${t.right.map(n => html`<div key=${n}>${seat(n, "left")}</div>`)}</div>
+            </div>
+            ${t.bottom && html`<div style=${{ display: "flex", justifyContent: "center" }}>${seat(t.bottom, "center")}</div>`}
+          </div>`)}
+      </div>
+    </section>`;
 }
 
 /* ─── Print / PDF: run of show + teardown on plain paper. Hidden on screen; the
