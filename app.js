@@ -1155,21 +1155,26 @@ function PrintDoc({ events, checklists, teardown, contacts, dateLabel, props }) 
             </div>`)}
         </div>`)}
 
-      <div style=${{ ...h2, breakBefore: "page" }}>Seating chart</div>
-      <div style=${{ fontSize: "11px", color: "#444", paddingBottom: "6px" }}>${SEATING.length} tables · laid out as on the seating plan · one guest at each end, the rest down both sides</div>
-      <div style=${{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "14px" }}>
-        ${SEATING.map(t => html`
-          <div key=${t.n} style=${{ breakInside: "avoid", border: "1px solid #bbb", borderRadius: "6px", padding: "8px" }}>
-            <div style=${{ fontSize: "14px", fontWeight: 800, paddingBottom: "4px" }}>Table ${t.n} <span style=${{ fontWeight: 400, fontSize: "11px", color: "#444" }}>· ${t.left.length + t.right.length + (t.top ? 1 : 0) + (t.bottom ? 1 : 0)} seats</span></div>
-            ${t.top && html`<div style=${{ textAlign: "center", fontSize: "10.5px", fontWeight: 700, paddingBottom: "3px" }}>${t.top}</div>`}
-            <div style=${{ display: "grid", gridTemplateColumns: "1fr 8px 1fr", gap: "5px" }}>
-              <div>${t.left.map(n => html`<div key=${n} style=${{ fontSize: "10.5px", lineHeight: 1.3, textAlign: "right", padding: "1.5px 0" }}>${n}</div>`)}</div>
-              <div style=${{ background: "#555", borderRadius: "2px" }}></div>
-              <div>${t.right.map(n => html`<div key=${n} style=${{ fontSize: "10.5px", lineHeight: 1.3, padding: "1.5px 0" }}>${n}</div>`)}</div>
-            </div>
-            ${t.bottom && html`<div style=${{ textAlign: "center", fontSize: "10.5px", fontWeight: 700, paddingTop: "3px" }}>${t.bottom}</div>`}
-          </div>`)}
-      </div>
+      ${SEATING.map((t, ti) => {
+        const guest = n => html`<div key=${n} style=${{ display: "flex", gap: "8px", alignItems: "center", fontSize: "14px", lineHeight: 1.2, padding: "5px 0", borderBottom: "1px solid #e2e2e2" }}>${box(false)}<span>${n}</span></div>`;
+        const end = (n, label) => n && html`<div style=${{ display: "flex", justifyContent: "center" }}>
+          <div style=${{ display: "flex", gap: "8px", alignItems: "center", fontSize: "14px", fontWeight: 700, padding: "5px 12px", border: "1px solid #999", borderRadius: "4px" }}>${box(false)}<span>${n}</span><span style=${{ fontSize: "10px", fontWeight: 400, color: "#555" }}>· ${label}</span></div></div>`;
+        const seats = t.left.length + t.right.length + (t.top ? 1 : 0) + (t.bottom ? 1 : 0);
+        return html`<div key=${t.n} style=${{ breakInside: "avoid", breakBefore: ti === 0 || ti === 2 ? "page" : "auto", paddingTop: ti === 1 ? "22px" : 0 }}>
+          ${ti !== 1 && html`<div style=${h2}>Seating chart${ti === 2 ? " (cont.)" : ""}</div>`}
+          <div style=${{ display: "flex", justifyContent: "space-between", alignItems: "baseline", paddingBottom: "6px" }}>
+            <div style=${{ fontFamily: "var(--font-heading)", fontSize: "22px" }}>Table ${t.n}</div>
+            <div style=${{ fontSize: "12px", color: "#444" }}>${seats} seats · room order 3 · 2 · 1, left to right</div>
+          </div>
+          ${end(t.top, "end")}
+          <div style=${{ display: "grid", gridTemplateColumns: "1fr 14px 1fr", gap: "16px", padding: "6px 0" }}>
+            <div>${t.left.map(guest)}</div>
+            <div style=${{ background: "#3a2a20", borderRadius: "3px" }}></div>
+            <div>${t.right.map(guest)}</div>
+          </div>
+          ${end(t.bottom, "end")}
+        </div>`;
+      })}
 
       <div style=${{ ...h2, breakBefore: "page" }}>Checklists</div>
       ${checklists.map((g, gi) => html`
