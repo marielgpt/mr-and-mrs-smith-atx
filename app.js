@@ -1155,6 +1155,22 @@ function PrintDoc({ events, checklists, teardown, contacts, dateLabel, props }) 
             </div>`)}
         </div>`)}
 
+      <div style=${{ ...h2, breakBefore: "page" }}>Seating chart</div>
+      <div style=${{ fontSize: "11px", color: "#444", paddingBottom: "6px" }}>${SEATING.length} tables · laid out as on the seating plan · one guest at each end, the rest down both sides</div>
+      <div style=${{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "14px" }}>
+        ${SEATING.map(t => html`
+          <div key=${t.n} style=${{ breakInside: "avoid", border: "1px solid #bbb", borderRadius: "6px", padding: "8px" }}>
+            <div style=${{ fontSize: "14px", fontWeight: 800, paddingBottom: "4px" }}>Table ${t.n} <span style=${{ fontWeight: 400, fontSize: "11px", color: "#444" }}>· ${t.left.length + t.right.length + (t.top ? 1 : 0) + (t.bottom ? 1 : 0)} seats</span></div>
+            ${t.top && html`<div style=${{ textAlign: "center", fontSize: "10.5px", fontWeight: 700, paddingBottom: "3px" }}>${t.top}</div>`}
+            <div style=${{ display: "grid", gridTemplateColumns: "1fr 8px 1fr", gap: "5px" }}>
+              <div>${t.left.map(n => html`<div key=${n} style=${{ fontSize: "10.5px", lineHeight: 1.3, textAlign: "right", padding: "1.5px 0" }}>${n}</div>`)}</div>
+              <div style=${{ background: "#555", borderRadius: "2px" }}></div>
+              <div>${t.right.map(n => html`<div key=${n} style=${{ fontSize: "10.5px", lineHeight: 1.3, padding: "1.5px 0" }}>${n}</div>`)}</div>
+            </div>
+            ${t.bottom && html`<div style=${{ textAlign: "center", fontSize: "10.5px", fontWeight: 700, paddingTop: "3px" }}>${t.bottom}</div>`}
+          </div>`)}
+      </div>
+
       <div style=${{ ...h2, breakBefore: "page" }}>Checklists</div>
       ${checklists.map((g, gi) => html`
         <div key=${gi} style=${{ breakInside: "avoid", padding: "6px 0", borderBottom: "1px solid #ccc" }}>
