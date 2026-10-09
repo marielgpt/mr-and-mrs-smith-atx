@@ -722,9 +722,8 @@ function App() {
               <label className="seg-opt" style=${opt(inDay ? "var(--color-bg)" : "var(--color-accent-800)", inDay ? "var(--color-accent-600)" : "transparent")} onClick=${() => setView("timeline")}>Timeline</label>
               <label className="seg-opt" style=${opt(view === "done" ? "var(--color-bg)" : "var(--color-accent-2-800)", view === "done" ? "var(--color-accent-2-600)" : "transparent")} onClick=${() => setView("done")}>✓ ${hiddenIds.length ? "Complete (" + hiddenIds.length + ")" : "Complete"}</label>
             </div>
-            <div className="seg" style=${seg("var(--color-neutral-200)", "var(--color-neutral-400)")}>
-              <label className="seg-opt" style=${opt(view === "vendors" ? "var(--color-bg)" : "var(--color-neutral-800)", view === "vendors" ? "var(--color-neutral-700)" : "transparent")} onClick=${() => setView("vendors")}>Vendor cues</label>
-            </div>
+            <button className="btn btn-ghost" onClick=${() => setView("vendors")}
+              style=${{ fontFamily: "var(--font-body)", fontWeight: 700, fontSize: "14px", padding: "4px 6px", textDecoration: view === "vendors" ? "underline" : "none", textUnderlineOffset: "4px" }}>Vendor cues →</button>
             ${view === "checklist" && html`
               <div style=${{ display: "flex", alignItems: "center", gap: "8px", fontSize: "12px", color: "var(--color-neutral-700)" }}>
                 <div style=${{ width: "110px", height: "7px", borderRadius: "999px", background: "var(--color-neutral-300)", overflow: "hidden" }}>
@@ -735,9 +734,11 @@ function App() {
           </div>`}
 
           ${!solo && inDay && html`
-            <div className="seg" style=${{ alignSelf: "flex-start", fontSize: "13px" }}>
+            <div style=${{ display: "flex", gap: "16px", flexWrap: "wrap", alignItems: "baseline" }}>
               ${[["timeline", "Run of show"], ["checklist", "Setup checklist"], ["inventory", "Teardown"], ["contacts", "Contacts"]].map(([v, label]) => html`
-                <label key=${v} className="seg-opt" style=${{ background: view === v ? "var(--color-accent)" : "transparent", color: view === v ? "var(--color-bg)" : "inherit" }} onClick=${() => setView(v)}>${label}</label>`)}
+                <button key=${v} onClick=${() => setView(v)} style=${{ border: 0, background: "none", padding: "2px 0", cursor: "pointer", font: "inherit", fontSize: "12.5px",
+                  fontWeight: view === v ? 700 : 500, color: view === v ? "var(--color-accent-700)" : "var(--color-neutral-700)",
+                  borderBottom: view === v ? "2px solid var(--color-accent)" : "2px solid transparent" }}>${label}</button>`)}
             </div>`}
 
           ${!solo && view === "timeline" && html`
