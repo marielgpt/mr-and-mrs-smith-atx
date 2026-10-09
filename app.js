@@ -691,7 +691,8 @@ function App() {
             <div style=${{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "4px" }}>
               <div style=${{ display: "flex", alignItems: "baseline", gap: "8px" }}>
                 ${clock && html`<div style=${{ fontFamily: "var(--font-heading)", fontSize: "22px", lineHeight: 1 }}>${clock}</div>`}
-                ${!solo && html`<button className="btn btn-ghost" onClick=${() => window.print()} title="Print or save the run of show + teardown as a PDF" style=${{ fontFamily: "var(--font-body)", fontWeight: 700, fontSize: "12px", padding: "3px 9px" }}>Print / PDF</button>`}
+                ${!solo && html`<button className="btn btn-ghost" onClick=${() => window.print()} title="Print or save the run of show + teardown as a PDF" style=${{ fontFamily: "var(--font-body)", fontWeight: 700, fontSize: "12px", padding: "3px 9px", display: "inline-flex", alignItems: "center", gap: "5px" }}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>Print / PDF</button>`}
               </div>
               <a href=${nowHref} className="tag tag-accent" style=${{ textDecoration: "none", gap: "6px" }}>
                 <span style=${{ width: "7px", height: "7px", borderRadius: "50%", background: "var(--color-accent)", animation: "nowPulse 2s ease-out infinite" }}></span>
