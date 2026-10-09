@@ -277,8 +277,8 @@ const SEATING = [
     right: ["Madhvi Reddi", "Laks Srini", "Jason Luce", "Cathryn McNab", "Francis Hinchey", "Jamie Hinchey", "Geraldo Wingate",
       "Roxy Wingate", "Eunice Bravo", "Manora Ginige", "Sonali Ginige", "Stuart Garcia"] },
   { n: 1, top: "Joaquin Vargas", bottom: "Howard Smith",
-    left: ["Vinny Furio", "Lisa Furio", "Laura Bell", "Oneida Vargas", "Rosa Bakody", "Phil Bakody", "Michel Focard de Fontefiguieres", "Shirley Focard de Fontefiguieres"],
-    right: ["Abraham Vargas", "Taree Vargas", "Jameson Bell", "Jackson Bell", "Lincoln Bell", "Percy Smith", "Mariel Smith", "Russell Smith"] }
+    left: ["Abraham Vargas", "Taree Vargas", "Laura Bell", "Oneida Vargas", "Rosa Bakody", "Phil Bakody", "Michel Focard de Fontefiguieres", "Shirley Focard de Fontefiguieres"],
+    right: ["Vinny Furio", "Lisa Furio", "Jameson Bell", "Jackson Bell", "Lincoln Bell", "Percy Smith", "Mariel Smith", "Russell Smith"] }
 ];
 
 const VENDORS = [
