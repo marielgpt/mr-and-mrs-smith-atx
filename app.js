@@ -656,8 +656,8 @@ function App() {
   const delayTagClass = liveDrift ? "tag-accent" : "tag-neutral";
   const syncStamp = syncedAt ? clockTime(syncedAt) : (sb ? "" : "this device only");
 
-  const seg = (bg, border) => ({ background: bg, borderColor: border, fontSize: "19px" });
-  const opt = (color, bg) => ({ color, background: bg, fontWeight: 700, borderRadius: "999px", padding: "11px 24px", fontSize: "18px" });
+  const seg = (bg, border) => ({ background: bg, borderColor: border, fontSize: "14px" });
+  const opt = (color, bg) => ({ color, background: bg, fontWeight: 700, borderRadius: "999px", padding: "6px 16px", fontSize: "14px" });
 
   // Image refs open the lightbox; `href` refs (e.g. an Instagram reel) open in a new tab instead.
   const RefCard = ({ src, cap, href }) => href ? html`
@@ -686,7 +686,7 @@ function App() {
           <div style=${{ display: "flex", alignItems: "flex-end", gap: "16px", flexWrap: "wrap" }}>
             <div style=${{ marginRight: "auto", minWidth: 0 }}>
               <h1 style=${{ fontSize: "clamp(26px, 6vw, 40px)", margin: "0 0 2px" }}>${props.title}</h1>
-              <div style=${{ fontSize: "12px", letterSpacing: "0.06em", textTransform: "uppercase", color: "var(--color-neutral-700)" }}>${dateLabel}  ·  ${props.venue}  ·  ceremony → cocktails → dinner → party</div>
+              <div style=${{ fontSize: "12px", letterSpacing: "0.06em", textTransform: "uppercase", color: "var(--color-neutral-700)" }}>${dateLabel}  ·  ${props.venue}</div>
             </div>
             <div style=${{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "4px" }}>
               <div style=${{ display: "flex", alignItems: "baseline", gap: "8px" }}>
