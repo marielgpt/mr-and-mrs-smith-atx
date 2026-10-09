@@ -236,7 +236,7 @@ const REFS = {
     { src: "ref/cake.png", cap: "Cake" }
   ],
   "setup-dinner": [
-    { src: "ref/dinner-room.png", cap: "Dinner room" },
+    { src: "ref/dinner-room-2.png", cap: "Dinner room · tables 3, 2, 1" },
     { src: "ref/tablescape.png", cap: "Tablescape" },
     { src: "ref/centerpiece.png", cap: "Centerpiece" },
     { src: "ref/chair-signs.png", cap: "Chair signs" },
