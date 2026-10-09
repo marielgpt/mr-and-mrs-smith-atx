@@ -8,10 +8,10 @@
        with crop marks. Styled after Downloads/cardinspo.jpeg: navy didone first name, copper-foil
        script last name tucked under it, optional letterspaced small-caps note (e.g. an allergy),
        rose-copper ticket frame (square inner line + outer line stepping in with a quarter-circle at
-       each corner). Fonts matched to the printed Minted cards: Prata caps, Monsieur La Doulaise script. Edit CARDS below: [first, last, note]. -->
+       each corner). Fonts matched to the printed Minted cards: Noto Serif Display caps (widened), Monsieur La Doulaise script. Edit CARDS below: [first, last, note]. -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Prata&family=Cormorant+SC:wght@600&family=Monsieur+La+Doulaise&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Display:wght@600&family=Cormorant+SC:wght@600&family=Monsieur+La+Doulaise&display=swap" rel="stylesheet">
   <style>
     @page { size: letter portrait; margin: 0; }
     :root { --navy: #2f4a6e;
@@ -25,7 +25,9 @@
     .card { position: absolute; width: 3.5in; height: 2in; }
     .frame, .marks { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
     .content { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding-top: 2pt; }
-    .first { font-family: "Prata", Didot, "Bodoni 72", serif; font-weight: 400; font-size: 22pt; letter-spacing: 0.06em; line-height: 1; text-transform: uppercase; white-space: nowrap; }
+    /* First name: Noto Serif Display widened 1.32× — the extended, pointed-serif engraved caps on the
+       printed cards (Noto has no wide cut, so it's scaled horizontally around its centre). */
+    .first { display: inline-block; transform: scaleX(1.32); transform-origin: center; font-family: "Noto Serif Display", Didot, "Bodoni 72", serif; font-weight: 600; font-size: 20.5pt; letter-spacing: 0.05em; line-height: 1; text-transform: uppercase; white-space: nowrap; }
     /* Last name: SVG text filled with the copper-foil gradient (prints cleaner than background-clip text). */
     .last { display: block; width: 3.5in; height: 0.44in; margin-top: 0pt; overflow: visible; }
     .last text { font-family: "Monsieur La Doulaise", "Snell Roundhand", cursive; font-size: 27px; }
@@ -100,6 +102,13 @@
       }).join("") + marks(Math.ceil(batch.length / COLS));
       document.body.appendChild(page);
     }
+
+    // Long first names: shrink until the widened name fits inside the inner frame line.
+    document.fonts.ready.then(() => document.querySelectorAll(".first").forEach(el => {
+      const max = CW - 2 * (m + d) - 24;
+      let size = parseFloat(getComputedStyle(el).fontSize);
+      while (el.offsetWidth * 1.32 > max && size > 9) { size -= 0.5; el.style.fontSize = size + "px"; }
+    }));
   </script>
 </body>
 </html>
