@@ -26,7 +26,7 @@ const EVENTS = [
     ],
     panels: [
       { label: "Setup checklist", type: "check", owner: "John Winn", when: "by 2:45", rows: [
-        "Rental chairs delivered",
+        "Rental chairs delivered · Alora Event Rentals",
         "Ceremony chairs placed",
         "Cake placed in the cocktail room",
         "Boutonnieres to the fathers, Russell and Percy",
@@ -220,6 +220,7 @@ const CONTACTS = [
   { a: "Amy Dang", b: "Photographer", c: "(818) 224-8471", d: "and@amydangphotography.com", onsite: "from 2:30 PM" },
   { a: "Olivia Vickers", b: "Cake", c: "(830) 456-9129", d: "info@olivearies.com", onsite: "delivery by 1:30 PM" },
   { a: "Stem Floral", b: "Pedestal rental", c: "(512) 537-0577", d: "info@stemfloral.com", onsite: "delivery by 1:00 PM" },
+  { a: "Alora Event Rentals", b: "Chair rental", c: "", d: "info@aloraeventrentals.com", need: "Add a phone number" },
   { a: "Kathy · Central Market North", b: "All florals", c: "(512) 206-1000", d: "s0619c@heb.com", onsite: "delivery by 1:30 PM" },
   { a: "Dre Mazzenga", b: "Ceremony vocalist + pianist", c: "(914) 419-6728", d: "dreacoustic@gmail.com", onsite: "from 1:45 PM" },
   { a: "JP Listrom", b: "Cocktail DJ · dinner pianist · MC", c: "(512) 484-5159", d: "jplistrommusic@gmail.com", onsite: "from 2:30 PM" },
