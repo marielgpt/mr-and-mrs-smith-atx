@@ -26,7 +26,7 @@ const EVENTS = [
     ],
     panels: [
       { label: "Setup checklist", type: "check", owner: "John Winn", when: "by 2:45", rows: [
-        "Rental chairs delivered · Alora Event Rentals",
+        "Rental chairs delivered · Alora Event & Design Rentals",
         "Ceremony chairs placed",
         "Cake placed in the cocktail room",
         "Boutonnieres to the fathers, Russell and Percy",
@@ -220,7 +220,7 @@ const CONTACTS = [
   { a: "Amy Dang", b: "Photographer", c: "(818) 224-8471", d: "and@amydangphotography.com", onsite: "from 2:30 PM" },
   { a: "Olivia Vickers", b: "Cake", c: "(830) 456-9129", d: "info@olivearies.com", onsite: "delivery by 1:30 PM" },
   { a: "Stem Floral", b: "Pedestal rental", c: "(512) 537-0577", d: "info@stemfloral.com", onsite: "delivery by 1:00 PM" },
-  { a: "Alora Event Rentals", b: "Chair rental", c: "", d: "info@aloraeventrentals.com", need: "Add a phone number" },
+  { a: "Alora Event & Design Rentals", b: "Chair rental", c: "(512) 210-6181", c2: "(956) 898-6782", d: "info@aloraeventrentals.com" },
   { a: "Kathy · Central Market North", b: "All florals", c: "(512) 206-1000", d: "s0619c@heb.com", onsite: "delivery by 1:30 PM" },
   { a: "Dre Mazzenga", b: "Ceremony vocalist + pianist", c: "(914) 419-6728", d: "dreacoustic@gmail.com", onsite: "from 1:45 PM" },
   { a: "JP Listrom", b: "Cocktail DJ · dinner pianist · MC", c: "(512) 484-5159", d: "jplistrommusic@gmail.com", onsite: "from 2:30 PM" },
@@ -649,7 +649,7 @@ function App() {
     return { name: g.group, note: g.note, rows, refs, hasRefs: refs.length > 0, count: rows.filter(r => r.checked).length + " / " + rows.length };
   });
 
-  const contacts = CONTACTS.map(c => Object.assign({}, c, { tel: telHref(c.c), hasPhone: !!c.c, hasEmail: !!c.d, needsInfo: !c.c, need: c.need || "No phone on file" }));
+  const contacts = CONTACTS.map(c => Object.assign({}, c, { tel: telHref(c.c), tel2: c.c2 ? telHref(c.c2) : "", hasPhone: !!c.c, hasEmail: !!c.d, needsInfo: !c.c, need: c.need || "No phone on file" }));
 
   const V = VENDORS.find(x => x.id === vendor) || VENDORS[0];
   const vendorView = {
@@ -1050,9 +1050,10 @@ function App() {
               <div key=${ci} className="card elev-sm" style=${{ padding: "var(--space-4)" }}>
                 <div className="card-kicker" style=${{ fontSize: "14px", fontWeight: 800 }}>${c.b}</div>
                 <div style=${{ fontFamily: "var(--font-heading)", fontSize: "21px" }}>${c.a}</div>
-                <div style=${{ fontSize: "12px", color: "var(--color-neutral-700)" }}>On site ${c.onsite}</div>
+                ${c.onsite && html`<div style=${{ fontSize: "12px", color: "var(--color-neutral-700)" }}>On site ${c.onsite}</div>`}
                 ${c.hasPhone && html`<div style=${{ display: "flex", gap: "7px", flexWrap: "wrap", paddingTop: "6px" }}>
                   <a className="btn btn-primary" href=${"tel:" + c.tel} style=${{ fontFamily: "var(--font-body)", fontWeight: 700, fontSize: "16px", letterSpacing: "0.01em", padding: "9px 18px" }}>${c.c}</a>
+                  ${c.c2 && html`<a className="btn btn-secondary" href=${"tel:" + c.tel2} style=${{ fontFamily: "var(--font-body)", fontWeight: 700, fontSize: "15px", padding: "9px 16px" }}>${c.c2}</a>`}
                   ${c.hasEmail && html`<a className="btn btn-secondary" href=${"mailto:" + c.d} style=${{ fontFamily: "var(--font-body)", fontWeight: 600, fontSize: "14px", padding: "9px 18px" }}>Email</a>`}
                 </div>`}
                 ${c.needsInfo && html`<div className="tag tag-outline" style=${{ alignSelf: "flex-start", marginTop: "6px", fontWeight: 700 }}>${c.need}</div>`}
@@ -1205,7 +1206,7 @@ function PrintDoc({ events, checklists, teardown, contacts, dateLabel, props }) 
       <table style=${{ borderCollapse: "collapse", width: "100%" }}><tbody>
         ${contacts.map(c => html`<tr key=${c.a} style=${{ borderBottom: "1px solid #ddd" }}>
           <td style=${{ ...cell, fontWeight: 700 }}>${c.a}</td><td style=${cell}>${c.b}</td>
-          <td style=${{ ...cell, whiteSpace: "nowrap" }}>${c.c}</td><td style=${{ ...cell, color: "#444" }}>${c.onsite || ""}</td>
+          <td style=${{ ...cell, whiteSpace: "nowrap" }}>${c.c}${c.c2 ? html`<br />${c.c2}` : ""}</td><td style=${{ ...cell, color: "#444" }}>${c.onsite || ""}</td>
         </tr>`)}
       </tbody></table>
     </div>`;
