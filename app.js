@@ -28,7 +28,7 @@ const EVENTS = [
       { label: "Setup checklist", type: "check", owner: "John Winn", when: "by 2:45", rows: [
         "Ceremony chairs placed",
         "Cake placed in the cocktail room",
-        "Boutonnieres to the fathers, Russell and Percy",
+        "Boutonnieres to the fathers, Russell, Percy and Abe (Mariel’s brother)",
         "Bouquet to Mariel",
         "Florals staged in the pre-screening room for cocktail hour",
         "Bows and amaranthus on the aisles",
