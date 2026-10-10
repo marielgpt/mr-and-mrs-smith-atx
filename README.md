@@ -35,7 +35,7 @@ Static site, no build step:
 
 ## Guest photos
 
-`/photos/` is a public page for the whole weekend: guests upload photos + videos and browse the
+`/photos/` (https://marielandrussell.com/photos/) is a public page for the whole weekend: guests upload photos + videos and browse the
 live gallery, grouped by the day each was taken (EXIF / video metadata, falling back to upload
 time): Oct 15 BBQ, Oct 16 Lakeside Fiesta, Oct 17 wedding. Photos keep the original file plus a 2048px gallery copy and thumb; videos upload
 as-is at any size (resumable uploads for anything over 6 MB); admin view shows storage used. Files go to the public `guest-photos` Supabase bucket, listed via the
@@ -58,5 +58,5 @@ python3 -m http.server 8000
 
 ## Deploy (GitHub Pages)
 
-Pushed to `main`; served from GitHub Pages. To test a slipped clock without waiting for the day,
+Pushed to `main`; served from GitHub Pages at **https://marielandrussell.com** (custom domain; DNS at Squarespace — four GitHub A records + `www` CNAME → `marielgpt.github.io`). Old `marielgpt.github.io/mr-and-mrs-smith-atx/…` links redirect. To test a slipped clock without waiting for the day,
 set `simulatedTime` (e.g. `"16:20"`) in `config.js`.
