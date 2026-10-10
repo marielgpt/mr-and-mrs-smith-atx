@@ -35,6 +35,7 @@ const EVENTS = [
         "Decorative columns positioned with the pedestal flowers",
         "Rings with Percy",
         "Marriage license with Joaquin Vargas (officiant)",
+        "Rose glasses to Joaquin for the ceremony",
         "Grazing table set in the pre-screening room for cocktail hour",
         "Confirm food + bar timing with Laura Gregory"
       ] },
