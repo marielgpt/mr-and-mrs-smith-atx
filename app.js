@@ -26,6 +26,7 @@ const EVENTS = [
     ],
     panels: [
       { label: "Setup checklist", type: "check", owner: "John Winn", when: "by 2:45", rows: [
+        "Rental chairs delivered",
         "Ceremony chairs placed",
         "Cake placed in the cocktail room",
         "Boutonnieres to the fathers, Russell and Percy",
