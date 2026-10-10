@@ -26,7 +26,6 @@ const EVENTS = [
     ],
     panels: [
       { label: "Setup checklist", type: "check", owner: "John Winn", when: "by 2:45", rows: [
-        "Rental chairs delivered · Alora Event & Design Rentals",
         "Ceremony chairs placed",
         "Cake placed in the cocktail room",
         "Boutonnieres to the fathers, Russell and Percy",
@@ -41,7 +40,7 @@ const EVENTS = [
       ] },
       { label: "Arrivals · confirm", type: "check", owner: "John Winn", when: "by 2:45", rows: [
         "Olivia Vickers · cake delivered",
-        "Pedestals delivered · Stem Floral",
+        "Pedestals delivered · Stem Floral", "Rental chairs delivered · Alora Event & Design Rentals",
         "All florals delivered · Central Market",
         "Dre Mazzenga · ceremony vocalist + pianist",
         "JP Listrom · cocktail DJ + dinner pianist",
