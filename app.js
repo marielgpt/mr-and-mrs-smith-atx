@@ -60,10 +60,14 @@ const EVENTS = [
   {
     id: "ceremony", name: "Ceremony", major: true, range: "3:00 – 3:30 PM", start: 900, end: 930,
     moments: [
-      { t: 900, time: "3:00", label: "Ceremony begins" },
-      { t: 910, time: "3:10", label: "Joaquin Vargas speaks (5 min)", subs: ["Officiant · Mariel’s father"] },
-      { t: 915, time: "3:15", label: "Reading · Shirley Trinkwon" },
-      { t: 920, time: "3:20", label: "Vows, ring exchange, pronouncement", subs: ["Percy carries the rings"] },
+      { t: 900, time: "3:00", label: "Processional (5 min)" },
+      { t: 905, time: "3:05", label: "Welcome (2 min) · Joaquin Vargas", subs: ["Officiant · Mariel’s father"] },
+      { t: 907, time: "3:07", label: "Reading (3 min) · Shirley Trinkwon", subs: ["Love’s Philosophy · Percy Bysshe Shelley"] },
+      { t: 910, time: "3:10", label: "A Reflection of Love (10 min) · Joaquin Vargas" },
+      { t: 920, time: "3:20", label: "Vows (6 min)", subs: ["Rings with Percy"] },
+      { t: 926, time: "3:26", label: "Kiss the bride (1 min) · Percy" },
+      { t: 927, time: "3:27", label: "Recessional (2 min)" },
+      { t: 929, time: "3:29", label: "Invitation to cocktail hour (1 min)" },
       { t: 930, time: "3:30", label: "Ceremony ends → cocktail hour" }
     ],
     panels: [
@@ -323,7 +327,7 @@ const VENDORS = [
           "Mariel · enters, hugs Percy & Russell, stands on the left",
           "Percy · sits next to grandma"
         ] },
-      { t: "3:30", a: "Recessional", b: "I Love You Always Forever · Donna Lewis", note: "Piano with singing · right after the “I do”" }
+      { t: "3:27", a: "Recessional", b: "I Love You Always Forever · Donna Lewis", note: "Piano with singing · right after the kiss" }
     ],
     link: "https://music.apple.com/us/playlist/ceremony-sequence/pl.u-oZyl3M9CvLveMX",
     linkLabel: "Ceremony playlist reference ↗" },
