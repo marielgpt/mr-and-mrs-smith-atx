@@ -6,19 +6,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Smith Vargas Wedding · Specialty drink signs</title>
   <!-- Printable specialty drink signs: 5 × 7 in, two per 8.5 × 11 sheet (landscape), with crop marks.
-       Double-sided — page 2 is the same two signs, so each sign reads from both sides on a bar
-       stand. The signs share one cut line down the middle; the layout is centred, so the marks
-       line up whichever way the printer flips the sheet. Print → "Save as PDF" or straight to
-       the printer. Styled after photos/sign.html: copper double frame with notched corners, navy
-       didone caps, copper script, letterspaced small caps. Simple line-art glass icons (navy
-       outline + the drink's own liquid colour), styled after the icon on
-       Downloads/MIN-00N-BRS-001_B_PZ.webp. Edit DRINKS below. -->
+       Double-sided — the back of each sheet repeats the same two signs, so each one reads from
+       both sides on a bar stand. The signs share one cut line down the middle; the layout is
+       centred, so the marks line up whichever way the printer flips the sheet. Print → "Save as
+       PDF" or straight to the printer.
+
+       Two drinks (Pimm's Cup, Eastern Standard Fizz) use the "classic" look, styled after
+       photos/sign.html: copper double frame with notched corners, navy didone caps, copper
+       script, letterspaced small caps, simple line-art glass icon. Ranch Water uses a "casual"
+       look instead — plain card, big red marker-script name — matching the existing
+       "I love you so much" print already in the décor (ref/loveyouverymuchframe.png /
+       Downloads/il_1588xN.4298634848_34sq.webp). Edit DRINKS below; each entry's `style` picks
+       the template. -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,600&family=Cormorant+Garamond:wght@500;600&family=Cormorant+SC:wght@600&family=Pinyon+Script&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,600&family=Cormorant+Garamond:wght@500;600&family=Cormorant+SC:wght@600&family=Permanent+Marker&family=Pinyon+Script&display=swap" rel="stylesheet">
   <style>
     @page { size: letter landscape; margin: 0; }
-    :root { --navy: #2f4a6e;
+    :root { --navy: #2f4a6e; --lovered: #b3271e;
             --foil: linear-gradient(115deg, #6e3f22 0%, #b8743f 14%, #ecbd92 24%, #c4824d 34%, #7a4527 48%, #d79b6b 62%, #f2cba3 70%, #b06c3a 82%, #74411f 100%); }
     .foil { background: var(--foil); -webkit-background-clip: text; background-clip: text; color: transparent !important; }
     html, body { margin: 0; background: #ecebe8; }
@@ -43,6 +48,16 @@
     .ingredients span { display: inline-block; }
     .note { font-family: "Cormorant SC", serif; font-weight: 600; font-size: 7.5pt; letter-spacing: 0.18em; color: var(--navy); margin-top: 10pt; opacity: 0.85; white-space: nowrap; }
 
+    /* Casual card: plain white, no copper frame — big red marker-script name, like the existing
+       "I love you so much" print. */
+    .sign.casual .content { padding: 0.7in 0.5in; }
+    .casual-kicker { font-family: "Cormorant SC", serif; font-weight: 600; font-size: 8pt; letter-spacing: 0.2em; color: #8a8378; white-space: nowrap; }
+    .casual-name { font-family: "Permanent Marker", cursive; color: var(--lovered); font-size: 52pt; line-height: 1.12; margin-top: 18pt; transform: rotate(-2deg); }
+    .casual-note { font-family: "Permanent Marker", cursive; color: var(--lovered); font-size: 15pt; margin-top: 6pt; opacity: 0.9; transform: rotate(-2deg); }
+    .casual-rule { width: 0.55in; height: 1.5px; background: #ded6c6; margin: 22pt auto 16pt; flex: none; }
+    .casual-ingredients { max-width: 3.7in; font-family: "Cormorant Garamond", Georgia, serif; font-weight: 500; font-size: 12pt; color: #4a4038; line-height: 1.6; }
+    .casual-ingredients span { display: inline-block; }
+
     .marks { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
     .side { position: absolute; left: 0; right: 0; bottom: 0.12in; text-align: center; font: 7pt system-ui, sans-serif; color: #000; letter-spacing: 0.05em; }
     .bar { display: flex; gap: 16px; justify-content: center; align-items: center; padding: 18px 0 0; font: 14px system-ui, sans-serif; color: #333; }
@@ -56,7 +71,8 @@
     <button onclick="print()">Print drink signs</button>
   </div>
 
-  <template id="sign">
+  <!-- "Classic" sign: copper double frame, navy name, glass icon. Used for Pimm's Cup + the Fizz. -->
+  <template id="sign-classic">
     <div class="sign">
       <!-- 480 × 672 = 5 × 7 in at 96 dpi. Two overlapping notched rectangles (one wider, one taller)
            — the stepped double frame from the inspo card. -->
@@ -90,6 +106,19 @@
     </div>
   </template>
 
+  <!-- "Casual" sign: plain card, big red marker-script name — the "I love you so much" treatment. -->
+  <template id="sign-casual">
+    <div class="sign casual">
+      <div class="content">
+        <div class="casual-kicker">Russell &amp; Mariel · October 17, 2026</div>
+        <div class="casual-name"></div>
+        <div class="casual-rule"></div>
+        <div class="casual-ingredients"></div>
+        <div class="casual-note"></div>
+      </div>
+    </div>
+  </template>
+
   <!-- Crop marks on the 1056 × 816 sheet (11 × 8.5 in at 96 dpi). Cut lines: x = 48, 528, 1008;
        y = 72, 744. Marks stop short of the trim so none of them land on a finished sign. -->
   <template id="marks">
@@ -118,17 +147,6 @@
       <path d="M68 12 Q74 4 84 8 Q78 14 68 12 Z" stroke="#2f4a6e" stroke-width="1.5" fill="#8fa06f" fill-opacity="0.5"/>
       <line x1="97" y1="5" x2="66" y2="100" stroke="#2f4a6e" stroke-width="2.5" stroke-linecap="round"/>
     </svg>`;
-    // Ranch Water: same highball, but a pale, nearly-clear liquid (tequila + soda) and a lime
-    // wedge on the rim instead of cucumber + mint.
-    const GLASS_HIGHBALL_LIME = `<svg viewBox="0 0 120 160" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M38 55 L34 140 L86 140 L82 55 Z" fill="#dfe6b8" fill-opacity="0.55"/>
-      <path d="M30 20 L90 20 L82 140 L38 140 Z" stroke="#2f4a6e" stroke-width="2.5" stroke-linejoin="round"/>
-      <line x1="30" y1="20" x2="90" y2="20" stroke="#2f4a6e" stroke-width="2.5"/>
-      <path d="M22 28 A14 14 0 0 1 36 14 L36 28 Z" fill="#9fbf5a" fill-opacity="0.75" stroke="#2f4a6e" stroke-width="1.5" stroke-linejoin="round"/>
-      <line x1="24.5" y1="24.5" x2="31" y2="18" stroke="#2f4a6e" stroke-width="0.9"/>
-      <line x1="27" y1="27.5" x2="34" y2="20.5" stroke="#2f4a6e" stroke-width="0.9"/>
-      <line x1="97" y1="5" x2="66" y2="100" stroke="#2f4a6e" stroke-width="2.5" stroke-linecap="round"/>
-    </svg>`;
     const GLASS_MARTINI = `<svg viewBox="0 0 120 160" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M33 25 L87 25 L60 58 Z" fill="#aac08a" fill-opacity="0.65"/>
       <path d="M22 22 L60 92 L98 22" stroke="#2f4a6e" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
@@ -141,17 +159,20 @@
       <line x1="100" y1="2" x2="72" y2="70" stroke="#2f4a6e" stroke-width="2.5" stroke-linecap="round"/>
     </svg>`;
 
-    // Each drink: label ("Cocktail" / "Mocktail"), name, a glass icon, ingredients (joined with
-    // " · " on the sign), and an optional serving note.
+    // Each drink: `style` picks the template ("classic" or "casual"). Classic drinks need a
+    // label, glass icon, and optional serving note; casual drinks are plain, with an optional
+    // handwritten note line.
     const DRINKS = [
-      { id: "ranchwater", label: "Cocktail", name: "Ranch Water", glass: GLASS_HIGHBALL_LIME,
-        ingredients: ["Patrón Silver tequila", "lime", "orange bitters", "club soda"] },
-      { id: "fizz", label: "Mocktail", name: "Eastern Standard Fizz", glass: GLASS_MARTINI,
-        ingredients: ["Seedlip Garden", "cucumber", "mint", "lime", "soda"],
-        note: "Served in a martini glass" }
+      { id: "pimms", style: "classic", label: "Cocktail", name: "Pimm’s Cup", glass: GLASS_HIGHBALL,
+        ingredients: ["Bombay Sapphire gin", "Pimm’s No. 1", "Barrow’s Ginger", "cucumber", "club soda"] },
+      { id: "fizz", style: "classic", label: "Mocktail", name: "Eastern Standard Fizz", glass: GLASS_MARTINI,
+        ingredients: ["Seedlip Garden", "cucumber", "mint", "lime", "soda"] },
+      { id: "ranchwater", style: "casual", name: "Ranch\nWater", note: "cheers, y’all.",
+        ingredients: ["Patrón Silver tequila", "lime", "orange bitters", "club soda"] }
     ];
 
     const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+    const ingredientsHtml = ing => ing.map((x, i) => `<span>${esc(x)}${i < ing.length - 1 ? " ·" : ""}</span>`).join(" ");
 
     // Concave-cornered rectangle: each corner is a quarter circle centred on the corner point.
     const notched = (x0, y0, x1, y1, r) =>
@@ -160,30 +181,44 @@
     const W = 480, H = 672, m = 30, g = 12, r = 26; // sign size, margin from the trim, line offset, corner radius
 
     const makeSign = (d, cls) => {
-      const s = document.getElementById("sign").content.firstElementChild.cloneNode(true);
+      if (!d) { const blank = document.createElement("div"); blank.className = "sign " + cls; return blank; }
+      if (d.style === "casual") {
+        const s = document.getElementById("sign-casual").content.firstElementChild.cloneNode(true);
+        s.classList.add(cls);
+        s.querySelector(".casual-name").innerHTML = esc(d.name).replace(/\n/g, "<br>");
+        s.querySelector(".casual-ingredients").innerHTML = ingredientsHtml(d.ingredients);
+        if (d.note) s.querySelector(".casual-note").textContent = d.note; else s.querySelector(".casual-note").remove();
+        return s;
+      }
+      const s = document.getElementById("sign-classic").content.firstElementChild.cloneNode(true);
       s.classList.add(cls);
       s.querySelector(".tall").setAttribute("d", notched(m + g, m, W - m - g, H - m, r));
       s.querySelector(".wide").setAttribute("d", notched(m, m + g, W - m, H - m - g, r));
       s.querySelector(".label").textContent = d.label;
       s.querySelector(".name").textContent = d.name;
       s.querySelector(".glass").innerHTML = d.glass;
-      s.querySelector(".ingredients").innerHTML = d.ingredients.map((ing, i) =>
-        `<span>${esc(ing)}${i < d.ingredients.length - 1 ? " ·" : ""}</span>`).join(" ");
+      s.querySelector(".ingredients").innerHTML = ingredientsHtml(d.ingredients);
       if (d.note) s.querySelector(".note").textContent = d.note;
       return s;
     };
-    ["FRONT", "BACK"].forEach(label => {
-      const page = document.createElement("div");
-      page.className = "page";
-      page.append(makeSign(DRINKS[0], "left"), makeSign(DRINKS[1], "right"), document.getElementById("marks").content.firstElementChild.cloneNode(true));
-      const side = document.createElement("div");
-      side.className = "side";
-      side.textContent = label + " · two 5 × 7 in signs · cut on the marks";
-      page.append(side);
-      document.body.insertBefore(page, document.querySelector("script"));
-    });
 
-    // Long drink names: shrink until it fits on one line inside the frame.
+    // Two signs per sheet; the last sheet gets a blank slot if there's an odd one out. Each sheet
+    // prints FRONT + an identical BACK so every sign reads from both sides.
+    for (let i = 0; i < DRINKS.length; i += 2) {
+      const pair = [DRINKS[i], DRINKS[i + 1]];
+      ["FRONT", "BACK"].forEach(label => {
+        const page = document.createElement("div");
+        page.className = "page";
+        page.append(makeSign(pair[0], "left"), makeSign(pair[1], "right"), document.getElementById("marks").content.firstElementChild.cloneNode(true));
+        const side = document.createElement("div");
+        side.className = "side";
+        side.textContent = label + " · two 5 × 7 in signs · cut on the marks";
+        page.append(side);
+        document.body.insertBefore(page, document.querySelector("script"));
+      });
+    }
+
+    // Long drink names (classic style): shrink until it fits on one line inside the frame.
     document.fonts.ready.then(() => document.querySelectorAll(".name").forEach(el => {
       const max = W - 2 * (m + g) - 40;
       let size = parseFloat(getComputedStyle(el).fontSize);
