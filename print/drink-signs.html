@@ -39,7 +39,7 @@
     .kicker { font-family: "Cormorant SC", serif; font-weight: 600; font-size: 8pt; letter-spacing: 0.2em; white-space: nowrap; }
     /* Label ("Cocktail" / "Mocktail"): SVG text with the foil gradient (background-clip text clips
        swashes in print). */
-    .script { display: block; width: 3.4in; height: 0.6in; margin-top: 6pt; overflow: visible; }
+    .script { display: block; width: 3.9in; height: 0.6in; margin-top: 6pt; overflow: visible; }
     .script text { font-family: "Pinyon Script", "Snell Roundhand", cursive; font-size: 34px; }
     .name { display: inline-block; font-family: "Bodoni Moda", Didot, "Bodoni 72", serif; font-weight: 600; font-size: 19pt; letter-spacing: 0.03em; line-height: 1.1; margin-top: -2pt; white-space: nowrap; }
     .glass { width: 0.8in; height: 1.05in; margin-top: 6pt; }
@@ -52,6 +52,7 @@
        "I love you so much" print. */
     .sign.casual .content { padding: 0.7in 0.5in; }
     .casual-kicker { font-family: "Cormorant SC", serif; font-weight: 600; font-size: 8pt; letter-spacing: 0.2em; color: #8a8378; white-space: nowrap; }
+    .casual-label { font-family: "Cormorant SC", serif; font-weight: 600; font-size: 9pt; letter-spacing: 0.22em; color: var(--lovered); opacity: 0.75; margin-top: 12pt; white-space: nowrap; }
     .casual-name { font-family: "Permanent Marker", cursive; color: var(--lovered); font-size: 52pt; line-height: 1.12; margin-top: 18pt; transform: rotate(-2deg); }
     .casual-note { font-family: "Permanent Marker", cursive; color: var(--lovered); font-size: 15pt; margin-top: 6pt; opacity: 0.9; transform: rotate(-2deg); }
     .casual-rule { width: 0.55in; height: 1.5px; background: #ded6c6; margin: 22pt auto 16pt; flex: none; }
@@ -111,6 +112,7 @@
     <div class="sign casual">
       <div class="content">
         <div class="casual-kicker">Russell &amp; Mariel · October 17, 2026</div>
+        <div class="casual-label"></div>
         <div class="casual-name"></div>
         <div class="casual-rule"></div>
         <div class="casual-ingredients"></div>
@@ -163,16 +165,17 @@
     // label, glass icon, and optional serving note; casual drinks are plain, with an optional
     // handwritten note line.
     const DRINKS = [
-      { id: "pimms", style: "classic", label: "Cocktail", name: "Pimm’s Cup", glass: GLASS_HIGHBALL,
+      { id: "pimms", style: "classic", label: "Signature Cocktail", name: "Pimm’s Cup", glass: GLASS_HIGHBALL,
         ingredients: ["Bombay Sapphire gin", "Pimm’s No. 1", "\n", "Barrow’s Ginger", "cucumber", "club soda"] },
-      { id: "fizz", style: "classic", label: "Mocktail", name: "Eastern Standard Fizz", glass: GLASS_MARTINI,
+      { id: "fizz", style: "classic", label: "Signature Mocktail", name: "Eastern Standard Fizz", glass: GLASS_MARTINI,
         ingredients: ["Seedlip Garden", "cucumber", "\n", "mint", "lime", "soda"] },
-      { id: "ranchwater", style: "casual", name: "Ranch\nWater", note: "cheers, y’all.",
+      { id: "ranchwater", style: "casual", label: "Signature Cocktail", name: "Ranch\nWater", note: "cheers, y’all.",
         ingredients: ["Patrón Silver tequila", "lime", "orange bitters", "club soda"] },
-      // A second copy of the mocktail fills the other half of Ranch Water's sheet (its first copy
-      // is already paired with Pimm's Cup above).
-      { id: "fizz2", style: "classic", label: "Mocktail", name: "Eastern Standard Fizz", glass: GLASS_MARTINI,
-        ingredients: ["Seedlip Garden", "cucumber", "\n", "mint", "lime", "soda"] }
+      // Pairs with Ranch Water on the "casual" sheet — named straight after the "I love you so
+      // much" print already in the décor (ref/loveyouverymuchframe.png), with Brugal rum (Mariel's
+      // family is Dominican) and hibiscus for the same red tone as the handwriting.
+      { id: "sosmuch", style: "casual", label: "Signature Cocktail", name: "I Love You\nSo Much.", note: "with so much love.",
+        ingredients: ["Brugal Añejo rum", "hibiscus", "lime", "sparkling wine"] }
     ];
 
     const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
@@ -195,6 +198,7 @@
       if (d.style === "casual") {
         const s = document.getElementById("sign-casual").content.firstElementChild.cloneNode(true);
         s.classList.add(cls);
+        s.querySelector(".casual-label").textContent = d.label || "";
         s.querySelector(".casual-name").innerHTML = esc(d.name).replace(/\n/g, "<br>");
         s.querySelector(".casual-ingredients").innerHTML = ingredientsHtml(d.ingredients);
         if (d.note) s.querySelector(".casual-note").textContent = d.note; else s.querySelector(".casual-note").remove();
@@ -233,6 +237,14 @@
       const max = W - 2 * (m + g) - 40;
       let size = parseFloat(getComputedStyle(el).fontSize);
       while (el.offsetWidth > max && size > 9) { size -= 0.5; el.style.fontSize = size + "px"; }
+    }));
+
+    // Long labels ("Signature Cocktail" / "Signature Mocktail"): shrink the SVG script text until
+    // it fits inside its 400-unit-wide viewBox, with margin either side.
+    document.fonts.ready.then(() => document.querySelectorAll(".script .label").forEach(el => {
+      const max = 400 - 2 * 24;
+      let size = 34;
+      while (el.getComputedTextLength() > max && size > 14) { size -= 1; el.style.fontSize = size + "px"; }
     }));
   </script>
 </body>
