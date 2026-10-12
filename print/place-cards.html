@@ -16,7 +16,7 @@
   <style>
     @page { size: letter portrait; margin: 0; }
     :root { --navy: #2f4a6e;
-            --foil: linear-gradient(115deg, #7c4a3c 0%, #b87a62 14%, #ecc3ad 24%, #c48a70 34%, #8a5446 48%, #d6a089 62%, #f3d2c0 70%, #ad725c 82%, #7a4638 100%); }
+            --foil: linear-gradient(115deg, #5c3824 0%, #8a5a3a 14%, #c89968 24%, #9c6a42 34%, #6b4128 48%, #b07a4e 62%, #d4ad7e 70%, #8a5a38 82%, #5c3824 100%); }
     html, body { margin: 0; background: #ecebe8; }
     body { color: var(--navy); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 
@@ -28,7 +28,7 @@
     .content { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding-top: 2pt; }
     /* First name: Noto Serif Display widened 1.32× — the extended, pointed-serif engraved caps on the
        printed cards (Noto has no wide cut, so it's scaled horizontally around its centre). */
-    .first { display: inline-block; transform: scaleX(1.32); transform-origin: center; font-family: "Noto Serif Display", Didot, "Bodoni 72", serif; font-weight: 600; font-size: 20.5pt; letter-spacing: 0.05em; line-height: 1; text-transform: uppercase; white-space: nowrap; }
+    .first { display: inline-block; transform: scaleX(1.32); transform-origin: center; font-family: "Noto Serif Display", Didot, "Bodoni 72", serif; font-weight: 600; font-size: 24pt; letter-spacing: 0.05em; line-height: 1; text-transform: uppercase; white-space: nowrap; }
     /* Last name: SVG text filled with the copper-foil gradient (prints cleaner than background-clip text). */
     .last { display: block; width: 3.5in; height: 0.44in; margin-top: 0pt; overflow: visible; }
     .last text { font-family: "Monsieur La Doulaise", "Snell Roundhand", cursive; font-size: 27px; }
@@ -95,8 +95,8 @@
         return `<div class="card" style="left:${X0 + col * CW}px;top:${Y0 + row * CH}px">${frame}
           <div class="content"><div class="first">${esc(first)}</div><svg class="last" viewBox="0 0 ${CW} 42" aria-label="${esc(last)}">
             <defs><linearGradient id="foil${p + i}" gradientUnits="userSpaceOnUse" x1="${CW / 2 - 70}" y1="6" x2="${CW / 2 + 70}" y2="40">
-              <stop offset="0" stop-color="#8a5446"/><stop offset="0.25" stop-color="#c48a70"/><stop offset="0.42" stop-color="#ecc3ad"/>
-              <stop offset="0.58" stop-color="#b87a62"/><stop offset="0.78" stop-color="#8a5446"/><stop offset="1" stop-color="#d6a089"/>
+              <stop offset="0" stop-color="#5c3824"/><stop offset="0.25" stop-color="#9c6a42"/><stop offset="0.42" stop-color="#c89968"/>
+              <stop offset="0.58" stop-color="#8a5a3a"/><stop offset="0.78" stop-color="#5c3824"/><stop offset="1" stop-color="#b07a4e"/>
             </linearGradient></defs>
             <text x="${CW / 2}" y="30" text-anchor="middle" fill="url(#foil${p + i})">${esc(last)}</text></svg>
           ${note ? `<div class="note">${esc(note)}</div>` : ""}</div></div>`;
