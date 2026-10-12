@@ -164,15 +164,21 @@
     // handwritten note line.
     const DRINKS = [
       { id: "pimms", style: "classic", label: "Cocktail", name: "Pimm’s Cup", glass: GLASS_HIGHBALL,
-        ingredients: ["Bombay Sapphire gin", "Pimm’s No. 1", "Barrow’s Ginger", "cucumber", "club soda"] },
+        ingredients: ["Bombay Sapphire gin", "Pimm’s No. 1", "\n", "Barrow’s Ginger", "cucumber", "club soda"] },
       { id: "fizz", style: "classic", label: "Mocktail", name: "Eastern Standard Fizz", glass: GLASS_MARTINI,
-        ingredients: ["Seedlip Garden", "cucumber", "mint", "lime", "soda"] },
+        ingredients: ["Seedlip Garden", "cucumber", "\n", "mint", "lime", "soda"] },
       { id: "ranchwater", style: "casual", name: "Ranch\nWater", note: "cheers, y’all.",
         ingredients: ["Patrón Silver tequila", "lime", "orange bitters", "club soda"] }
     ];
 
     const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-    const ingredientsHtml = ing => ing.map((x, i) => `<span>${esc(x)}${i < ing.length - 1 ? " ·" : ""}</span>`).join(" ");
+    // "\n" in an ingredients list forces a line break there (e.g. to control the wrap on the
+    // Pimm's Cup card) instead of relying on the browser's natural wrap point.
+    const ingredientsHtml = ing => ing.map((x, i) => {
+      if (x === "\n") return "<br>";
+      const isLast = i === ing.length - 1, nextIsBreak = ing[i + 1] === "\n";
+      return `<span>${esc(x)}${!isLast && !nextIsBreak ? " ·" : ""}</span>`;
+    }).join(" ");
 
     // Concave-cornered rectangle: each corner is a quarter circle centred on the corner point.
     const notched = (x0, y0, x1, y1, r) =>
