@@ -118,6 +118,17 @@
       <path d="M68 12 Q74 4 84 8 Q78 14 68 12 Z" stroke="#2f4a6e" stroke-width="1.5" fill="#8fa06f" fill-opacity="0.5"/>
       <line x1="97" y1="5" x2="66" y2="100" stroke="#2f4a6e" stroke-width="2.5" stroke-linecap="round"/>
     </svg>`;
+    // Ranch Water: same highball, but a pale, nearly-clear liquid (tequila + soda) and a lime
+    // wedge on the rim instead of cucumber + mint.
+    const GLASS_HIGHBALL_LIME = `<svg viewBox="0 0 120 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M38 55 L34 140 L86 140 L82 55 Z" fill="#dfe6b8" fill-opacity="0.55"/>
+      <path d="M30 20 L90 20 L82 140 L38 140 Z" stroke="#2f4a6e" stroke-width="2.5" stroke-linejoin="round"/>
+      <line x1="30" y1="20" x2="90" y2="20" stroke="#2f4a6e" stroke-width="2.5"/>
+      <path d="M22 28 A14 14 0 0 1 36 14 L36 28 Z" fill="#9fbf5a" fill-opacity="0.75" stroke="#2f4a6e" stroke-width="1.5" stroke-linejoin="round"/>
+      <line x1="24.5" y1="24.5" x2="31" y2="18" stroke="#2f4a6e" stroke-width="0.9"/>
+      <line x1="27" y1="27.5" x2="34" y2="20.5" stroke="#2f4a6e" stroke-width="0.9"/>
+      <line x1="97" y1="5" x2="66" y2="100" stroke="#2f4a6e" stroke-width="2.5" stroke-linecap="round"/>
+    </svg>`;
     const GLASS_MARTINI = `<svg viewBox="0 0 120 160" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M33 25 L87 25 L60 58 Z" fill="#aac08a" fill-opacity="0.65"/>
       <path d="M22 22 L60 92 L98 22" stroke="#2f4a6e" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
@@ -133,8 +144,8 @@
     // Each drink: label ("Cocktail" / "Mocktail"), name, a glass icon, ingredients (joined with
     // " · " on the sign), and an optional serving note.
     const DRINKS = [
-      { id: "pimms", label: "Cocktail", name: "Pimm’s Cup", glass: GLASS_HIGHBALL,
-        ingredients: ["Bombay Sapphire gin", "Pimm’s No. 1", "Barrow’s Ginger", "cucumber", "club soda"] },
+      { id: "ranchwater", label: "Cocktail", name: "Ranch Water", glass: GLASS_HIGHBALL_LIME,
+        ingredients: ["Patrón Silver tequila", "lime", "orange bitters", "club soda"] },
       { id: "fizz", label: "Mocktail", name: "Eastern Standard Fizz", glass: GLASS_MARTINI,
         ingredients: ["Seedlip Garden", "cucumber", "mint", "lime", "soda"],
         note: "Served in a martini glass" }
