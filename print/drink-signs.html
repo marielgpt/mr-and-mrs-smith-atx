@@ -168,7 +168,11 @@
       { id: "fizz", style: "classic", label: "Mocktail", name: "Eastern Standard Fizz", glass: GLASS_MARTINI,
         ingredients: ["Seedlip Garden", "cucumber", "\n", "mint", "lime", "soda"] },
       { id: "ranchwater", style: "casual", name: "Ranch\nWater", note: "cheers, y’all.",
-        ingredients: ["Patrón Silver tequila", "lime", "orange bitters", "club soda"] }
+        ingredients: ["Patrón Silver tequila", "lime", "orange bitters", "club soda"] },
+      // A second copy of the mocktail fills the other half of Ranch Water's sheet (its first copy
+      // is already paired with Pimm's Cup above).
+      { id: "fizz2", style: "classic", label: "Mocktail", name: "Eastern Standard Fizz", glass: GLASS_MARTINI,
+        ingredients: ["Seedlip Garden", "cucumber", "\n", "mint", "lime", "soda"] }
     ];
 
     const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
