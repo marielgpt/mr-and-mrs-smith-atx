@@ -95,8 +95,8 @@
         return `<div class="card" style="left:${X0 + col * CW}px;top:${Y0 + row * CH}px">${frame}
           <div class="content"><div class="first">${esc(first)}</div><svg class="last" viewBox="0 0 ${CW} 42" aria-label="${esc(last)}">
             <defs><linearGradient id="foil${p + i}" gradientUnits="userSpaceOnUse" x1="${CW / 2 - 70}" y1="6" x2="${CW / 2 + 70}" y2="40">
-              <stop offset="0" stop-color="#5c3824"/><stop offset="0.25" stop-color="#9c6a42"/><stop offset="0.42" stop-color="#c89968"/>
-              <stop offset="0.58" stop-color="#8a5a3a"/><stop offset="0.78" stop-color="#5c3824"/><stop offset="1" stop-color="#b07a4e"/>
+              <stop offset="0" stop-color="#5e3022"/><stop offset="0.25" stop-color="#a05e3e"/><stop offset="0.42" stop-color="#cc8d64"/>
+              <stop offset="0.58" stop-color="#8d4f37"/><stop offset="0.78" stop-color="#5e3022"/><stop offset="1" stop-color="#b46d4a"/>
             </linearGradient></defs>
             <text x="${CW / 2}" y="30" text-anchor="middle" fill="url(#foil${p + i})">${esc(last)}</text></svg>
           ${note ? `<div class="note">${esc(note)}</div>` : ""}</div></div>`;
