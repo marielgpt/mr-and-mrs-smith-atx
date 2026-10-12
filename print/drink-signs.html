@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Smith Vargas Wedding · Specialty drink signs</title>
+  <!-- Specialty drink signs, full 8.5 × 11 in, one drink per page, single-sided. Nothing to cut.
+       Same look as photos/sign.html and table-numbers.html: copper-foil notched double frame,
+       copper script label ("Cocktail" / "Mocktail"), navy didone drink name, letterspaced small
+       caps for ingredients and the serving note. Edit DRINKS below. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,600&family=Cormorant+Garamond:wght@500;600&family=Cormorant+SC:wght@600&family=Pinyon+Script&display=swap" rel="stylesheet">
+  <style>
+    @page { size: letter portrait; margin: 0; }
+    :root { --navy: #2f4a6e;
+            --foil: linear-gradient(115deg, #6e3f22 0%, #b8743f 14%, #ecbd92 24%, #c4824d 34%, #7a4527 48%, #d79b6b 62%, #f2cba3 70%, #b06c3a 82%, #74411f 100%); }
+    html, body { margin: 0; background: #ecebe8; }
+    body { color: var(--navy); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+    .page { position: relative; width: 8.5in; height: 11in; margin: 24px auto; background: #fff; box-shadow: 0 12px 32px rgba(30,40,60,.18); overflow: hidden; break-after: page; }
+    .page:last-of-type { break-after: auto; }
+    .sign { position: absolute; inset: 0; }
+    .frame { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+    .content { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 1in 1in 0.9in; box-sizing: border-box; }
+    .kicker { font-family: "Cormorant SC", serif; font-weight: 600; font-size: 11.5pt; letter-spacing: 0.24em; }
+    /* Label ("Cocktail" / "Mocktail"): SVG text filled with the copper-foil gradient —
+       background-clip text clipped the script's swashes and left a faint box in printed PDFs. */
+    .script { display: block; width: 6in; height: 0.85in; margin-top: 10pt; overflow: visible; }
+    .script text { font-family: "Pinyon Script", "Snell Roundhand", cursive; font-size: 54px; }
+    .name { font-family: "Bodoni Moda", Didot, "Bodoni 72", serif; font-weight: 600; font-size: 50pt; letter-spacing: 0.03em; line-height: 1.05; margin-top: -2pt; white-space: nowrap; }
+    .rule { width: 1.1in; height: 2px; background: var(--foil); margin: 20pt auto 18pt; flex: none; }
+    .ingredients { max-width: 5.6in; font-family: "Cormorant Garamond", Georgia, serif; font-weight: 500; font-size: 19pt; line-height: 1.6; }
+    .ingredients span { display: inline-block; }
+    .note { font-family: "Cormorant SC", serif; font-weight: 600; font-size: 11pt; letter-spacing: 0.2em; color: var(--navy); margin-top: 20pt; opacity: 0.85; }
+    .bar { display: flex; gap: 16px; justify-content: center; align-items: center; padding: 18px 0 0; font: 14px system-ui, sans-serif; color: #333; }
+    .bar button { font: 600 15px system-ui, sans-serif; color: #fff; background: var(--navy); border: 0; border-radius: 999px; padding: 10px 22px; cursor: pointer; }
+    @media print { html, body { background: none; } .page { margin: 0; box-shadow: none; } .bar { display: none; } }
+  </style>
+</head>
+<body>
+  <div class="bar">
+    <span>8.5 × 11 drink signs · one drink per page</span>
+    <button onclick="print()">Print drink signs</button>
+  </div>
+
+  <script>
+    // Each drink: label ("Cocktail" / "Mocktail"), name, ingredients (joined with " · " on the sign),
+    // and an optional serving note.
+    const DRINKS = [
+      { id: "pimms", label: "Cocktail", name: "Pimm’s Cup",
+        ingredients: ["Bombay Sapphire gin", "Pimm’s No. 1", "Barrow’s Ginger", "cucumber", "club soda"] },
+      { id: "fizz", label: "Mocktail", name: "Eastern Standard Fizz",
+        ingredients: ["Seedlip Garden", "cucumber", "mint", "lime", "soda"],
+        note: "Served in a martini glass" }
+    ];
+
+    const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+    const W = 816, H = 1056, m = 56, g = 22, r = 44; // sign size (96 dpi), frame inset, line offset, corner radius
+    const notched = (x0, y0, x1, y1, r) =>
+      `M${x0 + r},${y0} H${x1 - r} A${r},${r} 0 0 0 ${x1},${y0 + r} V${y1 - r} A${r},${r} 0 0 0 ${x1 - r},${y1}` +
+      ` H${x0 + r} A${r},${r} 0 0 0 ${x0},${y1 - r} V${y0 + r} A${r},${r} 0 0 0 ${x0 + r},${y0} Z`;
+    const frame = `<svg class="frame" viewBox="0 0 ${W} ${H}" aria-hidden="true">
+      <defs><linearGradient id="copper" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="${W}" y2="${H}">
+        <stop offset="0" stop-color="#6e3f22"/><stop offset="0.12" stop-color="#b8743f"/><stop offset="0.22" stop-color="#ecbd92"/>
+        <stop offset="0.32" stop-color="#c4824d"/><stop offset="0.46" stop-color="#7a4527"/><stop offset="0.6" stop-color="#d79b6b"/>
+        <stop offset="0.68" stop-color="#f2cba3"/><stop offset="0.8" stop-color="#b06c3a"/><stop offset="1" stop-color="#74411f"/>
+      </linearGradient></defs>
+      <g fill="none" stroke="url(#copper)" stroke-width="2.2">
+        <path d="${notched(m + g, m, W - m - g, H - m, r)}"/><path d="${notched(m, m + g, W - m, H - m - g, r)}"/>
+      </g></svg>`;
+
+    const sign = d => `<div class="sign">${frame}<div class="content">
+      <div class="kicker">Russell &amp; Mariel · October 17, 2026</div>
+      <svg class="script" viewBox="0 0 600 85" aria-label="${esc(d.label)}"><defs><linearGradient id="dfoil${d.id}" gradientUnits="userSpaceOnUse" x1="180" y1="0" x2="420" y2="85">
+        <stop offset="0" stop-color="#7a4527"/><stop offset="0.22" stop-color="#c4824d"/><stop offset="0.38" stop-color="#ecbd92"/>
+        <stop offset="0.55" stop-color="#b8743f"/><stop offset="0.75" stop-color="#7a4527"/><stop offset="0.9" stop-color="#d79b6b"/><stop offset="1" stop-color="#b06c3a"/>
+      </linearGradient></defs><text x="300" y="62" text-anchor="middle" fill="url(#dfoil${d.id})">${esc(d.label)}</text></svg>
+      <div class="name">${esc(d.name)}</div>
+      <div class="rule"></div>
+      <div class="ingredients">${d.ingredients.map((ing, i) => `<span>${esc(ing)}${i < d.ingredients.length - 1 ? " ·" : ""}</span>`).join(" ")}</div>
+      ${d.note ? `<div class="note">${esc(d.note)}</div>` : ""}
+    </div></div>`;
+
+    // One page per drink.
+    DRINKS.forEach(d => {
+      const page = document.createElement("div");
+      page.className = "page";
+      page.innerHTML = sign(d);
+      document.body.appendChild(page);
+    });
+
+    // Long drink names: shrink until it fits on one line inside the frame.
+    document.fonts.ready.then(() => document.querySelectorAll(".name").forEach(el => {
+      const max = W - 2 * (m + g) - 48;
+      let size = parseFloat(getComputedStyle(el).fontSize);
+      while (el.scrollWidth > max && size > 20) { size -= 1; el.style.fontSize = size + "px"; }
+    }));
+  </script>
+</body>
+</html>
