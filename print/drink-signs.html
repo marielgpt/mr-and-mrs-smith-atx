@@ -212,8 +212,8 @@
       // Pairs with Ranch Water on the "casual" sheet — the same Eastern Standard Fizz as above,
       // just given the "I love you so much" treatment (ref/loveyouverymuchframe.png) instead of
       // the formal copper/navy look.
-      { id: "fizz-casual", style: "casual", label: "Signature Mocktail", name: "Eastern\nStandard\nFizz",
-        glass: GLASS_MARTINI_SKETCH, ingredients: ["Seedlip Garden", "cucumber", "\n", "mint", "lime", "soda"] }
+      { id: "fizz-casual", style: "casual", label: "Signature Mocktail", name: "Eastern Standard\nFizz", nameSize: "30pt",
+        note: "with so much love.", glass: GLASS_MARTINI_SKETCH, ingredients: ["Seedlip Garden", "cucumber", "\n", "mint", "lime", "soda"] }
     ];
 
     const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
@@ -237,7 +237,9 @@
         const s = document.getElementById("sign-casual").content.firstElementChild.cloneNode(true);
         s.classList.add(cls);
         s.querySelector(".casual-label").textContent = d.label || "";
-        s.querySelector(".casual-name").innerHTML = esc(d.name).replace(/\n/g, "<br>");
+        const nameEl = s.querySelector(".casual-name");
+        nameEl.innerHTML = esc(d.name).replace(/\n/g, "<br>");
+        if (d.nameSize) nameEl.style.fontSize = d.nameSize;
         if (d.glass) s.querySelector(".casual-glass").innerHTML = d.glass;
         s.querySelector(".casual-ingredients").innerHTML = ingredientsHtml(d.ingredients);
         if (d.note) s.querySelector(".casual-note").textContent = d.note; else s.querySelector(".casual-note").remove();
