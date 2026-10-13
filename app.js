@@ -201,7 +201,7 @@ const EVENTS = [
         link: "https://music.apple.com/us/playlist/dominican-smith-reception-party/pl.u-8aAVXEeI757GgZ",
         linkLabel: "Backup playlist ↗", rows: [
         { a: "Entrance · 7:15", b: "Todo de Ti", c: "" },
-        { a: "Mother-son dance · 7:20", b: "TBD", c: "Russell + Shirley" },
+        { a: "Mother-son dance · 7:20", b: "(I Can’t Get No) Satisfaction", c: "The Rolling Stones · Russell + Shirley" },
         { a: "Father-daughter dance · 7:23", b: "Tu Sangre en Mi Cuerpo", c: "Pepe Aguilar feat. Ángela Aguilar · Mariel + Joaquin" },
         { a: "Couple dance · 7:26", b: "Bachata Rosa", c: "Russell + Mariel" },
         { a: "Percy, Russell + Mariel dance · 7:29", b: "Sonidito", c: "feat. Josh Cross" }
@@ -359,7 +359,8 @@ const VENDORS = [
       { t: "5:00", a: "Arrive, set up", b: "Ready by 7:00 · check in with John Winn" },
       { t: "7:00", a: "Party starts", b: "Music begins" },
       { t: "7:15", a: "MC: couple entrance", b: "Todo de Ti" },
-      { t: "7:20", a: "MC: mother-son dance", b: "Russell + Shirley · song TBD" },
+      { t: "7:20", a: "MC: mother-son dance", b: "(I Can’t Get No) Satisfaction (The Rolling Stones) · Russell + Shirley",
+        note: "https://music.apple.com/us/album/i-cant-get-no-satisfaction/1440743344?i=1440743544" },
       { t: "7:23", a: "MC: father-daughter dance", b: "Tu Sangre en Mi Cuerpo (Pepe Aguilar feat. Ángela Aguilar) · Mariel + Joaquin",
         note: "https://music.apple.com/us/album/tu-sangre-en-mi-cuerpo-feat-%C3%A1ngela-aguilar/1714004771?i=1714004772" },
       { t: "7:26", a: "MC: couple dance", b: "Bachata Rosa · Russell + Mariel" },
