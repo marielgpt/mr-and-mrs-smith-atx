@@ -25,7 +25,7 @@ const EVENTS = [
       { t: 885, time: "2:45", label: "Soft prelude begins", subs: ["Dre Mazzenga · plays as guests are seated"] }
     ],
     panels: [
-      { label: "Setup checklist · Ceremony", type: "check", owner: "John Winn", when: "by 2:45", rows: [
+      { label: "Setup checklist · Ceremony", group: "Ceremony", type: "check", owner: "John Winn", when: "by 2:45", rows: [
         "Ceremony chairs placed",
         "Boutonnieres to the fathers, Russell, Percy and Abe (Mariel’s brother)",
         "Bouquet to Mariel",
@@ -35,7 +35,7 @@ const EVENTS = [
         "Marriage license with Joaquin Vargas (officiant)",
         "Rose glasses to Joaquin for the ceremony"
       ] },
-      { label: "Setup checklist · Cocktail hour", type: "check", owner: "John Winn", when: "by 2:45", rows: [
+      { label: "Setup checklist · Cocktail hour", group: "Cocktail hour", type: "check", owner: "John Winn", when: "by 2:45", rows: [
         "Cake placed in the cocktail room",
         "Florals staged in the pre-screening room for cocktail hour",
         "Grazing table set in the pre-screening room for cocktail hour",
@@ -650,7 +650,7 @@ function App() {
     if (p.type !== "check") return;
     const rows = p.rows.map((r, ri) => { const key = ev.id + "-" + pi + "-" + ri; const on = !!data.checks[key];
       return { a: r, when: p.when, checked: on, key, color: on ? "var(--color-neutral-600)" : "var(--color-text)", strike: on ? "line-through" : "none" }; });
-    allCheckGroups.push({ id: ev.id, major: !!ev.major, when: p.when, name: ev.name, sub: p.label, range: ev.range, owner: p.owner, rows, count: rows.filter(r => r.checked).length + " / " + rows.length });
+    allCheckGroups.push({ id: ev.id, major: !!ev.major, when: p.when, name: p.group || ev.name, sub: p.label, range: ev.range, owner: p.owner, rows, count: rows.filter(r => r.checked).length + " / " + rows.length });
   }));
 
   const checkGroups = allCheckGroups.filter(g => !data.hidden[g.id]);
