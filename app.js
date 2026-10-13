@@ -25,17 +25,19 @@ const EVENTS = [
       { t: 885, time: "2:45", label: "Soft prelude begins", subs: ["Dre Mazzenga · plays as guests are seated"] }
     ],
     panels: [
-      { label: "Setup checklist", type: "check", owner: "John Winn", when: "by 2:45", rows: [
+      { label: "Setup checklist · Ceremony", type: "check", owner: "John Winn", when: "by 2:45", rows: [
         "Ceremony chairs placed",
-        "Cake placed in the cocktail room",
         "Boutonnieres to the fathers, Russell, Percy and Abe (Mariel’s brother)",
         "Bouquet to Mariel",
-        "Florals staged in the pre-screening room for cocktail hour",
         "Bows and amaranthus on the aisles",
         "Decorative columns positioned with the pedestal flowers",
         "Rings with Percy",
         "Marriage license with Joaquin Vargas (officiant)",
-        "Rose glasses to Joaquin for the ceremony",
+        "Rose glasses to Joaquin for the ceremony"
+      ] },
+      { label: "Setup checklist · Cocktail hour", type: "check", owner: "John Winn", when: "by 2:45", rows: [
+        "Cake placed in the cocktail room",
+        "Florals staged in the pre-screening room for cocktail hour",
         "Grazing table set in the pre-screening room for cocktail hour",
         "Confirm food + bar timing with Laura Gregory"
       ] },
