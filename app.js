@@ -650,7 +650,7 @@ function App() {
     if (p.type !== "check") return;
     const rows = p.rows.map((r, ri) => { const key = ev.id + "-" + pi + "-" + ri; const on = !!data.checks[key];
       return { a: r, when: p.when, checked: on, key, color: on ? "var(--color-neutral-600)" : "var(--color-text)", strike: on ? "line-through" : "none" }; });
-    allCheckGroups.push({ id: ev.id, major: !!ev.major, when: p.when, name: p.group || ev.name, sub: p.label, range: ev.range, owner: p.owner, rows, count: rows.filter(r => r.checked).length + " / " + rows.length });
+    allCheckGroups.push({ id: ev.id, major: !!ev.major, when: p.when, name: ev.name, heading: p.group || ev.name, sub: p.label, range: ev.range, owner: p.owner, rows, count: rows.filter(r => r.checked).length + " / " + rows.length });
   }));
 
   const checkGroups = allCheckGroups.filter(g => !data.hidden[g.id]);
@@ -914,7 +914,7 @@ function App() {
                 <div style=${{ display: "flex", alignItems: "baseline", gap: "12px", flexWrap: "wrap", paddingBottom: "8px" }}>
                   <div>
                     <div style=${{ fontSize: "12px", letterSpacing: "0.14em", textTransform: "uppercase", fontWeight: 800, color: "var(--color-accent-2-700)" }}>${g.sub}</div>
-                    <h3 style=${{ margin: 0, fontSize: "27px", fontWeight: 700 }}>${g.name}</h3>
+                    <h3 style=${{ margin: 0, fontSize: "27px", fontWeight: 700 }}>${g.heading}</h3>
                   </div>
                   <span style=${{ fontSize: "13px", fontWeight: 600, color: "var(--color-accent-700)" }}>${g.range}</span>
                   <span className="tag tag-neutral" style=${{ marginLeft: "auto" }}>${g.count}</span>
