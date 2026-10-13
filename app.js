@@ -104,6 +104,9 @@ const EVENTS = [
       { t: 960, time: "4:00", label: "Couple joins cocktail hour" }
     ],
     panels: [
+      { label: "Setup checklist", type: "check", owner: "John Winn", when: "by 3:30", rows: [
+        "Signature cocktail signs out · Pimm’s Cup + Eastern Standard Fizz"
+      ] },
       { label: "Music", type: "note", heading: "DJ set", rows: ["JP Listrom"],
         link: "https://music.apple.com/us/playlist/vargas-wedding-cocktail-hour-10-17/pl.u-GgA5e1gHojlE1Zm", linkLabel: "Backup playlist ↗" },
       { label: "Menu", type: "menu", rows: [
@@ -197,6 +200,9 @@ const EVENTS = [
       { t: 1440, time: "12:00", label: "Teardown complete" }
     ],
     panels: [
+      { label: "Setup checklist", type: "check", owner: "John Winn", when: "by 7:00", rows: [
+        "Signature cocktail signs out · Ranch Water + Eastern Standard Fizz"
+      ] },
       { label: "Music", type: "music",
         link: "https://music.apple.com/us/playlist/dominican-smith-reception-party/pl.u-8aAVXEeI757GgZ",
         linkLabel: "Backup playlist ↗", rows: [
