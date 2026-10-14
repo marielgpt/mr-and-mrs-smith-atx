@@ -107,9 +107,6 @@ const EVENTS = [
       { t: 960, time: "4:00", label: "Couple joins cocktail hour" }
     ],
     panels: [
-      { label: "Setup checklist", type: "check", owner: "John Winn", when: "by 3:30", rows: [
-        "Signature cocktail signs out · Pimm’s Cup + Eastern Standard Fizz"
-      ] },
       { label: "Music", type: "note", heading: "DJ set", rows: ["JP Listrom"],
         link: "https://music.apple.com/us/playlist/vargas-wedding-cocktail-hour-10-17/pl.u-GgA5e1gHojlE1Zm", linkLabel: "Backup playlist ↗" },
       { label: "Menu", type: "menu", rows: [
