@@ -243,7 +243,10 @@ const REFS = {
     { src: "ref/pedestals.png", cap: "Pedestals" },
     { src: "ref/bouquet.png", cap: "Bridal bouquet" },
     { src: "ref/boutonniere.png", cap: "Boutonniere" },
-    { src: "ref/cake.png", cap: "Cake" }
+    { src: "ref/cake.png", cap: "Cake" },
+    { src: "ref/IMG_9678.jpg", cap: "Cake stands · amber, cut + pressed glass" },
+    { src: "ref/IMG_9680.jpg", cap: "Clear glass cake stand" },
+    { src: "ref/IMG_9679.jpg", cap: "Silver serving tray" }
   ],
   "setup-dinner": [
     { src: "ref/dinner-room-2.png", cap: "Dinner room · tables 3, 2, 1" },
@@ -254,7 +257,8 @@ const REFS = {
     { href: "https://www.instagram.com/reel/DeKWDnXxWYu/", cap: "Dinner setup inspo · @zanacocreative" }
   ],
   "setup-party": [
-    { src: "ref/napkins.png", cap: "Napkins" }
+    { src: "ref/napkins.png", cap: "Napkins" },
+    { src: "ref/IMG_9082.jpg", cap: "“I love you so much” frame" }
   ]
 };
 
@@ -275,6 +279,7 @@ const TEARDOWN = [
 
 const TEARDOWN_REFS = {
   "Goes home with us": [
+    { src: "ref/IMG_9082.jpg", cap: "“I love you so much” frame" },
     { src: "ref/loveyouverymuchframe.png", cap: "“I love you so much” frame" }
   ]
 };
