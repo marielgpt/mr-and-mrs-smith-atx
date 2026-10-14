@@ -26,15 +26,16 @@ const isVideo = f => /^video\//.test(f.type) || /\.(mov|mp4|m4v|webm|3gp)$/i.tes
 const imageExt = f => ((f.name.match(/\.([a-z0-9]{2,4})$/i) || [])[1] || (f.type.split("/")[1] || "jpg").replace("jpeg", "jpg")).toLowerCase();
 const extOf = f => ((f.name.match(/\.([a-z0-9]{2,4})$/i) || [])[1] || (f.type.split("/")[1] === "quicktime" ? "mov" : "mp4")).toLowerCase();
 /* The weekend: the gallery groups uploads by the day they were taken (Austin time).
-   Anything before Oct 16 lands under the BBQ; anything from Oct 17 on, the wedding. */
+   Oct 15, 16 and 17 each get their own section; any other day lands under Other events. */
 const EVENTS = [
   { id: "bbq", name: "BBQ", day: "Thursday, Oct 15", testAt: "2026-10-15T19:00:00-05:00" },
   { id: "party", name: "Lakeside Fiesta", day: "Friday, Oct 16", testAt: "2026-10-16T19:00:00-05:00" },
   { id: "wedding", name: "Wedding", day: "Saturday, Oct 17", testAt: "2026-10-17T19:00:00-05:00" }
 ];
+const OTHER = { id: "other", name: "Other events", day: "Any other day" };
 function eventOf(p) {
   const d = new Date(p.taken_at || p.created_at).toLocaleDateString("en-CA", { timeZone: "America/Chicago" }); // YYYY-MM-DD
-  return d <= "2026-10-15" ? "bbq" : d === "2026-10-16" ? "party" : "wedding";
+  return { "2026-10-15": "bbq", "2026-10-16": "party", "2026-10-17": "wedding" }[d] || "other";
 }
 
 /* ─── when was it taken? EXIF DateTimeOriginal for photos, mvhd creation_time for videos ─── */
@@ -372,7 +373,7 @@ function Photos() {
 
       ${loaded && !photos.length && html`<div style=${{ fontSize: "15px", color: "var(--color-neutral-700)" }}>Nothing here yet — be the first.</div>`}
 
-      ${EVENTS.slice().reverse().map(ev => ({ ev, items: photos.map((p, i) => ({ p, i })).filter(x => eventOf(x.p) === ev.id) }))
+      ${EVENTS.slice().reverse().concat([OTHER]).map(ev => ({ ev, items: photos.map((p, i) => ({ p, i })).filter(x => eventOf(x.p) === ev.id) }))
         .filter(g => g.items.length).map(({ ev, items }) => html`
         <section key=${ev.id} style=${{ display: "flex", flexDirection: "column", gap: "10px" }}>
           <div style=${{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: "10px", paddingTop: "6px" }}>
