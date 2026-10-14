@@ -148,7 +148,7 @@
       s.querySelector(".wide").setAttribute("d", notched(m, m + g, W - m, H - m - g, r));
       return s;
     };
-    ["FRONT", "BACK"].forEach(label => {
+    ["front", "back"].forEach(() => {
       const page = document.createElement("div");
       page.className = "page";
       const casual = document.getElementById("sign-casual").content.firstElementChild.cloneNode(true);
