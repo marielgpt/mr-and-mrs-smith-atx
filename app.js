@@ -262,6 +262,10 @@ const REFS = {
   ]
 };
 
+const REF_NOTES = {
+  "setup-ceremony": "Orchids may vary — cream and white, not fully burgundy."
+};
+
 const TEARDOWN = [
   { group: "Goes to the venue office", note: "Soho House holds these overnight.", items: [
     "Pedestals · Stem Floral picks up"
@@ -881,6 +885,7 @@ function App() {
                     ${REFS[e.ev.id] && html`
                       <div className="card elev-sm" style=${{ padding: "var(--space-4)" }}>
                         <div className="card-kicker" style=${{ fontSize: "14px", fontWeight: 800 }}>What it should look like</div>
+                        ${REF_NOTES[e.ev.id] && html`<div style=${{ fontSize: "12px", fontStyle: "italic", color: "var(--color-neutral-700)", paddingBottom: "4px" }}>${REF_NOTES[e.ev.id]}</div>`}
                         <div onClick=${ev => { const b = ev.target.closest("button"); if (!b) return; setLightbox({ src: b.getAttribute("data-src"), cap: (b.getAttribute("data-cap") || "").trim() }); }}
                           style=${{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(104px, 1fr))", gap: "10px" }}>
                           ${REFS[e.ev.id].map((r, ri) => html`<${RefCard} key=${ri} src=${r.src} cap=${r.cap} href=${r.href} />`)}
