@@ -148,12 +148,13 @@
       s.querySelector(".wide").setAttribute("d", notched(m, m + g, W - m, H - m - g, r));
       return s;
     };
-    ["front", "back"].forEach(() => {
+    // Front: formal sign left, casual right. Back: casual left, formal right.
+    ["front", "back"].forEach((_, i) => {
       const page = document.createElement("div");
       page.className = "page";
       const casual = document.getElementById("sign-casual").content.firstElementChild.cloneNode(true);
-      casual.classList.add("right");
-      page.append(makeSign("left"), casual, document.getElementById("marks").content.firstElementChild.cloneNode(true));
+      casual.classList.add(i ? "left" : "right");
+      page.append(makeSign(i ? "right" : "left"), casual, document.getElementById("marks").content.firstElementChild.cloneNode(true));
       const side = document.createElement("div");
       side.className = "side";
       side.textContent = "two 5 × 7 in signs · cut on the marks";
