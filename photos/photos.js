@@ -297,7 +297,7 @@ function Photos() {
       <div style=${{ minHeight: "100vh", display: "grid", placeItems: "center", padding: "24px" }}>
         <div className="card elev-md" style=${{ maxWidth: "380px", width: "100%", padding: "var(--space-6)", gap: "var(--space-3)" }}>
           <div className="card-kicker" style=${{ fontSize: "14px", fontWeight: 800 }}>October 15–17, 2026</div>
-          <div style=${{ fontFamily: "var(--font-heading)", fontSize: "clamp(28px, 7vw, 38px)", lineHeight: 1.05 }}>Russell + Mariel</div>
+          <div style=${{ fontFamily: "var(--font-heading)", fontSize: "clamp(28px, 7vw, 38px)", lineHeight: 1.05 }}>The Smiths · Russell + Mariel</div>
           <p style=${{ fontSize: "14px", color: "var(--color-neutral-700)", margin: 0, textWrap: "pretty" }}>Enter the code to share and see photos from the weekend.</p>
           <input className="input" type="tel" inputMode="numeric" autoComplete="off" placeholder="4-digit code"
             value=${codeDraft}
@@ -321,7 +321,7 @@ function Photos() {
     <div style=${{ maxWidth: "940px", margin: "0 auto", padding: "22px 18px 64px", display: "flex", flexDirection: "column", gap: "18px" }}>
       <div style=${{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: "12px", flexWrap: "wrap" }}>
         <div>
-          <h1 style=${{ fontSize: "clamp(28px, 7vw, 42px)", margin: "0 0 4px" }}>Russell + Mariel</h1>
+          <h1 style=${{ fontSize: "clamp(28px, 7vw, 42px)", margin: "0 0 4px" }}>The Smiths · Russell + Mariel</h1>
           <div style=${{ fontSize: "12px", letterSpacing: "0.06em", textTransform: "uppercase", color: "var(--color-neutral-700)" }}>October 15–17, 2026  ·  Austin  ·  wedding weekend photos</div>
         </div>
         ${usage && html`<div title="Storage used" style=${{ marginLeft: "auto", display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "3px", fontSize: "11px", color: "var(--color-neutral-600)" }}>
