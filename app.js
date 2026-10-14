@@ -159,7 +159,7 @@ const EVENTS = [
         { a: "Main", b: "Spaghetti arrabbiata", c: "Fresno chili, pomodoro, pecorino sardo · V · gluten-free pasta" },
         { a: "Main", b: "Club steak", c: "Fries, béarnaise · GF" },
         { a: "Kids", b: "Chicken, mac and cheese, fruit, fries", c: "" },
-        { a: "Dessert · after dinner", b: "Lemon posset + cheese", c: "" }
+        { a: "Dessert · after dinner", b: "Lemon Possette + cheese", c: "" }
       ] },
       { label: "MC + contact", type: "contact", rows: [
         { a: "JP Listrom", b: "Dinner pianist + MC", c: "(512) 484-5159", d: "jplistrommusic@gmail.com" }
