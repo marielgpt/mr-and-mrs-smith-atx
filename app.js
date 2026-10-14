@@ -202,9 +202,6 @@ const EVENTS = [
       { t: 1440, time: "12:00", label: "Teardown complete" }
     ],
     panels: [
-      { label: "Setup checklist", type: "check", owner: "John Winn", when: "by 7:00", rows: [
-        "Signature cocktail signs out · Ranch Water + Eastern Standard Fizz"
-      ] },
       { label: "Music", type: "music",
         link: "https://music.apple.com/us/playlist/dominican-smith-reception-party/pl.u-8aAVXEeI757GgZ",
         linkLabel: "Backup playlist ↗", rows: [
