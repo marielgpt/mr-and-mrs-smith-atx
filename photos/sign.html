@@ -13,7 +13,7 @@
        copper script, letterspaced small caps. qr.svg / qr.png are the bare code (qr.png is 1200px). -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,600&family=Cormorant+SC:wght@600&family=Pinyon+Script&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,600&family=Cormorant+Garamond:wght@500&family=Cormorant+SC:wght@600&family=Permanent+Marker&family=Pinyon+Script&display=swap" rel="stylesheet">
   <style>
     @page { size: letter landscape; margin: 0; }
     :root { --navy: #2f4a6e; --copper: #a8714f;
@@ -43,6 +43,20 @@
     .rule { width: 0.7in; height: 1.5px; background: var(--foil); margin: 10pt auto; }
     .days { font-size: 7.5pt; letter-spacing: 0.16em; white-space: nowrap; }
     .url { font-family: "Cormorant SC", serif; font-size: 10.5pt; letter-spacing: 0.06em; color: var(--copper); margin-top: 6pt; text-transform: lowercase; }
+
+    /* Casual "I love you" card, the right-hand sign: plain white, no copper frame, red marker script
+       (same look as the casual drink signs in print/drink-signs.html). */
+    .sign.casual .content { padding: 0.6in 0.5in; }
+    .c-kicker { font-family: "Cormorant SC", serif; font-weight: 600; font-size: 8pt; letter-spacing: 0.2em; color: #8a8378; white-space: nowrap; }
+    .c-title { font-family: "Permanent Marker", cursive; color: var(--lovered); font-size: 40pt; line-height: 1.12; margin-top: 14pt; transform: rotate(-2deg); }
+    .c-note { font-family: "Permanent Marker", cursive; color: var(--lovered); font-size: 15pt; margin-top: 4pt; opacity: 0.9; transform: rotate(-2deg); }
+    .c-rule { width: 0.55in; height: 1.5px; background: #ded6c6; margin: 16pt auto 14pt; flex: none; }
+    .c-lede { font-family: "Cormorant Garamond", Georgia, serif; font-weight: 500; font-size: 12pt; color: #4a4038; line-height: 1.5; margin: 0 0 12pt; }
+    .c-qr { width: 1.9in; height: 1.9in; }
+    .c-qr img { width: 100%; height: 100%; display: block; }
+    .c-code { font-size: 9pt; margin-top: 10pt; }
+    .c-code b { font-family: "Bodoni Moda", Didot, serif; font-weight: 600; font-size: 15pt; letter-spacing: 0.14em; margin-left: 5pt; }
+    .c-url { font-family: "Cormorant SC", serif; font-size: 10.5pt; letter-spacing: 0.06em; color: var(--lovered); margin-top: 8pt; text-transform: lowercase; }
 
     .marks { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
     .side { position: absolute; left: 0; right: 0; bottom: 0.12in; text-align: center; font: 7pt system-ui, sans-serif; color: #000; letter-spacing: 0.05em; }
@@ -94,6 +108,21 @@
 
   <!-- Crop marks on the 1056 × 816 sheet (11 × 8.5 in at 96 dpi). Cut lines: x = 48, 528, 1008;
        y = 72, 744. Marks stop short of the trim so none of them land on a finished sign. -->
+  <template id="sign-casual">
+    <div class="sign casual">
+      <div class="content">
+        <div class="c-kicker">Russell &amp; Mariel · October 17, 2026</div>
+        <div class="c-title">Share your photos</div>
+        <div class="c-note">with so much love.</div>
+        <div class="c-rule"></div>
+        <p class="c-lede caps">Scan to add photos + videos<br>from the weekend</p>
+        <div class="c-qr"><img src="qr.svg?v=2" alt="QR code to the guest photo page"></div>
+        <div class="c-code caps">Code <b>1017</b></div>
+        <div class="c-url">marielandrussell.com/photos</div>
+      </div>
+    </div>
+  </template>
+
   <template id="marks">
     <svg class="marks" viewBox="0 0 1056 816" aria-hidden="true">
       <g stroke="#000" stroke-width="0.75">
@@ -122,7 +151,9 @@
     ["FRONT", "BACK"].forEach(label => {
       const page = document.createElement("div");
       page.className = "page";
-      page.append(makeSign("left"), makeSign("right"), document.getElementById("marks").content.firstElementChild.cloneNode(true));
+      const casual = document.getElementById("sign-casual").content.firstElementChild.cloneNode(true);
+      casual.classList.add("right");
+      page.append(makeSign("left"), casual, document.getElementById("marks").content.firstElementChild.cloneNode(true));
       const side = document.createElement("div");
       side.className = "side";
       side.textContent = label + " · two 5 × 7 in signs · cut on the marks";
