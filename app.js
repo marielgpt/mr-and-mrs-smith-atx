@@ -39,8 +39,7 @@ const EVENTS = [
         "Cake placed in the cocktail room",
         "Florals staged in the pre-screening room for cocktail hour",
         "Grazing table set in the pre-screening room for cocktail hour",
-        "Signature cocktail signs out · Pimm’s Cup + Eastern Standard Fizz",
-        "Confirm food + bar timing with Laura Gregory"
+        "Signature cocktail signs out · Pimm’s Cup + Eastern Standard Fizz"
       ] },
       { label: "Arrivals · confirm", type: "check", owner: "John Winn", when: "by 2:45", rows: [
         "Olivia Vickers · cake delivered",
