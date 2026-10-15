@@ -174,6 +174,7 @@ const EVENTS = [
     panels: [
       { label: "Setup checklist", type: "check", owner: "John Winn", when: "by 7:00", rows: [
         "Set the “I love you very much” napkins", "Set out the cookies",
+        "Put the “I love you so much” frame somewhere in the room",
         "Signature cocktail signs out · Ranch Water + Eastern Standard Fizz"
       ] },
       { label: "Arrivals · confirm", type: "check", owner: "John Winn", when: "by 7:00", rows: [
