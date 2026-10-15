@@ -263,7 +263,7 @@ const REFS = {
 };
 
 const REF_NOTES = {
-  "setup-ceremony": "Orchids may vary — cream and white, not fully burgundy."
+  "setup-ceremony": "Orchids may vary — cream and white, not fully burgundy. The cake stand is the amber one (cake placed in the cocktail room)."
 };
 
 const TEARDOWN = [
