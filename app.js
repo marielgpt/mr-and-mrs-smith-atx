@@ -33,7 +33,8 @@ const EVENTS = [
         "Decorative columns positioned with the pedestal flowers",
         "Rings with Percy",
         "Marriage license with Joaquin Vargas (officiant)",
-        "Rose glasses to Joaquin for the ceremony"
+        "Rose glasses to Joaquin for the ceremony",
+        "Small children not in the music room"
       ] },
       { label: "Setup checklist · Cocktail hour", group: "Cocktail hour", type: "check", owner: "John Winn", when: "by 2:45", rows: [
         "Cake placed in the cocktail room",
@@ -173,7 +174,7 @@ const EVENTS = [
     ],
     panels: [
       { label: "Setup checklist", type: "check", owner: "John Winn", when: "by 7:00", rows: [
-        "Set the “I love you very much” napkins", "Set out the cookies",
+        "Set the “I love you very much” napkins", "Set out the cookies", "Set out the alfajores",
         "Put the “I love you so much” frame somewhere in the room",
         "Signature cocktail signs out · Ranch Water + Eastern Standard Fizz"
       ] },
@@ -259,6 +260,9 @@ const REFS = {
   "setup-party": [
     { src: "ref/napkins.png", cap: "Napkins" },
     { src: "ref/IMG_9082.jpg", cap: "“I love you so much” frame" }
+  ],
+  "dinner": [
+    { src: "ref/mirror.jpg", cap: "Gold arch mirror" }
   ]
 };
 
@@ -780,7 +784,7 @@ function App() {
 
           ${!solo && view === "timeline" && html`
             <div style=${{ display: "flex", gap: "6px", overflowX: "auto", paddingBottom: "4px", margin: "0 -18px", paddingInline: "18px", scrollbarWidth: "none" }}>
-              ${events.map(e => html`<a key=${e.ev.id} href=${"#" + e.ev.id} className=${"tag " + e.st.chip} style=${{ textDecoration: "none", whiteSpace: "nowrap", flex: "none", fontSize: "12px", padding: "5px 12px" }}>${e.ev.major ? "" : "Set-up · "}${e.ev.name}</a>${e.ev.id === "setup-dinner" ? html`<a key="seating-chip" href="#seating" className="tag tag-outline" style=${{ textDecoration: "none", whiteSpace: "nowrap", flex: "none", fontSize: "12px", padding: "5px 12px" }}>Seating chart</a>` : ""}`)}
+              ${events.map(e => html`<a key=${e.ev.id} href=${"#" + e.ev.id} className=${"tag " + e.st.chip} style=${{ textDecoration: "none", whiteSpace: "nowrap", flex: "none", fontSize: "12px", padding: "5px 12px" }}>${e.ev.major ? "" : "Set-up · "}${e.ev.name}</a>${e.ev.id === "dinner" ? html`<a key="seating-chip" href="#seating" className="tag tag-outline" style=${{ textDecoration: "none", whiteSpace: "nowrap", flex: "none", fontSize: "12px", padding: "5px 12px" }}>Seating chart</a>` : ""}`)}
             </div>`}
 
         </div>
@@ -910,7 +914,7 @@ function App() {
                     </div>
 
                   </div>`}
-              </section>${e.ev.id === "setup-dinner" ? html`<${SeatingChart} key="seating" />` : ""}`)}
+              </section>${e.ev.id === "dinner" ? html`<${SeatingChart} key="seating" />` : ""}`)}
           </div>`}
 
         ${!solo && view === "checklist" && html`
