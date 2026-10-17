@@ -255,14 +255,12 @@ const REFS = {
     { src: "ref/centerpiece.png", cap: "Centerpiece" },
     { src: "ref/chair-signs.png", cap: "Chair signs" },
     { src: "ref/tableinspo.png", cap: "Table inspo · candlelight + satin linens" },
-    { href: "https://www.instagram.com/reel/DeKWDnXxWYu/", cap: "Dinner setup inspo · @zanacocreative" }
+    { href: "https://www.instagram.com/reel/DeKWDnXxWYu/", cap: "Dinner setup inspo · @zanacocreative" },
+    { src: "ref/mirror.jpg", cap: "Gold arch mirror" }
   ],
   "setup-party": [
     { src: "ref/napkins.png", cap: "Napkins" },
     { src: "ref/IMG_9082.jpg", cap: "“I love you so much” frame" }
-  ],
-  "dinner": [
-    { src: "ref/mirror.jpg", cap: "Gold arch mirror" }
   ]
 };
 
