@@ -39,7 +39,7 @@ const EVENTS = [
       { label: "Setup checklist · Cocktail hour", group: "Cocktail hour", type: "check", owner: "John Winn", when: "by 2:45", rows: [
         "Cake placed in the cocktail room",
         "Florals staged in the pre-screening room for cocktail hour",
-        "Provide flowers to floral · anthurium and a few orchids",
+        "Provide flowers to floral · anthurium and a few orchids for the cake decorator",
         "Grazing table set in the pre-screening room for cocktail hour and macarons",
         "Signature cocktail signs out · Pimm’s Cup + Eastern Standard Fizz"
       ] },
@@ -216,7 +216,7 @@ const EVENTS = [
       ] },
       { label: "Menu", type: "menu", rows: [
         { a: "Dessert · 7:30", b: "Wedding cake", c: "After the cake cutting" },
-        { a: "Sweets", b: "“I love you very much” cookies", c: "" },
+        { a: "Sweets", b: "Heart alfajores cookies", c: "" },
         { a: "Late night · 9:00", b: "Sliders", c: "Mini burgers" }
       ] },
       { label: "MC + contact", type: "contact", rows: [
@@ -244,7 +244,6 @@ const REFS = {
     { src: "ref/ceremony-room-updated.png", cap: "Ceremony room" },
     { src: "ref/grazingtableinspo.png", cap: "Grazing table · cocktail hour" },
     { src: "ref/cocktailhourupdatedbuffet.png", cap: "Grazing buffet · cocktail hour" },
-    { src: "ref/pedestals.png", cap: "Pedestals" },
     { src: "ref/bouquet.png", cap: "Bridal bouquet" },
     { src: "ref/boutonniere.png", cap: "Boutonniere" },
     { src: "ref/cake.png", cap: "Cake" },
@@ -264,7 +263,8 @@ const REFS = {
   ],
   "setup-party": [
     { src: "ref/napkins.png", cap: "Napkins" },
-    { src: "ref/IMG_9082.jpg", cap: "“I love you so much” frame" }
+    { src: "ref/IMG_9082.jpg", cap: "“I love you so much” frame" },
+    { src: "ref/alfajores.png", cap: "Heart alfajores" }
   ]
 };
 
