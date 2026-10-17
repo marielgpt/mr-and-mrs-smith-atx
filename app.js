@@ -39,6 +39,7 @@ const EVENTS = [
       { label: "Setup checklist · Cocktail hour", group: "Cocktail hour", type: "check", owner: "John Winn", when: "by 2:45", rows: [
         "Cake placed in the cocktail room",
         "Florals staged in the pre-screening room for cocktail hour",
+        "Provide flowers to floral · anthurium and a few orchids",
         "Grazing table set in the pre-screening room for cocktail hour",
         "Signature cocktail signs out · Pimm’s Cup + Eastern Standard Fizz"
       ] },
