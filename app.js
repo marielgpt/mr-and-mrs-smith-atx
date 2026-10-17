@@ -128,7 +128,9 @@ const EVENTS = [
       { label: "Setup checklist", type: "check", owner: "John Winn", when: "by 4:30", rows: [
         "Set the 7 tables", "Plates and serving plates out", "Place cards / name placements",
         "Table florals + centerpieces · wipe the silver vases first", "Candles placed and lit", "Seating chart at entrance",
-        "Hang the “Love You” chair signs on the bride’s and groom’s seats"
+        "Hang the “Love You” chair signs on the bride’s and groom’s seats",
+        "Place the gold arch mirror on the pedestal against a wall",
+        "Set up the seating chart signs"
       ] },
       { label: "Owner", type: "contact", rows: [
         { a: "John Winn", b: "Coordinator", c: "(574) 210-7069", d: "jswinn527@gmail.com" }
@@ -174,7 +176,7 @@ const EVENTS = [
     ],
     panels: [
       { label: "Setup checklist", type: "check", owner: "John Winn", when: "by 7:00", rows: [
-        "Set the “I love you very much” napkins", "Set out the cookies", "Set out the alfajores",
+        "Set the “I love you very much” napkins", "Set out the alfajores",
         "Put the “I love you so much” frame somewhere in the room",
         "Signature cocktail signs out · Ranch Water + Eastern Standard Fizz"
       ] },
@@ -207,7 +209,7 @@ const EVENTS = [
         linkLabel: "Backup playlist ↗", rows: [
         { a: "Entrance · 7:15", b: "Todo de Ti", c: "" },
         { a: "Mother-son dance · 7:20", b: "Wanna Be Startin’ Somethin’", c: "Michael Jackson · Russell + Shirley" },
-        { a: "Father-daughter dance · 7:23", b: "Tu Sangre en Mi Cuerpo", c: "Pepe Aguilar feat. Ángela Aguilar · Mariel + Joaquin" },
+        { a: "Father-daughter dance · 7:23", b: "Cuando Me Enamoro", c: "Enrique Iglesias feat. Juan Luis Guerra · Mariel + Joaquin" },
         { a: "Couple dance · 7:26", b: "Bachata Rosa", c: "Russell + Mariel" },
         { a: "Percy, Russell + Mariel dance · 7:29", b: "Sonidito", c: "feat. Josh Cross" }
       ] },
@@ -256,7 +258,8 @@ const REFS = {
     { src: "ref/chair-signs.png", cap: "Chair signs" },
     { src: "ref/tableinspo.png", cap: "Table inspo · candlelight + satin linens" },
     { href: "https://www.instagram.com/reel/DeKWDnXxWYu/", cap: "Dinner setup inspo · @zanacocreative" },
-    { src: "ref/mirror.jpg", cap: "Gold arch mirror" }
+    { src: "ref/mirror.jpg", cap: "Gold arch mirror" },
+    { src: "ref/pedestals.png", cap: "Pedestals" }
   ],
   "setup-party": [
     { src: "ref/napkins.png", cap: "Napkins" },
@@ -376,7 +379,7 @@ const VENDORS = [
       { t: "7:15", a: "MC: couple entrance", b: "Todo de Ti" },
       { t: "7:20", a: "MC: mother-son dance", b: "Wanna Be Startin’ Somethin’ (Michael Jackson) · Russell + Shirley",
         note: "https://music.apple.com/us/album/wanna-be-startin-somethin/269572838?i=269572927" },
-      { t: "7:23", a: "MC: father-daughter dance", b: "Tu Sangre en Mi Cuerpo (Pepe Aguilar feat. Ángela Aguilar) · Mariel + Joaquin",
+      { t: "7:23", a: "MC: father-daughter dance", b: "Cuando Me Enamoro (Enrique Iglesias feat. Juan Luis Guerra) · Mariel + Joaquin",
         note: "https://music.apple.com/us/album/tu-sangre-en-mi-cuerpo-feat-%C3%A1ngela-aguilar/1714004771?i=1714004772" },
       { t: "7:26", a: "MC: couple dance", b: "Bachata Rosa · Russell + Mariel" },
       { t: "7:29", a: "MC: Percy, Russell + Mariel dance", b: "Sonidito · feat. Josh Cross",
