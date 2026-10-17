@@ -40,7 +40,7 @@ const EVENTS = [
         "Cake placed in the cocktail room",
         "Florals staged in the pre-screening room for cocktail hour",
         "Provide flowers to floral · anthurium and a few orchids",
-        "Grazing table set in the pre-screening room for cocktail hour",
+        "Grazing table set in the pre-screening room for cocktail hour and macarons",
         "Signature cocktail signs out · Pimm’s Cup + Eastern Standard Fizz"
       ] },
       { label: "Arrivals · confirm", type: "check", owner: "John Winn", when: "by 2:45", rows: [
@@ -260,7 +260,7 @@ const REFS = {
     { src: "ref/tableinspo.png", cap: "Table inspo · candlelight + satin linens" },
     { href: "https://www.instagram.com/reel/DeKWDnXxWYu/", cap: "Dinner setup inspo · @zanacocreative" },
     { src: "ref/mirror.jpg", cap: "Gold arch mirror" },
-    { src: "ref/pedestals.png", cap: "Pedestals" }
+    { src: "ref/pedestal.png", cap: "Pedestal" }
   ],
   "setup-party": [
     { src: "ref/napkins.png", cap: "Napkins" },
