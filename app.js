@@ -283,12 +283,7 @@ const TEARDOWN = [
   ] }
 ];
 
-const TEARDOWN_REFS = {
-  "Goes home with us": [
-    { src: "ref/IMG_9082.jpg", cap: "“I love you so much” frame" },
-    { src: "ref/loveyouverymuchframe.png", cap: "“I love you so much” frame" }
-  ]
-};
+const TEARDOWN_REFS = {};
 
 /* Seating, from the seating plan (Downloads/table names.png) — laid out as on the sheet: one guest at
    each end, the rest down the two sides. Shown in the run of show between dinner set-up and dinner. */
